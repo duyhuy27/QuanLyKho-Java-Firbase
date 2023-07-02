@@ -26,6 +26,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures{
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -36,4 +41,17 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //_sdp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    // Circle Image View ( Hỗ trợ làm ảnh tròn )
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Picasso để load ảnh , tất cả load ảnh trong áp phải dùng Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Firebase config version
+    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation 'com.google.firebase:firebase-analytics'
 }
