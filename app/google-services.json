@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "507202290294",
+    "project_id": "quanlykhoteam1",
+    "storage_bucket": "quanlykhoteam1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507202290294:android:160284107511d009eed557",
+        "android_client_info": {
+          "package_name": "team1XuongMobile.fpoly.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507202290294-8qcc392qtg8of07voo4emki5s1c60k53.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team1XuongMobile.fpoly.myapplication",
+            "certificate_hash": "657c11b788351c5e7a037bade1c130d39fb06f7c"
+          }
+        },
+        {
+          "client_id": "507202290294-658p72a7fuda1u0o3152obfpc309590a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW-m8mbCRg2EizMMC0fVb0mr3TPN-XaQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507202290294-658p72a7fuda1u0o3152obfpc309590a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
