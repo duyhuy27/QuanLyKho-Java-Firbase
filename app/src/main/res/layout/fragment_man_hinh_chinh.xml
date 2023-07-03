@@ -67,7 +67,7 @@
             android:paddingStart="@dimen/_10sdp" />
 
         <ImageButton
-            android:id="@+id/btn_guicauhoi_manhinhchinh"
+            android:id="@+id/imgbt_guicauhoi_manhinhchinh"
             android:layout_marginTop="@dimen/_27sdp"
             android:layout_toEndOf="@+id/a3"
             android:background="@drawable/custome_listview"
