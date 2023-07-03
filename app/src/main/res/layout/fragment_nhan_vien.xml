@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    tools:context=".Fragment.NhanVienFragment">
+    <RelativeLayout
+        android:id="@+id/a1"
+        android:background="@drawable/wave_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/edt_timkiem_nhanvien"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="#E8E8E8"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:hint="Tìm kiếm nhân viên"
+            android:paddingLeft="@dimen/_20sdp"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_40sdp"/>
+        <ImageButton
+            android:src="@drawable/icon_tim_kiem"
+            android:background="@drawable/custome_listview"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:backgroundTint="#35C2C1"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_30sdp"/>
+        <RelativeLayout
+            android:layout_below="@+id/edt_timkiem_nhanvien"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white"
+            android:layout_margin="@dimen/_12sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/a2"
+                android:text="Danh Sách Nhân Viên"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_margin="@dimen/_12sdp"
+                android:layout_below="@+id/a2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:src="@drawable/icon_them"
+                android:backgroundTint="#35C2C1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
