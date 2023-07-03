@@ -68,6 +68,30 @@ public class DangNhapFragment extends Fragment {
                 validateData();
             }
         });
+
+        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.progressbar.setVisibility(View.VISIBLE);
+                email = binding.edtEmail.getText().toString().trim();
+                firebaseAuth.sendPasswordResetEmail(email)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                binding.progressbar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Đã gửi email đổi mật khẩu tới địa chỉ email của bạn", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                binding.progressbar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Gửi email đổi mật khẩu thất bại vì " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
     }
 
     private void validateData() {
