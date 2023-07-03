@@ -36,10 +36,9 @@ public class DangNhapFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
 
-    private String email= "", password ="";
+    private String email = "", password = "";
 
     public static final String TAG = "DangNhapFragment";
-
 
 
     @Override
@@ -68,6 +67,37 @@ public class DangNhapFragment extends Fragment {
                 validateData();
             }
         });
+
+//        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                binding.progressbar.setVisibility(View.VISIBLE);
+//                email = binding.edtEmail.getText().toString().trim();
+//                firebaseAuth.sendPasswordResetEmail(email)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                binding.progressbar.setVisibility(View.GONE);
+//                                Toast.makeText(getContext(), "Đã gửi email đổi mật khẩu tới địa chỉ email của bạn", Toast.LENGTH_SHORT).show();
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                binding.progressbar.setVisibility(View.GONE);
+//                                Toast.makeText(getContext(), "Gửi email đổi mật khẩu thất bại vì " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//            }
+//        });
+
+        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame_layout, new QuenMatKhauFragment()).addToBackStack(null).commit();
+            }
+        });
+
     }
 
     private void validateData() {
@@ -78,13 +108,11 @@ public class DangNhapFragment extends Fragment {
             binding.edtEmail.setError("Địa chỉ email không hợp lệ");
             binding.edtEmail.requestFocus();
             return;
-        }
-        else if (TextUtils.isEmpty(password)){
+        } else if (TextUtils.isEmpty(password)) {
             binding.edtPassword.setError("Mật khẩu không được để trống");
             binding.edtPassword.requestFocus();
             return;
-        }
-        else {
+        } else {
             dangNhap();
         }
     }
@@ -124,11 +152,10 @@ public class DangNhapFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String role = "" + snapshot.child("vaiTro").getValue();
 
-                        if (role.equals("nhanVien")){
+                        if (role.equals("nhanVien")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
                             getActivity().finish();
-                        }
-                        else if (role.equals("admin")){
+                        } else if (role.equals("admin")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
                             getActivity().finish();
                         }
