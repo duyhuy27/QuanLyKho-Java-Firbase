@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    tools:context=".Fragment.ManHinhChinhFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@color/white"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/a1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xin Chào,"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_ten_nguoi_dung_manhinhchinh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/a1"
+            android:text="Quân"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_ten_nguoi_dung_manhinhchinh"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="Bạn có khúc mắc?"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a3"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/a2"
+            android:text="Hãy đặt câu hỏi cho tôi"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/ed_guicauhoi_manhinhchinh"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/a3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="#E8E8E8"
+            android:hint="Câu hỏi?"
+            android:paddingStart="@dimen/_10sdp" />
+
+        <ImageButton
+            android:id="@+id/btn_guicauhoi_manhinhchinh"
+            android:layout_marginTop="@dimen/_27sdp"
+            android:layout_toEndOf="@+id/a3"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="#35C2C1"
+            android:layout_below="@+id/a3"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/baseline_send_24" />
+
+    </RelativeLayout>
+
+</FrameLayout>
