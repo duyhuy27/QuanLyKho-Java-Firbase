@@ -60,7 +60,6 @@ public class MainFragment extends Fragment {
 
         if (firebaseUser == null) {
             progressDialog.dismiss();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame_layout, new MainFragment()).addToBackStack(null).commit();
         } else {
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
