@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">QuanLyKhoTeam1</string>
     <!-- TODO: Remove or change this placeholder text -->
- quan_navigation
-
+   <string name="hello_blank_fragment">Hello</string>
     <string name="ch_o_m_ng_n_ng_nh_p_b_t_u">Chào mừng! \nĐăng ký để bắt đầu</string>
     <string name="ch_o_m_ng_n_ng_nh_p_b_t_u_02">Chào mựng trở lại! \nThật vui khi gặp lại bạn!</string>
     <string name="username">Username</string>
@@ -17,5 +16,4 @@
     <string name="kh_ng_nh_n_c_m_otp">Không nhận được mã OTP?</string>
     <string name="vui_long_nh_p_otp_v_a_g_i_n_s_i_n_tho_i">Vui long nhập OTP vừa gửi đến số điện thoại</string>
     <string name="x_c_th_c_m_otp">Xác thực mã OTP</string>
- developer
 </resources>
