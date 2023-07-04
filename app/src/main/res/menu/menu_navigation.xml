@@ -32,9 +32,13 @@
             android:icon="@drawable/icon_san_pham"
             android:title="Sản Phẩm" />
         <item
-            android:id="@+id/PhieuNhapXuat_navi"
+            android:id="@+id/PhieuNhap_navi"
             android:icon="@drawable/icon_phieu_nhap_xuat"
-            android:title="Phiếu Nhập Xuất" />
+            android:title="Phiếu Nhập " />
+        <item
+            android:id="@+id/PhieuXuat_navi"
+            android:icon="@drawable/icon_phieuxuat"
+            android:title="Phiếu Xuất " />
         <item
             android:id="@+id/NhanVien_navi"
             android:icon="@drawable/icon_nhan_vien"
