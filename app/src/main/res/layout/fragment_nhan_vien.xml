@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/content_nhanvien"
     android:background="#E8E8E8"
     tools:context=".Fragment.NhanVienFragment">
     <RelativeLayout
-        android:id="@+id/a1"
+        android:id="@+id/lsp"
         android:background="@drawable/wave_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
-            android:id="@+id/edt_timkiem_nhanvien"
+            android:id="@+id/edt_timkiem_loaisanpham"
             android:background="@drawable/custome_listview"
             android:backgroundTint="#E8E8E8"
             android:layout_centerHorizontal="true"
@@ -29,36 +30,48 @@
             android:backgroundTint="#35C2C1"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_30sdp"/>
+
         <RelativeLayout
-            android:layout_below="@+id/edt_timkiem_nhanvien"
-            android:background="@drawable/custome_listview"
-            android:backgroundTint="@color/white"
-            android:layout_margin="@dimen/_12sdp"
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/edt_timkiem_loaisanpham"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white">
+
             <TextView
                 android:id="@+id/a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center_horizontal"
                 android:text="Danh Sách Nhân Viên"
                 android:textSize="@dimen/_18sdp"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_40sdp"
-                android:layout_margin="@dimen/_12sdp"
-                android:layout_below="@+id/a2"
+                android:id="@+id/rcv_loaisanpham"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/a2"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:src="@drawable/icon_them"
-                android:backgroundTint="#35C2C1"
+                android:id="@+id/fab_themloaisanpham"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/_10sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:backgroundTint="#35C2C1"
+                android:src="@drawable/icon_them" />
 
         </RelativeLayout>
 

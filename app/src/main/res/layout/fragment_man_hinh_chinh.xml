@@ -15,7 +15,7 @@
         android:paddingTop="@dimen/_10sdp">
 
         <TextView
-            android:id="@+id/a1"
+            android:id="@+id/lsp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xin Chào,"
@@ -27,7 +27,7 @@
             android:id="@+id/tv_ten_nguoi_dung_manhinhchinh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/a1"
+            android:layout_toEndOf="@+id/lsp"
             android:text="Quân"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
