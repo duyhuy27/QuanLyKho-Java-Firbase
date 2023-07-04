@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    tools:context=".Fragment.NhanVien.ThemNVFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wave_background"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white">
+            <ImageButton
+                android:id="@+id/imgbt_themnhanvien_back"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#F5F5F5"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:src="@drawable/icon_back"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"/>
+
+            <TextView
+                android:id="@+id/a1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Thêm Nhân Viên Mới"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ed_themnhanvien_tennhanvien"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/a1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:hint="Tên Nhân Viên"
+                android:paddingLeft="@dimen/_20sdp" />
+
+            <Spinner
+                android:id="@+id/spinner_themnhanvien_vaitronhanvien"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/ed_themnhanvien_tennhanvien"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:paddingLeft="@dimen/_20sdp" />
+
+            <EditText
+                android:id="@+id/ed_themnhanvien_email"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/spinner_themnhanvien_vaitronhanvien"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:hint="Email"
+                android:paddingLeft="@dimen/_20sdp" />
+
+            <EditText
+                android:id="@+id/ed_themnhanvien_sdtnhanvien"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/ed_themnhanvien_email"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:hint="Số điện thoại"
+                android:paddingLeft="@dimen/_20sdp" />
+
+            <TextView
+                android:id="@+id/a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ed_themnhanvien_sdtnhanvien"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Trạng thái hoạt động"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/a3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/a2"
+                android:layout_marginLeft="@dimen/_12sdp">
+
+                <RadioButton
+                    android:id="@+id/rabtn_themnhanvien_danglam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đang Làm"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/rabtn_themnhanvien_danghi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đã Nghỉ"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/rabtn_themnhanvien_tamnghi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tạm Nghỉ"
+                    android:textStyle="bold" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btn_themnhanvien_hoantat"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/a3"
+                android:textSize="@dimen/_18sdp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#1E1E1E"
+                android:text="Hoàn Tất" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

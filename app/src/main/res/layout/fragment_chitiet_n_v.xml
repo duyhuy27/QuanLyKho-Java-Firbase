@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    tools:context=".Fragment.NhanVien.ChitietNVFragment">
+    <RelativeLayout
+        android:background="@drawable/wave_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white">
+            <TextView
+                android:id="@+id/a1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Chi Tiết Nhân Viên"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/a2"
+                android:layout_below="@+id/a1"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_tennhanvien"
+                    android:text="Nguyễn Khắc Quân"
+                    android:textSize="@dimen/_17sdp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_emailnhanvien"
+                    android:layout_below="@+id/tv_chitietnhanvien_tennhanvien"
+                    android:text="quanjkl98@gmail.com"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_sdtnhanvien"
+                    android:layout_below="@+id/tv_chitietnhanvien_emailnhanvien"
+                    android:text="0349929671"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/a3"
+                android:layout_below="@+id/a2"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_vaitronhanvien"
+                    android:text="Nhân Viên Kho"
+                    android:textSize="@dimen/_17sdp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_trangthainhanvien"
+                    android:layout_below="@+id/tv_chitietnhanvien_vaitronhanvien"
+                    android:text="Đang Làm"
+                    android:textSize="@dimen/_17sdp"
+                    android:drawableEnd="@drawable/icon_radiobutton"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+            <Button
+                android:id="@+id/btn_chitietnhanvien_back"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/a3"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:textSize="@dimen/_18sdp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#1E1E1E"
+                android:text="Quay Lại" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

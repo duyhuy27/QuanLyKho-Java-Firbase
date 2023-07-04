@@ -1,6 +1,5 @@
 package team1XuongMobile.fpoly.myapplication;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -10,9 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -24,7 +21,8 @@ import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhaCungCapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapXuatFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.PhieuXuatFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.SanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ThongKeFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.VanChuyenFragment;
@@ -76,11 +74,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle("Sản Phẩm");
             replaceFragment(new SanPhamFragment());
             drawerLayout.close();
-        } else if (id == R.id.PhieuNhapXuat_navi) {
+        } else if (id == R.id.PhieuNhap_navi) {
             setTitle("Phiếu Nhập Xuất");
-            replaceFragment(new PhieuNhapXuatFragment());
+            replaceFragment(new PhieuNhapFragment());
             drawerLayout.close();
-        } else if (id == R.id.NhanVien_navi) {
+        }
+        else if (id == R.id.PhieuNhap_navi) {
+            setTitle("Phiếu Nhập Xuất");
+            replaceFragment(new PhieuXuatFragment());
+            drawerLayout.close();
+        }
+        else if (id == R.id.NhanVien_navi) {
             setTitle("Nhân Viên");
             replaceFragment(new NhanVienFragment());
             drawerLayout.close();

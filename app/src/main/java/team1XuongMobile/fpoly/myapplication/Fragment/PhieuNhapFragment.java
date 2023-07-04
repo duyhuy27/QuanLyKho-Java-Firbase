@@ -12,10 +12,10 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PhieuNhapXuatFragment#newInstance} factory method to
+ * Use the {@link PhieuNhapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PhieuNhapXuatFragment extends Fragment {
+public class PhieuNhapFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class PhieuNhapXuatFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PhieuNhapXuatFragment() {
+    public PhieuNhapFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class PhieuNhapXuatFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PhieuNhapXuatFragment.
+     * @return A new instance of fragment PhieuNhapFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PhieuNhapXuatFragment newInstance(String param1, String param2) {
-        PhieuNhapXuatFragment fragment = new PhieuNhapXuatFragment();
+    public static PhieuNhapFragment newInstance(String param1, String param2) {
+        PhieuNhapFragment fragment = new PhieuNhapFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class PhieuNhapXuatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_phieu_nhap_xuat, container, false);
+        return inflater.inflate(R.layout.fragment_phieu_nhap, container, false);
     }
 }
