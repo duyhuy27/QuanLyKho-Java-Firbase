@@ -1,6 +1,5 @@
 package team1XuongMobile.fpoly.myapplication;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -10,24 +9,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-import team1XuongMobile.fpoly.myapplication.Fragment.HoSoFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.NhaCungCapFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapXuatFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.SanPhamFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.ThongKeFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.VanChuyenFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.KhachHangFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.LoaiSanPhamFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.ManHinhChinhFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.NhaCungCapFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.NhanVienFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.PhieuNhapXuatFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.SanPhamFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.ThongKeFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.VanChuyenFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;

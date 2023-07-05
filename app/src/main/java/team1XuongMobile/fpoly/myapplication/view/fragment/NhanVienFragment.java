@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.Fragment;
+package team1XuongMobile.fpoly.myapplication.view.fragment;
 
 import android.os.Bundle;
 

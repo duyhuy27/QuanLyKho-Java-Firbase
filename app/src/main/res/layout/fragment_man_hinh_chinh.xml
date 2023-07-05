@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
-    tools:context=".Fragment.ManHinhChinhFragment">
+    tools:context=".view.fragment.ManHinhChinhFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

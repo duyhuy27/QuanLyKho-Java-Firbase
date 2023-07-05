@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
-    tools:context=".Fragment.NhanVienFragment">
+    tools:context=".view.fragment.NhanVienFragment">
     <RelativeLayout
         android:id="@+id/a1"
         android:background="@drawable/wave_background"

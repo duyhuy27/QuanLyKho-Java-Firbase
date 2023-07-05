@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.view;
+package team1XuongMobile.fpoly.myapplication.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
