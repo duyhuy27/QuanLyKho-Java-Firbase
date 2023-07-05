@@ -20,7 +20,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="@dimen/_80sdp"
@@ -50,7 +50,8 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="@dimen/_14sdp">
+                android:padding="@dimen/_14sdp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -198,7 +199,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nhà cung cấp"
+                    android:text="Khách hàng"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
@@ -209,6 +210,38 @@
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/baseline_keyboard_arrow_down_24" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@color/white"
+                android:padding="@dimen/_10sdp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đơn vị vận chuyển"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/baseline_keyboard_arrow_down_24" />
+            </RelativeLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/background_edit_text_04"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
+                android:hint="Thêm ghi chú"
+                android:padding="@dimen/_10sdp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -237,13 +270,13 @@
             android:textSize="@dimen/_12sdp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_taoDonNhap"
+            android:id="@+id/button_taoDonXuat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hdnTv04"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/background_button"
-            android:text="Tạo Đơn Nhập"
+            android:text="Tạo Đơn Xuất"
             android:textColor="@color/white" />
     </RelativeLayout>
 

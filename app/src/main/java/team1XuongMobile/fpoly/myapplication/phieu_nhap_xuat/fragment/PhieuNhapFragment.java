@@ -23,7 +23,7 @@ public class PhieuNhapFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_phieu_nhap, new TaoHDNFragment())
+                        .replace(R.id.layout_content, new ChiTietHDNFragment())
                         .addToBackStack(null).commit();
             }
         });
