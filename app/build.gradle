@@ -63,4 +63,8 @@ dependencies {
     // thư viện hỗ trợ pick số điện thoại theo mã vùng
     implementation 'com.hbb20:ccp:2.5.0'
 
+    //config okHttp
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+
 }
