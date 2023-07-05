@@ -15,11 +15,14 @@
 
         <EditText
             android:id="@+id/edt_timkiem_nhanvien"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/custome_listview"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:backgroundTint="#E8E8E8"
             android:hint="Tìm kiếm nhân viên"
             android:paddingLeft="@dimen/_20sdp" />
@@ -35,12 +38,9 @@
             android:src="@drawable/icon_tim_kiem" />
 
         <RelativeLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/edt_timkiem_nhanvien"
-            android:layout_margin="@dimen/_12sdp"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_12sdp"
