@@ -52,7 +52,9 @@
                 android:hint="Tên Nhân Viên"
                 android:paddingLeft="@dimen/_20sdp" />
 
+
             <Spinner
+
                 android:id="@+id/spinner_themnhanvien_vaitronhanvien"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"

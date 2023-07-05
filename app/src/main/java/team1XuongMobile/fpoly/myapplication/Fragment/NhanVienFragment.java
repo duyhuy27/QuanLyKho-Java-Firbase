@@ -50,7 +50,6 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     FloatingActionButton themnhanvien;
     public static final String KEY_ID_NHAN_VIEN = "idNV";
     EditText inputsearchNV;
-    ImageButton searchNV;
 
 
     @Override

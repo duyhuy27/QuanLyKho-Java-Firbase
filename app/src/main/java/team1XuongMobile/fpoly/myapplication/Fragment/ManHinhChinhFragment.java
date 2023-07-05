@@ -1,6 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,8 @@ public class ManHinhChinhFragment extends Fragment {
     FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     FirebaseUser firebaseUser;
-
+    String cauhoi;
+    String[] Toemail;
 
 
     public ManHinhChinhFragment() {
@@ -43,6 +45,7 @@ public class ManHinhChinhFragment extends Fragment {
 
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,20 +63,32 @@ public class ManHinhChinhFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String cauhoi = ed_cauhoi.getText().toString();
+
         imgbt_sendcauhoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cauhoi.length() == 0){
+                cauhoi = ed_cauhoi.getText().toString();
+                String email = "huy.mobcontact@gmail.com";
+                 Toemail = email.split(",");
+                if (ed_cauhoi.length() == 0) {
                     ed_cauhoi.requestFocus();
                     ed_cauhoi.setError("Hãy viết câu hỏi bạn muốn gửi");
-                }else {
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_EMAIL, Toemail);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Câu hỏi dành cho đội ngũ phát triển app");
+                    intent.putExtra(Intent.EXTRA_TEXT, cauhoi);
 
+                    intent.setType("message/rfc822");
+                    startActivity(Intent.createChooser(intent, "Chọn Mail để gửi "));
 
+                    ed_cauhoi.setText("");
                 }
 
             }
         });
 
     }
+
+
 }

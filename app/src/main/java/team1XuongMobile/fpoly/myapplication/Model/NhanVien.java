@@ -7,17 +7,21 @@ public class NhanVien {
     String sdt;
     String vai_tro;
     String trang_thai;
+    String uid;
+    long timestamp;
 
     public NhanVien() {
     }
 
-    public NhanVien(String id_nv, String email, String ten, String sdt, String vai_tro, String trang_thai) {
+    public NhanVien(String id_nv, String email, String ten, String sdt, String vai_tro, String trang_thai, String uid, long timestamp) {
         this.id_nv = id_nv;
         this.email = email;
         this.ten = ten;
         this.sdt = sdt;
         this.vai_tro = vai_tro;
         this.trang_thai = trang_thai;
+        this.uid = uid;
+        this.timestamp = timestamp;
     }
 
     public String getId_nv() {
@@ -66,5 +70,21 @@ public class NhanVien {
 
     public void setTrang_thai(String trang_thai) {
         this.trang_thai = trang_thai;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

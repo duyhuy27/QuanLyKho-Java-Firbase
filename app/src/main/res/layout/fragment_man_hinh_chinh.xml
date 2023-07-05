@@ -8,9 +8,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/custome_listview"
+        android:backgroundTint="@color/white"
         android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_10sdp">
 
@@ -34,7 +35,7 @@
 
         <TextView
             android:id="@+id/a2"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/_210sdp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_ten_nguoi_dung_manhinhchinh"
             android:layout_marginTop="@dimen/_20sdp"
@@ -45,10 +46,10 @@
 
         <TextView
             android:id="@+id/a3"
-            android:layout_width="@dimen/_220sdp"
+            android:layout_width="@dimen/_250sdp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/a2"
-            android:text="Hãy đặt câu hỏi cho tôi"
+            android:text="Hãy đặt câu hỏi cho đội ngũ phát triển?"
             android:layout_marginStart="@dimen/_15sdp"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
@@ -69,10 +70,11 @@
         <ImageButton
             android:id="@+id/imgbt_guicauhoi_manhinhchinh"
             android:layout_marginTop="@dimen/_27sdp"
-            android:layout_toEndOf="@+id/a3"
+            android:layout_toEndOf="@+id/a2"
             android:background="@drawable/custome_listview"
             android:backgroundTint="#35C2C1"
             android:layout_below="@+id/a3"
+            android:layout_marginRight="@dimen/_17sdp"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_30sdp"
             android:src="@drawable/baseline_send_24" />
