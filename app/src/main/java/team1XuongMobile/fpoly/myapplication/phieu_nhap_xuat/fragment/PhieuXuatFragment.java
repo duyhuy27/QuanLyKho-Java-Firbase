@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.Fragment;
+package team1XuongMobile.fpoly.myapplication.phieu_nhap_xuat.fragment;
 
 import android.os.Bundle;
 

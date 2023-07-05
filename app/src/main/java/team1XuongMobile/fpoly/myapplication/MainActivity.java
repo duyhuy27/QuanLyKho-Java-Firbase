@@ -21,8 +21,8 @@ import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhaCungCapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.PhieuXuatFragment;
+import team1XuongMobile.fpoly.myapplication.phieu_nhap_xuat.fragment.PhieuNhapFragment;
+import team1XuongMobile.fpoly.myapplication.phieu_nhap_xuat.fragment.PhieuXuatFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.SanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ThongKeFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.VanChuyenFragment;
@@ -78,13 +78,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle("Phiếu Nhập Xuất");
             replaceFragment(new PhieuNhapFragment());
             drawerLayout.close();
-        }
-        else if (id == R.id.PhieuNhap_navi) {
+        } else if (id == R.id.PhieuNhap_navi) {
             setTitle("Phiếu Nhập Xuất");
             replaceFragment(new PhieuXuatFragment());
             drawerLayout.close();
-        }
-        else if (id == R.id.NhanVien_navi) {
+        } else if (id == R.id.NhanVien_navi) {
             setTitle("Nhân Viên");
             replaceFragment(new NhanVienFragment());
             drawerLayout.close();
@@ -125,5 +123,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.layout_content, fragment);
         transaction.commit();
     }
-
 }

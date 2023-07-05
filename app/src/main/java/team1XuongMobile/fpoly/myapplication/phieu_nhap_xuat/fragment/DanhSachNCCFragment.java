@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.Fragment;
+package team1XuongMobile.fpoly.myapplication.phieu_nhap_xuat.fragment;
 
 import android.os.Bundle;
 
@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 
 import team1XuongMobile.fpoly.myapplication.R;
 
-public class PhieuNhapFragment extends Fragment {
+public class DanhSachNCCFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_phieu_nhap, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_danh_sach_n_c_c, container, false);
     }
 }
