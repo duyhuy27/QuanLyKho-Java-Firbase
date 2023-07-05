@@ -50,7 +50,6 @@ import java.util.HashMap;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentThemSPBinding;
-import team1XuongMobile.fpoly.myapplication.models.ThuocTinhModels;
 
 
 public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTinhInterface {

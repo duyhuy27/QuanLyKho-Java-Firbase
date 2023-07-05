@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import team1XuongMobile.fpoly.myapplication.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SuaNCCFragment#newInstance} factory method to

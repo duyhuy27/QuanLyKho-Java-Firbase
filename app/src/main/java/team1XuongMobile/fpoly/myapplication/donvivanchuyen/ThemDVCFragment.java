@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import team1XuongMobile.fpoly.myapplication.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ThemDVCFragment#newInstance} factory method to
@@ -60,4 +62,4 @@ public class ThemDVCFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_them_d_v_c, container, false);
     }
-}
+}  

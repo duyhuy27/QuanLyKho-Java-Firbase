@@ -4,20 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.databinding.ItemThuocTinhSpBinding;
-import team1XuongMobile.fpoly.myapplication.models.ThuocTinhModels;
 
 public class ThuocTinhAdapter extends RecyclerView.Adapter<ThuocTinhAdapter.ViewHolder> {
     private Context context;
