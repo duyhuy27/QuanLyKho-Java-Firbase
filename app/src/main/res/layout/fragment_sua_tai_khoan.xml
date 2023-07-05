@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    tools:context=".Fragment.QuanLyTaiKhoan.SuaTaiKhoanFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img1"
+            android:src="@drawable/logo"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:paddingTop="@dimen/_35sdp"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_100sdp"/>
+
+        <RelativeLayout
+            android:layout_below="@+id/img1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white">
+
+            <ImageButton
+                android:id="@+id/imgbt_suataikhoan_back"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#F5F5F5"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:id="@+id/a1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Sửa Tài Khoản "
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/a2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/a1"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="Tên Nhân Viên"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_suantaikhoan_tennhanvien"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/a2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:paddingLeft="@dimen/_20sdp" />
+
+            <EditText
+                android:id="@+id/ed_suataikhoan_emailtaikhoan"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/spinner_suantaikhoan_tennhanvien"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:hint="Email nhân viên"
+                android:paddingLeft="@dimen/_25sdp"/>
+            <EditText
+                android:id="@+id/ed_suataikhoan_sdttaikhoan"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/ed_suataikhoan_emailtaikhoan"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:hint="Số điện thoại nhân viên"
+                android:paddingLeft="@dimen/_25sdp"/>
+            <TextView
+                android:id="@+id/a4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ed_suataikhoan_sdttaikhoan"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Vai Trò"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_suantaikhoan_vaitro"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/a4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:paddingLeft="@dimen/_20sdp" />
+
+
+            <Button
+                android:id="@+id/btn_suataikhoan_hoantat"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_below="@+id/spinner_suantaikhoan_vaitro"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#1E1E1E"
+                android:text="Hoàn Tất"
+                android:textSize="@dimen/_18sdp" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

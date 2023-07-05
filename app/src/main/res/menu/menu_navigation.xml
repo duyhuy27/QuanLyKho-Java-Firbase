@@ -44,6 +44,10 @@
             android:icon="@drawable/icon_nhan_vien"
             android:title="Nhân Viên" />
         <item
+            android:id="@+id/QuanLyTaiKhoan_navi"
+            android:icon="@drawable/icon_quanlytaikhoan"
+            android:title="Quản Lý Tài Khoản" />
+        <item
             android:id="@+id/HoSoNhanVien_navi"
             android:icon="@drawable/icon_ho_so_nhan_vien"
             android:title="Hồ Sơ Của Bạn" />
