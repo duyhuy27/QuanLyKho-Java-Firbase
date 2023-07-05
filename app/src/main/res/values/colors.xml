@@ -10,4 +10,6 @@
     <color name="gray_02">#E8ECF4</color>
     <color name="mau_do">#FFF14336</color>
 
+    <color name="background_chat">#343541</color>
+
 </resources>
