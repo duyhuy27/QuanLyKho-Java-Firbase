@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
+
+    <RelativeLayout
+        android:layout_width="330dp"
+        android:layout_height="380dp"
+        android:layout_centerInParent="true">
+
+
+        <RelativeLayout
+            android:layout_width="330dp"
+            android:layout_height="340dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/background_dialog">
+
+            <TextView
+                android:id="@+id/desDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="66dp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:text="Chọn chức năng"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_sua"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/desDialog"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@drawable/background_button"
+                android:text="Sửa"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_xoa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/button_sua"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@drawable/background_button"
+                android:text="Xóa"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_xem_chi_tiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/button_xoa"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@drawable/background_button"
+                android:text="Xem chi tiết"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iconDialog"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

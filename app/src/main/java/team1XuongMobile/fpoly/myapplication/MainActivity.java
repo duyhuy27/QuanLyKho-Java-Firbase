@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-import team1XuongMobile.fpoly.myapplication.Fragment.HoSoFragment;
+import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
@@ -23,8 +23,11 @@ import team1XuongMobile.fpoly.myapplication.Fragment.NhaCungCapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.PhieuXuatFragment;
+
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.SanPhamFragment;
+
+import team1XuongMobile.fpoly.myapplication.sanpham.SanPhamFragment;
+
 import team1XuongMobile.fpoly.myapplication.Fragment.ThongKeFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.VanChuyenFragment;
 
