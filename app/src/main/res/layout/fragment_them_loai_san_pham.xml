@@ -83,7 +83,7 @@
                     android:textStyle="bold" />
 
                 <Switch
-                    android:id="@+id/swt_sua_trangthai_loaisp"
+                    android:id="@+id/swt_them_trangthai_loaisp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"/>
