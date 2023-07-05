@@ -3,6 +3,7 @@ package team1XuongMobile.fpoly.myapplication.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.ContactsContract;
+
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;

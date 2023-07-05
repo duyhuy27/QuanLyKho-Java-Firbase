@@ -3,41 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/custome_listview"
-    android:id="@+id/itemnhanvien"
     android:padding="@dimen/_10sdp"
     android:backgroundTint="#E8E8E8"
     android:layout_margin="@dimen/_12sdp">
     <TextView
-
-        android:id="@+id/tv_tennhanvien_itemnhanvien"
-
-        android:text="Tên nhân viên"
+        android:id="@+id/tv_loaisanpham_item_loaisanpham"
+        android:text="Loại sản phẩm"
         android:paddingLeft="@dimen/_10sdp"
         android:textSize="@dimen/_18sdp"
         android:textStyle="bold"
+        android:layout_toStartOf="@+id/imgv_chitiet_itemnhanvien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <ImageView
-        android:id="@+id/a2"
 
-        android:layout_below="@+id/tv_tennhanvien_itemnhanvien"
 
-        android:paddingLeft="@dimen/_5sdp"
-        android:src="@drawable/icon_dienthoai"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_22sdp"/>
-    <TextView
-
-        android:id="@+id/tv_sdt_itemnhanvien"
-        android:textSize="@dimen/_18sdp"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:textStyle="bold"
-        android:layout_below="@+id/tv_tennhanvien_itemnhanvien"
-
-        android:layout_toEndOf="@id/a2"
-        android:text="0349929671"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
     <ImageView
         android:id="@+id/imgv_chitiet_itemnhanvien"
         android:layout_alignParentEnd="true"
