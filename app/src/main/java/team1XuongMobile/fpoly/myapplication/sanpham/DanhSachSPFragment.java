@@ -25,7 +25,7 @@ public class DanhSachSPFragment extends Fragment {
     private FragmentDanhSachSPBinding binding;
 
     private ViewPagerAdapter viewPagerAdapter;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth; // f
 
 
     @Override
