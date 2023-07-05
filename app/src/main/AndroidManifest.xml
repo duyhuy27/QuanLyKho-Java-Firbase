@@ -13,9 +13,6 @@
         android:theme="@style/Theme.QuanLyKhoTeam1"
         tools:targetApi="31">
         <activity
-            android:name=".phieu_nhap_xuat.activity.DanhSachNCCActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -26,7 +23,9 @@
         </activity>
         <activity
             android:name=".view.FormDangNhapActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+            
+        </activity>
     </application>
 
 </manifest>
