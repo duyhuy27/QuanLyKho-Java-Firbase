@@ -12,7 +12,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        app:contentPadding="@dimen/_5sdp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -21,11 +22,15 @@
 
             <ImageView
                 android:id="@+id/chatGPT_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentTop="true"
-                android:layout_margin="5dp"
-                android:src="@drawable/chat_gpt" />
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo" />
 
             <TextView
                 android:id="@+id/left_chat_text_view"
@@ -46,7 +51,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="80dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        app:contentPadding="@dimen/_5sdp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
