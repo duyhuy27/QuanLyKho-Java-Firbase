@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
- quan_navigation
+
 
 
         <activity
@@ -29,7 +29,7 @@
             android:exported="false">
 
         </activity>
- developer
+
     </application>
 
 </manifest>
