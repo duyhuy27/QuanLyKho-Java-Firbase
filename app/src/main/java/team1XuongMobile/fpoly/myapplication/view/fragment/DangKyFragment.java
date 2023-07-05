@@ -87,6 +87,7 @@ public class DangKyFragment extends Fragment {
                 validateData();
             }
         });
+
     }
 
     private void validateData() {

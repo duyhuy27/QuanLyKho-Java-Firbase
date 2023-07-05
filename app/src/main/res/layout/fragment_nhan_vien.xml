@@ -33,6 +33,12 @@
 
         <RelativeLayout
 
+
+            android:layout_below="@+id/edt_timkiem_nhanvien"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white"
+            android:layout_margin="@dimen/_12sdp"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/edt_timkiem_loaisanpham"
@@ -51,10 +57,16 @@
                 android:gravity="center_horizontal"
                 android:text="Danh Sách Nhân Viên"
                 android:textSize="@dimen/_18sdp"
-                android:textStyle="bold" />
+
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_loaisanpham"
+                android:id="@+id/recyc_nhanvien"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/a2"
@@ -64,9 +76,10 @@
                 android:layout_marginBottom="@dimen/_12sdp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_themloaisanpham"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/floatingbutton_themnhanvien"
+                android:src="@drawable/icon_them"
+                android:backgroundTint="#35C2C1"
+
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/_10sdp"

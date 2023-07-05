@@ -2,6 +2,8 @@ package team1XuongMobile.fpoly.myapplication.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.provider.ContactsContract;
+
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -20,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.FilterSearchNhanVien;
+import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
 
@@ -50,8 +57,8 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tenNhanVien = itemView.findViewById(R.id.tv_tenkhachhang_item_khachhang);
-            sdt = itemView.findViewById(R.id.tv_sdt_item_khachhang);
+            tenNhanVien = itemView.findViewById(R.id.tv_tennhanvien_itemnhanvien);
+            sdt = itemView.findViewById(R.id.tv_sdt_itemnhanvien);
             chitiet = itemView.findViewById(R.id.imgv_chitiet_itemnhanvien);
 
         }

@@ -1,11 +1,14 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import android.widget.Filter;
+
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -59,9 +65,9 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nhan_vien, container, false);
-        recyclerView = view.findViewById(R.id.rcv_loaisanpham);
-        themnhanvien = view.findViewById(R.id.fab_themloaisanpham);
-        inputsearchNV = view.findViewById(R.id.edt_timkiem_loaisanpham);
+        recyclerView = view.findViewById(R.id.recyc_nhanvien);
+        themnhanvien = view.findViewById(R.id.floatingbutton_themnhanvien);
+        inputsearchNV = view.findViewById(R.id.edt_timkiem_nhanvien);
 
         listener =  this;
         inputsearchNV.addTextChangedListener(new TextWatcher() {
