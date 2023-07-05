@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import team1XuongMobile.fpoly.myapplication.R;
+
 
 public class DanhSachNCCFragment extends Fragment {
 

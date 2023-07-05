@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_nhanvien"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/content_nhanvien"
     android:background="#E8E8E8"
     tools:context=".Fragment.NhanVienFragment">
+
     <RelativeLayout
         android:id="@+id/lsp"
-        android:background="@drawable/wave_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/wave_background">
+
         <EditText
-            android:id="@+id/edt_timkiem_loaisanpham"
-            android:background="@drawable/custome_listview"
-            android:backgroundTint="#E8E8E8"
+            android:id="@+id/edt_timkiem_nhanvien"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_20sdp"
-            android:hint="Tìm kiếm nhân viên"
-            android:paddingLeft="@dimen/_20sdp"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_40sdp"/>
-        <ImageButton
-            android:src="@drawable/icon_tim_kiem"
             android:background="@drawable/custome_listview"
+            android:backgroundTint="#E8E8E8"
+            android:hint="Tìm kiếm nhân viên"
+            android:paddingLeft="@dimen/_20sdp" />
+
+        <ImageButton
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/custome_listview"
             android:backgroundTint="#35C2C1"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_30sdp"/>
+            android:src="@drawable/icon_tim_kiem" />
 
         <RelativeLayout
 
 
-            android:layout_below="@+id/edt_timkiem_nhanvien"
-            android:background="@drawable/custome_listview"
-            android:backgroundTint="@color/white"
-            android:layout_margin="@dimen/_12sdp"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/edt_timkiem_loaisanpham"
+            android:layout_below="@+id/edt_timkiem_nhanvien"
+            android:layout_margin="@dimen/_12sdp"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_12sdp"
@@ -57,12 +56,7 @@
                 android:gravity="center_horizontal"
                 android:text="Danh Sách Nhân Viên"
                 android:textSize="@dimen/_18sdp"
-
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyc_nhanvien"
@@ -77,9 +71,8 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingbutton_themnhanvien"
-                android:src="@drawable/icon_them"
-                android:backgroundTint="#35C2C1"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/_10sdp"
@@ -90,8 +83,6 @@
 
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>
