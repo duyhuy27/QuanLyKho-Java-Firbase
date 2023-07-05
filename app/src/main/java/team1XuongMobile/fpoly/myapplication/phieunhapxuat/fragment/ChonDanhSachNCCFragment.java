@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 import team1XuongMobile.fpoly.myapplication.R;
 
-public class DanhSachNCCFragment extends Fragment {
+public class ChonDanhSachNCCFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_danh_sach_n_c_c, container, false);
+        return inflater.inflate(R.layout.fragment_chon_danh_sach_ncc, container, false);
     }
 }

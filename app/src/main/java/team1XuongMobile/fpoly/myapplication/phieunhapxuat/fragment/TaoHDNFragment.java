@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.phieu_nhap_xuat.fragment;
+package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;

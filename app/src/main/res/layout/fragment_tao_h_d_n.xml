@@ -89,7 +89,7 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
-                        android:background="@drawable/background_edit_text_03" />
+                        android:background="@drawable/background_edit_text_05" />
 
                     <ImageView
                         android:layout_width="wrap_content"
