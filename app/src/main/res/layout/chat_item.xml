@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/chatGPT_icon"
                 android:padding="5dp"
+                android:textIsSelectable="true"
                 android:textColor="@android:color/black" />
 
         </RelativeLayout>
@@ -66,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:padding="5dp"
+                android:textIsSelectable="true"
                 android:textColor="@android:color/black" />
 
             <ImageView
