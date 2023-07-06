@@ -54,7 +54,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID đơn vị vận chuyển"
+                    android:text="ID đơn vị vận chuyển: "
                     android:textSize="@dimen/_14sdp"/>
                 <TextView
                     android:id="@+id/tv_idDVC"
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên đơn vị vận chuyển"
+                    android:text="Tên đơn vị vận chuyển: "
                     android:textSize="@dimen/_14sdp"/>
                 <TextView
                     android:id="@+id/tv_tenDVC"
