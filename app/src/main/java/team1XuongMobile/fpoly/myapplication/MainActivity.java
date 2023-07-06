@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
+import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
 import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alertDialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
             alertDialog.show();
