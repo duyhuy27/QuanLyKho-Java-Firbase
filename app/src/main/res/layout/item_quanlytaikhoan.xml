@@ -12,17 +12,17 @@
         android:id="@+id/tv_itemquanlytaikhoan_tennhanvien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_5sdp"
         android:text="Tên nhân viên"
         android:textSize="@dimen/_18sdp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/a1"
-        android:layout_width="@dimen/_90sdp"
+        android:layout_width="@dimen/_80sdp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_itemquanlytaikhoan_tennhanvien"
-        android:paddingLeft="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_5sdp"
         android:text="Tài Khoản :"
         android:textSize="@dimen/_14sdp" />
 
@@ -31,17 +31,15 @@
         android:layout_width="@dimen/_110sdp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_itemquanlytaikhoan_tennhanvien"
-        android:layout_marginStart="@dimen/_2sdp"
         android:layout_toEndOf="@id/a1"
-
         android:text="quanjkl98@gmail.com"
         android:textSize="@dimen/_14sdp" />
     <TextView
         android:id="@+id/a2"
-        android:layout_width="@dimen/_90sdp"
+        android:layout_width="@dimen/_80sdp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_itemquanlytaikhoan_email"
-        android:paddingLeft="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_5sdp"
         android:text="Mật Khẩu :"
         android:textSize="@dimen/_14sdp" />
 
@@ -49,8 +47,8 @@
         android:id="@+id/tv_itemquanlytaikhoan_sdt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_below="@+id/tv_itemquanlytaikhoan_email"
-        android:layout_marginStart="@dimen/_2sdp"
         android:layout_toEndOf="@id/a2"
         android:text="0349929671"
         android:textSize="@dimen/_14sdp" />

@@ -12,12 +12,10 @@ import team1XuongMobile.fpoly.myapplication.view.fragment.MainFragment;
 
 public class FormDangNhapActivity extends AppCompatActivity {
 
-    private ActivityFormDangNhapBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityFormDangNhapBinding.inflate(getLayoutInflater());
+        ActivityFormDangNhapBinding binding = ActivityFormDangNhapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 

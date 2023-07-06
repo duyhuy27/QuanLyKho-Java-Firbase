@@ -32,7 +32,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHolder> implements Filterable {
     private Context context;
-    public ArrayList<NhanVien> nhanVienArrayList,list;
+    public ArrayList<NhanVien> nhanVienArrayList, list;
     private nhanvienInterface listener;
     FilterSearchNhanVien filterSearchNhanVien;
 
@@ -45,8 +45,8 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
 
     @Override
     public Filter getFilter() {
-        if(filterSearchNhanVien == null){
-            filterSearchNhanVien = new FilterSearchNhanVien(list,this);
+        if (filterSearchNhanVien == null) {
+            filterSearchNhanVien = new FilterSearchNhanVien(list, this);
         }
         return filterSearchNhanVien;
     }
@@ -77,6 +77,7 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
         void deleteNVClick(String id);
 
         void chiTietNVClick(String id);
+        void bonhiemNVClick(String id);
     }
 
     @Override
@@ -103,6 +104,9 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
                             return true;
                         } else if (item.getItemId() == R.id.popup_menuNV_xoa) {
                             listener.deleteNVClick(nhanVien.getId_nv());
+                            return true;
+                        } else if (item.getItemId() == R.id.popup_menuNV_bonhiem) {
+                            listener.bonhiemNVClick(nhanVien.getId_nv());
                             return true;
                         } else {
                             return false;

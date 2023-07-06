@@ -9,19 +9,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/img1"
-            android:src="@drawable/logo"
-            android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            android:paddingTop="@dimen/_35sdp"
             android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_100sdp"/>
+            android:layout_height="@dimen/_100sdp"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/_35sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
 
         <RelativeLayout
-            android:layout_below="@+id/img1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/img1"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_12sdp"
@@ -44,67 +45,77 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="Thêm Tài Khoản Mới"
+                android:text="Bổ Nhiệm Nhân Viên"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_themtaikhoan_tennhanvien"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/a1"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:text="Tên nhân viên"
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/a2"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_90sdp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/a1"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:text="Tên Nhân Viên"
-                android:textSize="@dimen/_15sdp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinner_themntaikhoan_tennhanvien"
-                android:layout_width="@dimen/_270sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_below="@+id/a2"
-                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_themtaikhoan_tennhanvien"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/custome_listview"
-                android:backgroundTint="#E8E8E8"
-                android:paddingLeft="@dimen/_20sdp" />
+                android:paddingLeft="@dimen/_10sdp"
+                android:text="Tài Khoản :"
+                android:textSize="@dimen/_14sdp" />
 
-           <EditText
-               android:id="@+id/ed_themtaikhoan_emailtaikhoan"
-               android:layout_width="@dimen/_270sdp"
-               android:layout_height="@dimen/_40sdp"
-               android:layout_below="@+id/spinner_themntaikhoan_tennhanvien"
-               android:layout_centerHorizontal="true"
-               android:layout_marginTop="@dimen/_20sdp"
-               android:background="@drawable/custome_listview"
-               android:backgroundTint="#E8E8E8"
-               android:hint="Email nhân viên"
-               android:paddingLeft="@dimen/_25sdp"/>
-            <EditText
-                android:id="@+id/ed_themtaikhoan_sdttaikhoan"
-                android:layout_width="@dimen/_270sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_below="@+id/ed_themtaikhoan_emailtaikhoan"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/custome_listview"
-                android:backgroundTint="#E8E8E8"
-                android:hint="Số điện thoại nhân viên"
-                android:paddingLeft="@dimen/_25sdp"/>
+            <TextView
+                android:id="@+id/tv_themtaikhoan_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_themtaikhoan_tennhanvien"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toEndOf="@id/a2"
+                android:text="quanjkl98@gmail.com"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/a3"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_themtaikhoan_email"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:text="Mật Khẩu :"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/tv_themtaikhoan_sdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_themtaikhoan_email"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toEndOf="@id/a2"
+                android:text="0349929671"
+                android:textSize="@dimen/_14sdp" />
+
+
             <TextView
                 android:id="@+id/a4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ed_themtaikhoan_sdttaikhoan"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="Vai Trò"
+                android:layout_below="@+id/tv_themtaikhoan_sdt"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Quyền truy cập"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/spinner_themntaikhoan_vaitro"
+                android:id="@+id/spinner_themntaikhoan_quyentruycap"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_below="@+id/a4"
@@ -119,9 +130,9 @@
                 android:id="@+id/btn_themtaikhoan_hoantat"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_below="@+id/spinner_themntaikhoan_vaitro"
+                android:layout_below="@+id/spinner_themntaikhoan_quyentruycap"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/custome_listview"
                 android:backgroundTint="#1E1E1E"
                 android:text="Hoàn Tất"

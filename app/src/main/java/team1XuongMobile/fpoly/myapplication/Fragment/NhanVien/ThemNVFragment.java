@@ -89,8 +89,12 @@ public class ThemNVFragment extends Fragment {
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
         ArrayList<String> dataListspinner = new ArrayList<String>();
-        dataListspinner.add("Nhân Viên Kho");
-        dataListspinner.add("Nhân Viên Chi Nhánh");
+        dataListspinner.add("Lao Công");
+        dataListspinner.add("Bảo Vệ");
+        dataListspinner.add("Nhân Viên Bốc Vác");
+        dataListspinner.add("Nhân Viên Kiểm Kê");
+        dataListspinner.add("Tổ Trưởng");
+        dataListspinner.add("Tổ Phó");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, dataListspinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vaitro.setAdapter(adapter);
@@ -121,6 +125,9 @@ public class ThemNVFragment extends Fragment {
             sdt.requestFocus();
             sdt.setError("Số điện thoại phải là số");
         } else {
+            tennhanvien.setText("");
+            email.setText("");
+            sdt.setText("");
             luuDuLieuNhanVienLenFirebase();
         }
     }

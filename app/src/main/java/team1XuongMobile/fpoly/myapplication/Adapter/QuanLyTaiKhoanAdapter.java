@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,14 +25,13 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAdapter.ViewHolder> {
     private Context context;
-    public ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList;
-    private QltkInterface qltkInterface;
+    public ArrayList<NhanVien> nhanVienArrayList;
 
-    public QuanLyTaiKhoanAdapter(Context context, ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList,
-                                 QltkInterface qltkInterface) {
+
+    public QuanLyTaiKhoanAdapter(Context context, ArrayList<NhanVien> nhanVienArrayList) {
         this.context = context;
-        this.quanLyTaiKhoanArrayList = quanLyTaiKhoanArrayList;
-        this.qltkInterface = qltkInterface;
+        this.nhanVienArrayList = nhanVienArrayList;
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,13 +49,7 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
         }
     }
 
-    public interface QltkInterface {
-        void updateQLTKlick(String id);
 
-        void deleteQLTKlick(String id);
-
-
-    }
 
     @NonNull
     @Override
@@ -66,47 +60,16 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        QuanLyTaiKhoan quanLyTaiKhoan = quanLyTaiKhoanArrayList.get(position);
-        holder.tenNhanVien.setText(quanLyTaiKhoanArrayList.get(position).getTennhanvien());
-        holder.email.setText(quanLyTaiKhoanArrayList.get(position).getEmail());
-        holder.sdt.setText(quanLyTaiKhoanArrayList.get(position).getSdt());
-        holder.showluuchon.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onClick(View v) {
-                @SuppressLint("RestrictedApi") MenuBuilder menuBuilder = new MenuBuilder(context);
-                MenuInflater inflater = new MenuInflater(context);
-                inflater.inflate(R.menu.popup_menu_quanlytaikhoan, menuBuilder);
-                @SuppressLint("RestrictedApi") MenuPopupHelper optionQLTK = new MenuPopupHelper(context, menuBuilder, v);
-                menuBuilder.setCallback(new MenuBuilder.Callback() {
-                    @Override
-                    public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
-                        if (item.getItemId() == R.id.popup_menuQLTK_sua) {
-                            qltkInterface.updateQLTKlick(quanLyTaiKhoan.getId_qltk());
-                            return true;
-                        } else if (item.getItemId() == R.id.popup_menuQTLK_xoa) {
-                            qltkInterface.deleteQLTKlick(quanLyTaiKhoan.getId_qltk());
-                            return true;
-                        } else {
-                            return false;
-                        }
-
-                    }
-
-                    @Override
-                    public void onMenuModeChange(@NonNull MenuBuilder menu) {
-
-                    }
-                });
-                optionQLTK.show();
-            }
-        });
+        holder.tenNhanVien.setText(nhanVienArrayList.get(position).getTen());
+        holder.email.setText(nhanVienArrayList.get(position).getEmail());
+        Log.d("adapte", "onBindViewHolder: "+nhanVienArrayList.get(position).getEmail());
+        holder.sdt.setText(nhanVienArrayList.get(position).getSdt());
 
     }
 
     @Override
     public int getItemCount() {
-        return quanLyTaiKhoanArrayList.size();
+        return nhanVienArrayList.size();
     }
 
 

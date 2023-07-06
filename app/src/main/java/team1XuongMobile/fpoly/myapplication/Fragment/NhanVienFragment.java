@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,7 @@ import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.ChitietNVFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.SuaNVFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.ThemNVFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ThemTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
 
@@ -52,6 +55,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     FloatingActionButton themnhanvien;
     public static final String KEY_ID_NHAN_VIEN = "idNV";
     EditText inputsearchNV;
+    FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -67,8 +71,9 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         recyclerView = view.findViewById(R.id.recyc_nhanvien);
         themnhanvien = view.findViewById(R.id.floatingbutton_themnhanvien);
         inputsearchNV = view.findViewById(R.id.edt_timkiem_nhanvien);
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        listener =  this;
+        listener = this;
         inputsearchNV.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,11 +82,11 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    try {
-                        nhanVienAdapter.getFilter().filter(s);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                try {
+                    nhanVienAdapter.getFilter().filter(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -94,7 +99,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
             @Override
             public void onClick(View v) {
                 ThemNVFragment themNVFragment = new ThemNVFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_nhanvien, themNVFragment).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themNVFragment).addToBackStack(null).commit();
             }
         });
         loadDuLieuNhanVienFirebase();
@@ -103,27 +108,29 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     }
 
     private void loadDuLieuNhanVienFirebase() {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         nhanVienArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                nhanVienArrayList.clear();
-                for (DataSnapshot dsnv : snapshot.getChildren()) {
-                    NhanVien themnhanvien = dsnv.getValue(NhanVien.class);
-                    nhanVienArrayList.add(themnhanvien);
-                }
-                nhanVienAdapter = new NhanVienAdapter(getContext(), nhanVienArrayList, listener);
-                recyclerView.setAdapter(nhanVienAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ref.orderByChild("uid").equalTo(firebaseUser.getUid()).
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        nhanVienArrayList.clear();
+                        for (DataSnapshot dsnv : snapshot.getChildren()) {
+                            NhanVien themnhanvien = dsnv.getValue(NhanVien.class);
+                            nhanVienArrayList.add(themnhanvien);
+                        }
+                        nhanVienAdapter = new NhanVienAdapter(getContext(), nhanVienArrayList, listener);
+                        recyclerView.setAdapter(nhanVienAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
@@ -131,10 +138,10 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     public void updateNVClick(String id) {
         Bundle bundlesuaNV = new Bundle();
         bundlesuaNV.putString(KEY_ID_NHAN_VIEN, id);
-        Log.e("quanquan", "id chuyen sang: "+id );
+        Log.e("quanquan", "id chuyen sang: " + id);
         SuaNVFragment suaNVFragment = new SuaNVFragment();
         suaNVFragment.setArguments(bundlesuaNV);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_nhanvien, suaNVFragment).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, suaNVFragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -146,7 +153,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(id != null && !id.isEmpty()){
+                if (id != null && !id.isEmpty()) {
                     ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -180,9 +187,16 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         ChitietNVFragment chitietNVFragment = new ChitietNVFragment();
         chitietNVFragment.setArguments(bundlechitietNV);
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_nhanvien, chitietNVFragment).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chitietNVFragment).addToBackStack(null).commit();
     }
 
+    @Override
+    public void bonhiemNVClick(String id) {
+        Bundle bundlebonhiemNV = new Bundle();
+        bundlebonhiemNV.putString(KEY_ID_NHAN_VIEN, id);
+        ThemTaiKhoanFragment themTaiKhoanFragment = new ThemTaiKhoanFragment();
+        themTaiKhoanFragment.setArguments(bundlebonhiemNV);
 
-
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themTaiKhoanFragment).addToBackStack(null).commit();
+    }
 }
