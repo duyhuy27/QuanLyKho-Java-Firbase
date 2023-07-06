@@ -62,7 +62,6 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tenNhanVien.setText(nhanVienArrayList.get(position).getTen());
         holder.email.setText(nhanVienArrayList.get(position).getEmail());
-        Log.d("adapte", "onBindViewHolder: "+nhanVienArrayList.get(position).getEmail());
         holder.sdt.setText(nhanVienArrayList.get(position).getSdt());
 
     }
