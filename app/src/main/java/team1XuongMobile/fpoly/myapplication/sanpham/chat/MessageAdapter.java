@@ -8,10 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bdtopcoder.chatgpt.R;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
+
+import team1XuongMobile.fpoly.myapplication.R;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder>{
 
