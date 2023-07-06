@@ -34,6 +34,8 @@ public class MainFragment extends Fragment {
 
     public static final String TAG = "MainFragment";
 
+    private String role = "";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,12 +64,36 @@ public class MainFragment extends Fragment {
             progressDialog.dismiss();
         } else {
 
+            DatabaseReference refQ = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
+
+            refQ.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    role = "" + snapshot.child("vaiTro").getValue();
+
+                    if (role.equals("nhanVien")) {
+                        progressDialog.dismiss();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    } else if (role.equals("admin")) {
+                        progressDialog.dismiss();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
             ref.child(firebaseUser.getUid())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String role = "" + snapshot.child("vaiTro").getValue();
+                             role = "" + snapshot.child("vaiTro").getValue();
 
                             if (role.equals("nhanVien")) {
                                 progressDialog.dismiss();

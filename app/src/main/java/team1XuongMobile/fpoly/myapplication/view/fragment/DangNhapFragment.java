@@ -38,6 +38,8 @@ public class DangNhapFragment extends Fragment {
 
     private String email = "", password = "";
 
+    private String role = "";
+
     public static final String TAG = "DangNhapFragment";
 
 
@@ -145,12 +147,35 @@ public class DangNhapFragment extends Fragment {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+
+        DatabaseReference refQ = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
+
+        refQ.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                role = "" + snapshot.child("vaiTro").getValue();
+
+                if (role.equals("nhanVien")) {
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+                } else if (role.equals("admin")) {
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
         ref.child(firebaseUser.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String role = "" + snapshot.child("vaiTro").getValue();
+                        role  = "" + snapshot.child("vaiTro").getValue();
 
                         if (role.equals("nhanVien")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
