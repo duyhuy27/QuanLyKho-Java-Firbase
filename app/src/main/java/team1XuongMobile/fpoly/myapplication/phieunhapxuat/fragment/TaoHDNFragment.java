@@ -23,8 +23,8 @@ public class TaoHDNFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                View viewDialog = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_chon_san_pham, null);
-                builder.setView(viewDialog);
+//                View viewDialog = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_chon_san_pham, null);
+//                builder.setView(viewDialog);
                 builder.show();
             }
         });

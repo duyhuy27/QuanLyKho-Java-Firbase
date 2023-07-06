@@ -39,9 +39,6 @@ public class ChatGptFragment extends Fragment {
     private MessageAdapter adapter;
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    private static final long MIN_REQUEST_INTERVAL = 3000; // Minimum time interval between requests in milliseconds
-
-    private long lastRequestTime = 0;
     private OkHttpClient client = new OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
             .build();
@@ -120,7 +117,7 @@ public class ChatGptFragment extends Fragment {
         Request request = new Request.Builder()
                 .url("\n" +
                         "https://api.openai.com/v1/chat/completions")
-                .header("Authorization", "Bearer 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")
+                .header("Authorization", "Bearer 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") // key moi
                 .post(body)
                 .build();
 
