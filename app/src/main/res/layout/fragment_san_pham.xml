@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:overScrollMode="never"
-    android:scrollbars="none"
-    tools:context=".view.fragment.SanPhamFragment">
+    android:scrollbars="none">
 
 
     <RelativeLayout

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentSanPhamBinding;
+import team1XuongMobile.fpoly.myapplication.sanpham.chat.ChatGptFragment;
 
 
 public class SanPhamFragment extends Fragment {
@@ -38,6 +39,14 @@ public class SanPhamFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new DanhSachSPFragment()).addToBackStack(null).commit();
+            }
+        });
+
+        binding.tvNcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ChatGptFragment()).addToBackStack(null).commit();
+
             }
         });
     }

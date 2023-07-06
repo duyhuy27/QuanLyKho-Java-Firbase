@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ThemDVCFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- TODO: Update blank fragment layout -->
     <View
@@ -50,7 +49,7 @@
             <EditText
                 android:id="@+id/ed_tenDVC"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Tên đơn vị vận chuyển"
                 android:background="@drawable/background_edit_text"
                 android:padding="@dimen/_10sdp"
@@ -59,7 +58,7 @@
             <EditText
                 android:id="@+id/ed_soDienThoaiDVC"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Số điện thoại"
                 android:background="@drawable/background_edit_text"
                 android:padding="@dimen/_10sdp"
@@ -68,7 +67,7 @@
             <EditText
                 android:id="@+id/ed_diaChiDVC"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Địa chỉ"
                 android:background="@drawable/background_edit_text"
                 android:padding="@dimen/_10sdp"
@@ -80,7 +79,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_hoanTat"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginBottom="@dimen/_80sdp"
                 android:background="@drawable/background_button"

@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DanhSachNCCFragment"
-
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
         android:id="@+id/view_nen"
@@ -16,9 +13,9 @@
     <EditText
         android:id="@+id/ed_timKiemNCC"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_14sdp"
-        android:paddingLeft="@dimen/_10sdp"
         android:hint="Tìm kiếm nhà cung cấp"
         android:background="@drawable/background_edit_text"
         android:layout_marginTop="@dimen/_14sdp"
@@ -60,14 +57,14 @@
             android:layout_marginHorizontal="@dimen/_14sdp"
             android:layout_marginBottom="@dimen/_14sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/itemnhacungcap"/>
+            tools:listitem="@layout/item_nhacungcap"/>
 
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_themMoiNCC"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/_40sdp"

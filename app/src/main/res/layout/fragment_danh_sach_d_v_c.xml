@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DanhSachDVCFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- TODO: Update blank fragment layout -->
     <View
@@ -15,9 +14,9 @@
     <EditText
         android:id="@+id/ed_timKiemDVC"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_14sdp"
-        android:paddingLeft="@dimen/_10sdp"
         android:hint="Tìm kiếm đơn vị vận chuyển"
         android:background="@drawable/background_edit_text"
         android:layout_marginTop="@dimen/_14sdp"
@@ -54,6 +53,8 @@
             android:id="@+id/rcv_danhSachNCC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_14sdp"
+            android:layout_marginBottom="@dimen/_14sdp"
             android:layout_marginTop="@dimen/_60sdp"/>
 
     </androidx.cardview.widget.CardView>
