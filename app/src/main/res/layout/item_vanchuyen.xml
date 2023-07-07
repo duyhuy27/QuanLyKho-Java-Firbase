@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#E8E8E8"
+    android:padding="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    >
+
+    <TextView
+        android:id="@+id/tv_tenDVC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên đơn vị vâ chuyển"
+        />
+    <ImageButton
+        android:id="@+id/button_luaChon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_handle"
+        android:layout_alignParentRight="true"
+        android:background="#E8E8E8"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_tenDVC"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sodienthoai"
+            />
+        <TextView
+            android:id="@+id/tv_sdtDVC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0123123123123"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

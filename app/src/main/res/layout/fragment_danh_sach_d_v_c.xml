@@ -50,11 +50,13 @@
             android:gravity="center"
             />
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_danhSachNCC"
+            android:id="@+id/rcv_danhSachDVC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_14sdp"
             android:layout_marginBottom="@dimen/_14sdp"
+            tools:listitem="@layout/item_vanchuyen"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_marginTop="@dimen/_60sdp"/>
 
     </androidx.cardview.widget.CardView>
@@ -65,8 +67,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_40sdp"
-        android:layout_marginEnd="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
         android:src="@drawable/ic_themmoi"
         android:backgroundTint="#35C2C1"/>
 
