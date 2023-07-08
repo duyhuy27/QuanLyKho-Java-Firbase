@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.donvivanchuyen;
+package team1XuongMobile.fpoly.myapplication.nhacungcap;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,53 +11,58 @@ import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.databinding.DialogChucNangBinding;
-import team1XuongMobile.fpoly.myapplication.databinding.ItemVanchuyenBinding;
-import team1XuongMobile.fpoly.myapplication.nhacungcap.FilterSearchNCC;
+import team1XuongMobile.fpoly.myapplication.databinding.ItemNhacungcapBinding;
 
-public class VanChuyenAdapter extends RecyclerView.Adapter<VanChuyenAdapter.ViewHolder> implements Filterable {
-    public ArrayList<VanChuyenModel> vanChuyenModelArrayList, list;
+
+
+public class NhaCungCapAdapter extends RecyclerView.Adapter<NhaCungCapAdapter.ViewHolder> implements Filterable {
+    public ArrayList<NhaCungCapModel> nhaCungCapModelArrayList, list;
     private Context context;
-    private chucNangInterfaceVanChuyen chucNangInterfaceVanChuyen;
-    private  FilterSearchDVC filterSearchDVC;
+    private chucNangInterfaceNhaCungCap chucNangInterfaceNhaCungCap;
+    private FilterSearchNCC filterSearchNCC;
 
-    public VanChuyenAdapter(ArrayList<VanChuyenModel> vanChuyenModelArrayList, Context context, VanChuyenAdapter.chucNangInterfaceVanChuyen chucNangInterfaceVanChuyen) {
-        this.vanChuyenModelArrayList = vanChuyenModelArrayList;
+
+    public NhaCungCapAdapter(ArrayList<NhaCungCapModel> nhaCungCapModelArrayList, Context context, chucNangInterfaceNhaCungCap chucNangInterfaceNhaCungCap) {
+        this.nhaCungCapModelArrayList = nhaCungCapModelArrayList;
         this.context = context;
-        this.chucNangInterfaceVanChuyen = chucNangInterfaceVanChuyen;
-        this.list = vanChuyenModelArrayList;
+        this.chucNangInterfaceNhaCungCap = chucNangInterfaceNhaCungCap;
+        this.list = nhaCungCapModelArrayList;
     }
 
     @Override
     public Filter getFilter() {
-        if (filterSearchDVC == null){
-            filterSearchDVC = new FilterSearchDVC(list ,this);
+        if (filterSearchNCC == null){
+            filterSearchNCC = new FilterSearchNCC(list,this);
         }
-        return filterSearchDVC;
+
+        return filterSearchNCC;
     }
 
-    public interface chucNangInterfaceVanChuyen {
+    public interface chucNangInterfaceNhaCungCap {
         void update(String id);
         void delete(String id);
         void xemChiTiet(String id);
     }
 
+
     @NonNull
     @Override
-    public VanChuyenAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemVanchuyenBinding binding = ItemVanchuyenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+    public NhaCungCapAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemNhacungcapBinding binding = ItemNhacungcapBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VanChuyenAdapter.ViewHolder holder, int position) {
-        VanChuyenModel object = vanChuyenModelArrayList.get(position);
-        holder.binding.tvTenDVC.setText(object.getTen());
-        holder.binding.tvSdtDVC.setText(object.getHotline());
+    public void onBindViewHolder(@NonNull NhaCungCapAdapter.ViewHolder holder, int position) {
+        NhaCungCapModel object = nhaCungCapModelArrayList.get(position);
+        holder.binding.tvTenNCC.setText(object.getTen_nha_cc());
+        holder.binding.tvSdtNCC.setText(object.getSo_dien_dienthoai());
         holder.binding.buttonLuaChon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,9 +71,7 @@ public class VanChuyenAdapter extends RecyclerView.Adapter<VanChuyenAdapter.View
         });
 
     }
-
-
-    private  void  openDialogChucNang(VanChuyenModel object, ViewHolder holder) {
+    private void openDialogChucNang(NhaCungCapModel object, NhaCungCapAdapter.ViewHolder holder) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         DialogChucNangBinding binding = DialogChucNangBinding.inflate(inflater);
@@ -80,7 +83,7 @@ public class VanChuyenAdapter extends RecyclerView.Adapter<VanChuyenAdapter.View
         binding.buttonSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chucNangInterfaceVanChuyen.update(object.getId_don_vi_vc());
+                chucNangInterfaceNhaCungCap.update(object.getId_nha_cc());
                 dialog.dismiss();
 
             }
@@ -88,32 +91,31 @@ public class VanChuyenAdapter extends RecyclerView.Adapter<VanChuyenAdapter.View
         binding.buttonXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chucNangInterfaceVanChuyen.delete(object.getId_don_vi_vc());
+                chucNangInterfaceNhaCungCap.delete(object.getId_nha_cc());
                 dialog.dismiss();
             }
         });
         binding.buttonXemChiTiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chucNangInterfaceVanChuyen.xemChiTiet(object.getId_don_vi_vc());
+                chucNangInterfaceNhaCungCap.xemChiTiet(object.getId_nha_cc());
                 dialog.dismiss();
 
             }
         });
     }
 
+
     @Override
     public int getItemCount() {
-        return vanChuyenModelArrayList.size();
+        return nhaCungCapModelArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-         ItemVanchuyenBinding binding;
-
-        public ViewHolder(@NonNull ItemVanchuyenBinding binding) {
+        ItemNhacungcapBinding binding;
+        public ViewHolder(@NonNull ItemNhacungcapBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
     }
-
 }
