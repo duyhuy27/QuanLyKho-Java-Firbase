@@ -17,35 +17,37 @@
         android:layout_marginTop="@dimen/_60sdp"
         android:layout_marginHorizontal="@dimen/_14sdp"
         app:cardCornerRadius="@dimen/_20sdp">
-        <ImageButton
-            android:id="@+id/button_troLai"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_trolai"
-            android:background="@android:color/background_light"
-            android:layout_marginTop="@dimen/_14sdp"
-            android:layout_marginStart="@dimen/_14sdp"
-            />
-
-        <TextView
-            android:id="@+id/tv_suaNhaCungCap"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sửa nhà cung cấp"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            android:padding="@dimen/_14sdp"
-            android:gravity="center"
-            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_14sdp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/button_troLai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_trolai"
+                    android:background="@android:color/background_light"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    />
 
-            >
+                <TextView
+                    android:id="@+id/tv_suaNhaCungCap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sửa nhà cung cấp"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:padding="@dimen/_14sdp"
+                    android:gravity="center"
+                    />
+
+            </RelativeLayout>
             <EditText
                 android:id="@+id/ed_tenNCC"
                 android:layout_width="match_parent"
@@ -111,7 +113,13 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sdp" />
 
+
         </LinearLayout>
+
+
+
+
+
 
 
 

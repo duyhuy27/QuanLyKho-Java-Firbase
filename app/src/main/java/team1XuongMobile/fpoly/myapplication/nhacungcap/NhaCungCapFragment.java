@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.donvivanchuyen;
+package team1XuongMobile.fpoly.myapplication.nhacungcap;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -22,23 +22,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import team1XuongMobile.fpoly.myapplication.R;
-import team1XuongMobile.fpoly.myapplication.databinding.FragmentDanhSachDVCBinding;
-import team1XuongMobile.fpoly.myapplication.databinding.FragmentVanChuyenBinding;
-import team1XuongMobile.fpoly.myapplication.donvivanchuyen.ThemDVCFragment;
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentDanhSachNCCBinding;
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentSuaNCCBinding;
 import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenAdapter;
-import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenModel;
 
 
-public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chucNangInterfaceVanChuyen {
-    private FragmentDanhSachDVCBinding binding;
-    private ArrayList<VanChuyenModel> danhSachDVCList;
-    private VanChuyenAdapter adapter;
-    private static final String TAG = "VanChuyenFragment";
-    private VanChuyenAdapter.chucNangInterfaceVanChuyen chucNangInterfaceVanChuyen;
+public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.chucNangInterfaceNhaCungCap{
+    private FragmentDanhSachNCCBinding binding;
+    private NhaCungCapAdapter adapter;
+    private ArrayList<NhaCungCapModel> nhaCungCapModelArrayList;
+    private NhaCungCapAdapter.chucNangInterfaceNhaCungCap chucNangInterfaceNhaCungCap;
+    public static final String TAG = "NhaCungCapFragment";
     public static final String KEY_ID = "id";
+
 
 
 
@@ -46,27 +44,30 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        }
-
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentDanhSachDVCBinding.inflate(inflater, container, false);
-        chucNangInterfaceVanChuyen = this;
+        binding = FragmentDanhSachNCCBinding.inflate(inflater, container,false);
+        nhaCungCapModelArrayList = new ArrayList<>();
+        chucNangInterfaceNhaCungCap = this;
+
+        loadDataFirebase();
+
         listener();
-        loadDataFireBase();
-
-
-
-
-
-
         return binding.getRoot();
+
     }
-    public void listener() {
-        binding.edTimKiemDVC.addTextChangedListener(new TextWatcher() {
+    private void listener() {
+        binding.buttonThemMoiNCC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ThemNCCFragment()).addToBackStack(null).commit();
+            }
+        });
+        binding.edTimKiemNCC.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -87,32 +88,26 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
 
             }
         });
-        binding.buttonThemMoiDVC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ThemDVCFragment()).addToBackStack(null).commit();
-            }
-        });
+
     }
-    public void loadDataFireBase() {
-        danhSachDVCList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("don_vi_vc");
+    private void loadDataFirebase() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                danhSachDVCList.clear();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    VanChuyenModel model = ds.getValue(VanChuyenModel.class);
-                    danhSachDVCList.add(model);
+                nhaCungCapModelArrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    NhaCungCapModel nhaCungCapModel = dataSnapshot.getValue(NhaCungCapModel.class);
+                    nhaCungCapModelArrayList.add(nhaCungCapModel);
                 }
-                adapter = new VanChuyenAdapter(danhSachDVCList,getContext(),chucNangInterfaceVanChuyen);
-                binding.rcvDanhSachDVC.setAdapter(adapter);
-                Log.d(TAG, "onDataChange: "+ danhSachDVCList.size());
+                adapter = new NhaCungCapAdapter(nhaCungCapModelArrayList,getContext(),chucNangInterfaceNhaCungCap);
+                binding.rcvDanhSachNCC.setAdapter(adapter);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, "onCancelled: lỗi load dũ liệu firebase: " + error.getMessage());
+                Log.d(TAG, "onCancelled: loi load du lieu tu firebase:"+ error.getMessage());
             }
         });
     }
@@ -121,23 +116,26 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
     public void update(String id) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ID, id);
-        SuaDVCFragment suaDVCFragment = new SuaDVCFragment();
-        suaDVCFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, suaDVCFragment).addToBackStack(null).commit();
+        Log.d(TAG, "update: id" + id);
+        SuaNCCFragment suaNCCFragment = new SuaNCCFragment();
+        suaNCCFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content,  suaNCCFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void delete(String id) {
+
         dialogXacNhanXoa(id);
+
     }
 
     @Override
     public void xemChiTiet(String id) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ID, id);
-        ChiTietDVCFragment chiTietDVCFragment = new ChiTietDVCFragment();
-        chiTietDVCFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietDVCFragment).addToBackStack(null).commit();
+        ChiTietNCCFragment chiTietNCCFragment = new ChiTietNCCFragment();
+        chiTietNCCFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content,  chiTietNCCFragment).addToBackStack(null).commit();
     }
     private void dialogXacNhanXoa(String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -145,11 +143,11 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
         builder.setPositiveButton("chắc chắn", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("don_vi_vc");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
                 ref.child(id).removeValue();
                 Toast.makeText(getContext(), "Xoá thành công", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
-
+                
             }
         });
         builder.setNegativeButton("không", new DialogInterface.OnClickListener() {

@@ -17,7 +17,6 @@
             android:id="@+id/edt_timkiem_nhanvien"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_20sdp"
 
             android:padding="@dimen/_10sdp"
