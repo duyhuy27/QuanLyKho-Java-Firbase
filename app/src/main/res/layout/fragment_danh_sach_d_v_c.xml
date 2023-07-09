@@ -39,23 +39,33 @@
         android:layout_below="@id/ed_timKiemDVC"
         android:layout_marginHorizontal="@dimen/_14sdp"
         app:cardCornerRadius="@dimen/_20sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/_14sdp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Danh sách đơn vị vận chuyển"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:padding="@dimen/_14sdp"
+                android:gravity="center"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_danhSachDVC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_14sdp"
+                android:layout_marginBottom="@dimen/_14sdp"
+                tools:listitem="@layout/item_vanchuyen"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Danh sách đơn vị vận chuyển"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            android:padding="@dimen/_14sdp"
-            android:gravity="center"
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_danhSachNCC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_14sdp"
-            android:layout_marginBottom="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_60sdp"/>
+        </LinearLayout>
+
+
 
     </androidx.cardview.widget.CardView>
 
@@ -65,8 +75,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_40sdp"
-        android:layout_marginEnd="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
         android:src="@drawable/ic_themmoi"
         android:backgroundTint="#35C2C1"/>
 

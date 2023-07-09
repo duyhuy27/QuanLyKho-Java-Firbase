@@ -1,65 +1,93 @@
 package team1XuongMobile.fpoly.myapplication.nhacungcap;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentChiTietNCCBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChiTietNCCFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ChiTietNCCFragment extends Fragment {
+    private FragmentChiTietNCCBinding binding;
+    String id = "";
+    public static final String KEY_ID = "id";
+    private String ten ="", dia_chi= "", sdt = "", idncc ="";
+    private boolean trangThai = false;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ChiTietNCCFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChiTietNCCFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChiTietNCCFragment newInstance(String param1, String param2) {
-        ChiTietNCCFragment fragment = new ChiTietNCCFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chi_tiet_n_c_c, container, false);
+        binding = FragmentChiTietNCCBinding.inflate(inflater, container, false);
+        layDuLieuFragment();
+        binding.buttonTroLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        return binding.getRoot();
+    }
+    private void layDuLieuFragment(){
+        Bundle bundle = getArguments();
+        if (bundle!= null) {
+            id = bundle.getString(KEY_ID);
+        }
+        layDuLieuTrenFirebase();
+
+    }
+    private void layDuLieuTrenFirebase(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
+        ref.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                idncc ="" + snapshot.child("id_nha_cc").getValue();
+                ten ="" + snapshot.child("ten_nha_cc").getValue();
+                dia_chi ="" + snapshot.child("dia_chi").getValue();
+                sdt = "" + snapshot.child("so_dien_dienthoai").getValue();
+                trangThai = Boolean.parseBoolean("" + snapshot.child("trangThai").getValue());
+
+                binding.tvIdNCC.setText(idncc);
+                binding.tvTenNCC.setText(ten);
+                binding.tvDiaChiNCC.setText(dia_chi);
+                binding.tvSoDienThoaiNCC.setText(sdt);
+                if (trangThai) {
+                    binding.tvTrangThai.setText("Hoạt động");
+                    binding.tvTrangThai1.setTextColor(Color.GREEN);
+                    binding.tvTrangThai.setTextColor(Color.GREEN);
+                }else {
+                    binding.tvTrangThai.setText("Không hoạt động");
+                    binding.tvTrangThai.setTextColor(Color.RED);
+                    binding.tvTrangThai1.setTextColor(Color.RED);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
