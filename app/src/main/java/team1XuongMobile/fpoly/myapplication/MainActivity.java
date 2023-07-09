@@ -31,9 +31,6 @@ import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.sanpham.SanPhamFragment;
 
 import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.VanChuyenFragment;
-
-
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
