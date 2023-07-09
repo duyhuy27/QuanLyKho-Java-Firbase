@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_20sdp"
-
             android:padding="@dimen/_10sdp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_20sdp"
