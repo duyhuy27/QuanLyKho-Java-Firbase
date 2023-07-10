@@ -72,7 +72,7 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
     }
 
     private void setupLoadSanPham() {
-        if (tenSp.equals("Tên sản phẩm")){
+        if (tenSp.equals("Tất cả")){
             loadTatCaSanPham();
         }
         else {

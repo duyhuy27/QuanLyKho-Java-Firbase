@@ -37,12 +37,14 @@ public class DanhSachSPFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         configViewPager(binding.viewpager2);
+        binding.tabLayout.setupWithViewPager(binding.viewpager2);
 
 
         return binding.getRoot();
     }
 
     private void configViewPager(ViewPager viewpager2) {
+            viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
     }
 
