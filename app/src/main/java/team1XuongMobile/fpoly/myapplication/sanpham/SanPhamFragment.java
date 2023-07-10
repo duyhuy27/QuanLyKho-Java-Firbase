@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentSanPhamBinding;
 import team1XuongMobile.fpoly.myapplication.sanpham.chat.ChatGptFragment;
+import team1XuongMobile.fpoly.myapplication.sanpham.qrcode.QuetQRFragment;
+import team1XuongMobile.fpoly.myapplication.sanpham.qrcode.TaoQRFragment;
 
 
 public class SanPhamFragment extends Fragment {
@@ -49,5 +51,14 @@ public class SanPhamFragment extends Fragment {
 
             }
         });
+
+        binding.tvTaoQr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new TaoQRFragment()).addToBackStack(null).commit();
+
+            }
+        });
+
     }
 }
