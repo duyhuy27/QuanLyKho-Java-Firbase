@@ -1,66 +1,118 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPham;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChiTietLoaiSPFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ChiTietLoaiSPFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    TextView id_lsp ,ten_lsp , trangthai_lsp;
+    AppCompatButton quaylai2;
+    ImageButton quaylai1;
+    String tenlspString = "", trangthaistring = "", idlsp = "", idlspString ="";
+    boolean trangthai;
+    public static final String KEY_ID_LOAI_SAN_PHAM = "id_lsp_bd";
 
     public ChiTietLoaiSPFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChiTietLoaiSPFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChiTietLoaiSPFragment newInstance(String param1, String param2) {
-        ChiTietLoaiSPFragment fragment = new ChiTietLoaiSPFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chi_tiet_loai_s_p, container, false);
+        View view = inflater.inflate(R.layout.fragment_chi_tiet_loai_s_p, container, false);
+
+        id_lsp = view.findViewById(R.id.tv_chitietloaisp_idloaisp);
+        ten_lsp = view.findViewById(R.id.tv_chitietloaisp_tenloaisp);
+
+        trangthai_lsp = view.findViewById(R.id.tv_chitietloaisp_trangthailoaisp);
+        quaylai1 = view.findViewById(R.id.btn_quay_lai_chitiet_lsp);
+        quaylai2 = view.findViewById(R.id.btn_chitietloaisp_quaylai);
+
+        quaylai1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        quaylai2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+        loadDataNVChuyenSang();
+        setDataLoaiSPLenView();
+        return view;
+    }
+
+    private void loadDataNVChuyenSang() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            idlsp = bundle.getString(KEY_ID_LOAI_SAN_PHAM);
+            Log.e("zzzzzz", "id nhan duoc: " + idlsp);
+        }
+    }
+
+    private void setDataLoaiSPLenView() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
+        ref.child(idlsp)
+
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        tenlspString = "" + snapshot.child("ten_loai_sp").getValue();
+                        idlspString = "" + snapshot.child("id_loai_sp").getValue();
+                        trangthai = Boolean.parseBoolean("" + snapshot.child("TrangThai").getValue());
+                        if(trangthai == true){
+                            trangthai_lsp.setTextColor(Color.GREEN);
+                            trangthai_lsp.setText("đang hoạt động");
+                        }
+                        else {
+                            trangthai_lsp.setTextColor(Color.RED);
+                            trangthai_lsp.setText("dừng hoạt động");
+                        }
+
+                        ten_lsp.setText(tenlspString);
+                        id_lsp.setText(idlspString);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
     }
 }
