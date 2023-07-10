@@ -6,50 +6,50 @@
     android:id="@+id/content_khachang"
     android:background="#E8E8E8">
 
-    <LinearLayout
-        android:id="@+id/lsp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+
             <EditText
                 android:id="@+id/edt_timkiem_khachhang"
                 android:background="@drawable/custome_listview"
                 android:backgroundTint="@color/white"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:hint="Tìm kiếm loại sản phẩm"
-                android:paddingLeft="@dimen/_20sdp"
-                android:layout_width="@dimen/_300sdp"
-                android:layout_height="@dimen/_40sdp"/>
+                android:hint="Tìm kiếm tài khoản"
+                android:padding="@dimen/_12sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp"/>
+
             <ImageButton
                 android:id="@+id/img_timkiem_khachhang"
                 android:src="@drawable/icon_tim_kiem"
                 android:background="@drawable/custome_listview"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_toStartOf="@+id/edt_timkiem_khachhang"
                 android:backgroundTint="#E8E8E8"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_30sdp"/>
-        </RelativeLayout>
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+                />
 
-            android:src="@drawable/logo"/>
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_240sdp"
+                android:src="@drawable/logo"/>
+
+
+
         <RelativeLayout
             android:background="@drawable/custome_listview"
             android:backgroundTint="@color/white"
             android:layout_margin="@dimen/_12sdp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/img_logo">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_loaisanpham"
@@ -72,7 +72,6 @@
         </RelativeLayout>
 
 
-    </LinearLayout>
 
 
 

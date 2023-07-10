@@ -10,26 +10,33 @@
         android:background="@drawable/wave_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <EditText
             android:id="@+id/edt_timkiem_loaisanpham"
             android:background="@drawable/custome_listview"
             android:backgroundTint="#E8E8E8"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_20sdp"
             android:hint="Tìm kiếm loại sản phẩm"
-            android:paddingLeft="@dimen/_20sdp"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_40sdp"/>
+            android:padding="@dimen/_12sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"/>
+
         <ImageButton
             android:id="@+id/img_timkiem_loaisanpham"
             android:src="@drawable/icon_tim_kiem"
             android:background="@drawable/custome_listview"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_toLeftOf="@+id/edt_timkiem_loaisanpham"
             android:backgroundTint="#35C2C1"
             android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_30sdp"/>
+            android:layout_height="@dimen/_30sdp"
+            android:layout_toStartOf="@id/edt_timkiem_loaisanpham"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_22sdp"
+            />
         <RelativeLayout
 
             android:layout_below="@+id/edt_timkiem_loaisanpham"
