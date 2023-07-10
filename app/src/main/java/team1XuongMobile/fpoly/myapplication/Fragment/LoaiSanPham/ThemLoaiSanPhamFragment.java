@@ -39,8 +39,6 @@ public class ThemLoaiSanPhamFragment extends Fragment {
     boolean trangthai;
     FirebaseUser firebaseUser;
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

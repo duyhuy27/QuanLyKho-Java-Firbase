@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,8 @@
     android:background="@color/background_color"
     android:overScrollMode="never"
     android:scrollbars="none">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,9 +53,10 @@
             app:contentPadding="@dimen/_10sdp">
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/rela_01"
@@ -82,18 +85,19 @@
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewpager2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_01" />
+
                 </RelativeLayout>
 
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
-            </RelativeLayout>
+
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>

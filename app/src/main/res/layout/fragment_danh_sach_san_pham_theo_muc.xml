@@ -6,9 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
-    android:focusable="true"
-    android:background="@color/background_color"
-    tools:context=".view.fragment.DanhSachSanPhamTheoMucFragment">
+    android:focusable="true">
 
     <EditText
         android:id="@+id/edt_tim_kiem"
