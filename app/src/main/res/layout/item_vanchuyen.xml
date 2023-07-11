@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#E8E8E8"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
     android:padding="@dimen/_5sdp"
-    android:layout_marginBottom="@dimen/_5sdp"
-    >
-
-    <TextView
-        android:id="@+id/tv_tenDVC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tên đơn vị vâ chuyển"
-        />
-    <ImageButton
-        android:id="@+id/button_luaChon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_handle"
-        android:layout_alignParentRight="true"
-        android:background="#E8E8E8"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/tv_tenDVC"
-        android:layout_marginTop="@dimen/_5sdp"
-        >
-        <ImageView
+    app:cardCornerRadius="@dimen/_12sdp"
+    app:cardElevation="0dp"
+    app:contentPadding="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_8sdp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_tenDVC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_sodienthoai"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/button_luaChon"
+            android:text="Tên đơn vị vâ chuyển"
+            />
+        <ImageButton
+            android:id="@+id/button_luaChon"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_handle"
             />
         <TextView
-            android:id="@+id/tv_sdtDVC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0123123123123"
+        android:id="@+id/tv_sdtDVC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tenDVC"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_toStartOf="@id/button_luaChon"
+        android:drawableStart="@drawable/icon_dienthoai"
+        android:drawablePadding="@dimen/_5sdp"
+        android:text="0123456789"
             />
-    </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

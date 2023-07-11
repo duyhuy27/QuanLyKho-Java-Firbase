@@ -62,6 +62,12 @@ public class ThemNCCFragment extends Fragment {
                 validate();
             }
         });
+        binding.buttonTroLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
     private void validate() {
         ten = binding.edTenNCC.getText().toString();

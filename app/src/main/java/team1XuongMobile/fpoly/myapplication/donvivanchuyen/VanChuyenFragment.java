@@ -1,6 +1,8 @@
 package team1XuongMobile.fpoly.myapplication.donvivanchuyen;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -139,6 +141,14 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
         chiTietDVCFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietDVCFragment).addToBackStack(null).commit();
     }
+
+    @Override
+    public void goiClick(String sdt) {
+        Uri phoneUri = Uri.parse("tel:" + sdt);
+        Intent intent = new Intent(Intent.ACTION_DIAL, phoneUri);
+        startActivity(intent);
+    }
+
     private void dialogXacNhanXoa(String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Bạn có chắc muốn xóa không ?");

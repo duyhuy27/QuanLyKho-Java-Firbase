@@ -44,6 +44,7 @@ public class VanChuyenAdapter extends RecyclerView.Adapter<VanChuyenAdapter.View
         void update(String id);
         void delete(String id);
         void xemChiTiet(String id);
+        void goiClick(String sdt);
     }
 
     @NonNull
@@ -62,6 +63,12 @@ public class VanChuyenAdapter extends RecyclerView.Adapter<VanChuyenAdapter.View
             @Override
             public void onClick(View view) {
                 openDialogChucNang(object,holder);
+            }
+        });
+        holder.binding.tvSdtDVC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chucNangInterfaceVanChuyen.goiClick(object.getHotline());
             }
         });
 
