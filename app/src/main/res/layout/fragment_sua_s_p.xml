@@ -40,34 +40,38 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_ten_sp"
+                    <EditText
+                        android:id="@+id/edt_ten_sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_14sdp"
+                        android:background="@drawable/background_edit_text_03"
+                        android:hint="Tên sản phẩm"
                         android:padding="@dimen/_10sdp"
-                        android:text="Tên sản phẩm"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
 
-                    <TextView
-                        android:id="@+id/tv_ma_sp"
+                    <EditText
+                        android:id="@+id/edt_ma_sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/background_edit_text_03"
+                        android:hint="Mã sản phẩm / SKU"
                         android:padding="@dimen/_10sdp"
-                        android:text="Mã sản phẩm / SKU"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
 
-                    <TextView
-                        android:id="@+id/tv_khoi_luong"
+                    <EditText
+                        android:id="@+id/edt_khoi_luong"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_14sdp"
+                        android:background="@drawable/background_edit_text_03"
+                        android:hint="Khối lượng (g)"
+                        android:inputType="number"
                         android:padding="@dimen/_10sdp"
-                        android:text="Khối lượng (g)"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
 
@@ -105,12 +109,19 @@
                             android:textSize="@dimen/_14sdp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/button_switch_thue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_toStartOf="@id/button_switch_thue"
                             android:text="Áp dụng thuế"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp"
@@ -125,11 +136,11 @@
                         android:layout_below="@id/relative_01"
                         android:layout_marginTop="@dimen/_14sdp"
                         android:orientation="horizontal"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/tv_thue_dauvao"
+                        <EditText
+                            android:id="@+id/edt_thue_dauvao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_10sdp"
@@ -141,8 +152,8 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp" />
 
-                        <TextView
-                            android:id="@+id/tv_thue_daura"
+                        <EditText
+                            android:id="@+id/edt_thue_daura"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
@@ -157,27 +168,29 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_giagoc"
+                    <EditText
+                        android:id="@+id/edt_giagoc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/liner_01"
                         android:layout_marginTop="@dimen/_14sdp"
                         android:background="@drawable/background_edit_text_03"
                         android:hint="Giá gốc"
+                        android:inputType="number"
                         android:padding="@dimen/_10sdp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
 
-                    <TextView
-                        android:id="@+id/tv_giaban"
+                    <EditText
+                        android:id="@+id/edt_giaban"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_giagoc"
+                        android:layout_below="@id/edt_giagoc"
                         android:layout_marginTop="@dimen/_14sdp"
                         android:layout_marginBottom="@dimen/_14sdp"
                         android:background="@drawable/background_edit_text_03"
                         android:hint="Giá bán"
+                        android:inputType="number"
                         android:padding="@dimen/_10sdp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
@@ -205,11 +218,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_ncc"
+                        android:id="@+id/edt_ncc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_14sdp"
                         android:background="@drawable/background_edit_text_03"
+                        android:drawableEnd="@drawable/ic_drop"
                         android:drawablePadding="@dimen/_10sdp"
                         android:hint="Nhà cung cấp"
                         android:padding="@dimen/_10sdp"
@@ -217,11 +231,12 @@
                         android:textSize="@dimen/_14sdp" />
 
                     <TextView
-                        android:id="@+id/tv_lsp"
+                        android:id="@+id/edt_lsp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_14sdp"
                         android:background="@drawable/background_edit_text_03"
+                        android:drawableEnd="@drawable/ic_drop"
                         android:drawablePadding="@dimen/_10sdp"
                         android:hint="Loại sản phẩm"
                         android:padding="@dimen/_10sdp"
@@ -239,9 +254,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_toStartOf="@id/button_add_thuoc_tinh"
                             android:hint="Thuộc tính"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp" />
+
+                        <ImageButton
+                            android:id="@+id/button_add_thuoc_tinh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_add_2" />
 
 
                     </RelativeLayout>
@@ -276,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_mota"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_100sdp"
@@ -302,13 +327,12 @@
                             android:textSize="@dimen/_14sdp"
                             android:textStyle="bold" />
 
-                        <ImageView
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/button_switch_trangthai"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_status" />
+                            android:layout_centerVertical="true" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -325,7 +349,6 @@
                 android:scaleType="center"
                 android:src="@drawable/ic_camera" />
 
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_hoan_tat"
                 android:layout_width="match_parent"
@@ -335,7 +358,7 @@
                 android:layout_marginEnd="@dimen/_14sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/background_button"
-                android:text="Quay lại"
+                android:text="Hoàn tất"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
