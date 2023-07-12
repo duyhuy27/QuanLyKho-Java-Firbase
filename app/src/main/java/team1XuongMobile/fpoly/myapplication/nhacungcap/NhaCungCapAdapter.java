@@ -48,6 +48,7 @@ public class NhaCungCapAdapter extends RecyclerView.Adapter<NhaCungCapAdapter.Vi
         void update(String id);
         void delete(String id);
         void xemChiTiet(String id);
+        void goiClick(String sdt);
     }
 
 
@@ -67,6 +68,12 @@ public class NhaCungCapAdapter extends RecyclerView.Adapter<NhaCungCapAdapter.Vi
             @Override
             public void onClick(View view) {
                 openDialogChucNang(object,holder);
+            }
+        });
+        holder.binding.tvSdtNCC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chucNangInterfaceNhaCungCap.goiClick(object.getSo_dien_dienthoai());
             }
         });
 
@@ -104,6 +111,7 @@ public class NhaCungCapAdapter extends RecyclerView.Adapter<NhaCungCapAdapter.Vi
             }
         });
     }
+
 
 
     @Override
