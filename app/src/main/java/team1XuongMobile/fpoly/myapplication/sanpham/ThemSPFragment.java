@@ -47,6 +47,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentThemSPBinding;
@@ -84,6 +86,8 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
 
     private ThuocTinhAdapter.thuocTinhInterface thuocTinhInterface;
 
+    private ArrayList<String> skuArray;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +102,8 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
 
+        loadSku();
+
         loadDuLieuNCC();
 
         loadDuLieuLSP();
@@ -107,6 +113,28 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         listener();
 
         return binding.getRoot();
+    }
+
+    private void loadSku() {
+        skuArray = new ArrayList<>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SanPham");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                skuArray.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String sku = ds.child("maSp").getValue(String.class);
+                    skuArray.add(sku);
+                }
+
+                // Check for duplicate
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+            }
+        });
     }
 
 
@@ -178,6 +206,21 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
             Toast.makeText(getContext(), "Mời bạn nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
 
+        }
+        Set<String> uniqueSkus = new HashSet<>(skuArray);
+        if (uniqueSkus.contains(binding.edtMaSp.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Mã sản phẩm / SKU đã tồn tại trên hệ thống")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+
+            binding.edtMaSp.requestFocus();
+            return;
         } else if (chonTenNcc.isEmpty() || chonTenLsp.isEmpty()) {
             Toast.makeText(getContext(), "Bạn hãy nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
@@ -255,8 +298,9 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                                 productData.put("ten_nha_cc", "" + chonTenNcc);
                                 productData.put("uid", firebaseUser.getUid());
                                 productData.put("codeIme", "");
-                                productData.put("timestamp","" + timestamp);
+                                productData.put("timestamp", "" + timestamp);
                                 productData.put("img", "" + downloadUri);
+                                productData.put("mota", "" + moTa);
 
                                 productsRef.child(productId).setValue(productData)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -393,8 +437,8 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                 idLspList.clear();
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_loai").getValue();
-                    String ten = "" + ds.child("ten_loai").getValue();
+                    String id = "" + ds.child("id_loai_sp").getValue();
+                    String ten = "" + ds.child("ten_loai_sp").getValue();
 
                     idLspList.add(id);
                     tenLspList.add(ten);

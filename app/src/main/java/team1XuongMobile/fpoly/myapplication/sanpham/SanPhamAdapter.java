@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.sanpham;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Gravity;
@@ -50,7 +51,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
 
     @Override
     public Filter getFilter() {
-        if (filterSearchSanPham != null) {
+        if (filterSearchSanPham == null) {
             filterSearchSanPham = new FilterSearchSanPham(list, this);
         }
         return filterSearchSanPham;
@@ -115,13 +116,17 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 listener.suaSpClick(sanPhamModels.getIdSanPham());
+                dialog.dismiss();
             }
         });
 
         buttonXoa.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View view) {
                 listener.xoaSpClick(sanPhamModels.getIdSanPham());
+                dialog.dismiss();
+                notifyDataSetChanged();
             }
         });
 
@@ -129,6 +134,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 listener.chiTietSpClick(sanPhamModels.getIdSanPham());
+                dialog.dismiss();
             }
         });
 

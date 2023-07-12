@@ -47,6 +47,13 @@ public class DanhSachSPFragment extends Fragment {
         configViewPager(binding.viewpager2);
         binding.tabLayout.setupWithViewPager(binding.viewpager2);
 
+        binding.buttonQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
 
         return binding.getRoot();
     }
@@ -65,9 +72,9 @@ public class DanhSachSPFragment extends Fragment {
                 loaiSanPhamArrayList.add(objectAll);
 
                 viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
-                        "" + objectAll.getId_loai_sp(),
-                        "" + objectAll.getTen_loai_sp(),
-                        "" + objectAll.getUid()),
+                                "" + objectAll.getId_loai_sp(),
+                                "" + objectAll.getTen_loai_sp(),
+                                "" + objectAll.getUid()),
                         objectAll.getTen_loai_sp());
 
                 viewPagerAdapter.notifyDataSetChanged();
@@ -82,6 +89,9 @@ public class DanhSachSPFragment extends Fragment {
                             "" + loaiSanPham.getUid()), loaiSanPham.getTen_loai_sp()
                     );
                     viewPagerAdapter.notifyDataSetChanged();
+                    viewpager2.setAdapter(viewPagerAdapter);
+
+                    applyTabSpacing();
                 }
             }
 
@@ -93,6 +103,20 @@ public class DanhSachSPFragment extends Fragment {
 
         viewpager2.setAdapter(viewPagerAdapter);
 
+    }
+
+    private void applyTabSpacing() {
+        ViewGroup slidingTabStrip = (ViewGroup) binding.tabLayout.getChildAt(0);
+        int tabCount = slidingTabStrip.getChildCount();
+        int spacing = 20; // Adjust the spacing value as per your requirement
+
+        for (int i = 0; i < tabCount; i++) {
+            View tabView = slidingTabStrip.getChildAt(i);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tabView.getLayoutParams();
+            params.setMarginStart(spacing);
+            params.setMarginEnd(spacing);
+            tabView.requestLayout();
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
