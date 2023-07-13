@@ -33,7 +33,7 @@
                     android:text="Đơn nhập hàng của bạn chưa có sản phẩm nào!" />
 
                 <TextView
-                    android:id="@+id/tv_chonSanPham"
+                    android:id="@+id/tv_chonSanPhamXuat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"

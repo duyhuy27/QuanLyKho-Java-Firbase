@@ -22,11 +22,15 @@ public class PhieuNhapFragment extends Fragment {
         fab_themPhieuNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, new ChiTietHDNFragment())
-                        .addToBackStack(null).commit();
+                onclickThemPhieuNhap();
             }
         });
         return view;
+    }
+
+    public void onclickThemPhieuNhap() {
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, new ChonDanhSachNCCFragment()).
+                addToBackStack(null).commit();
     }
 }
