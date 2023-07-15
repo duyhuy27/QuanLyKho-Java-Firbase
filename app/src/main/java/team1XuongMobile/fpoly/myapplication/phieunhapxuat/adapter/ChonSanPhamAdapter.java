@@ -1,6 +1,10 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.ClipData;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
 
 public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.ViewHolder> {
@@ -20,16 +25,24 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
     private ArrayList<ChonSanPham> list;
     private LinearLayout linearChonSp;
     private LinearLayout linearChonSpThanhCong;
+    private TaoHDNFragment fragment;
+    private ClickChonSp clickChonSp;
 
-    public ChonSanPhamAdapter(Context context, LinearLayout linearChonSp, LinearLayout linearChonSpThanhCong) {
+    public ChonSanPhamAdapter(Context context, LinearLayout linearChonSp, LinearLayout linearChonSpThanhCong, TaoHDNFragment fragment, ClickChonSp clickChonSp) {
         this.context = context;
         this.linearChonSp = linearChonSp;
         this.linearChonSpThanhCong = linearChonSpThanhCong;
+        this.fragment = fragment;
+        this.clickChonSp = clickChonSp;
     }
 
     public void setData(ArrayList<ChonSanPham> list) {
         this.list = list;
         notifyItemInserted(0);
+    }
+
+    public interface ClickChonSp {
+        void clickChon(String tenSp, String maSp, String giaSp, TaoHDNFragment fragment, LinearLayout linearChonSp, LinearLayout linearChonSpThanhCong);
     }
 
     @NonNull
@@ -45,16 +58,12 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
         if (objChonSanPham == null) {
             return;
         }
-        holder.tvChonSanPham.setText(objChonSanPham.getTen_loai());
+        holder.tvChonSanPham.setText(objChonSanPham.getTenSp());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int visibility = linearChonSp.getVisibility();
-                if (visibility == View.VISIBLE) {
-                    linearChonSp.setVisibility(View.GONE);
-                    linearChonSpThanhCong.setVisibility(View.VISIBLE);
-                }
+                clickChonSp.clickChon(objChonSanPham.getTenSp(), objChonSanPham.getMaSp(), objChonSanPham.getGiaNhap(), fragment, linearChonSp, linearChonSpThanhCong);
             }
         });
     }

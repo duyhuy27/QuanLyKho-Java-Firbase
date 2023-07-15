@@ -53,7 +53,8 @@ public class ChonNCCAdapter extends RecyclerView.Adapter<ChonNCCAdapter.ViewHold
 
                 Bundle bundle = new Bundle();
                 bundle.putString("title", objChonNCC.getTen_nha_cc());
-                
+                bundle.putString("idNCC", objChonNCC.getId_nha_cc());
+
                 TaoHDNFragment taoHDNFragment = new TaoHDNFragment();
                 taoHDNFragment.setArguments(bundle);
 

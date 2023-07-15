@@ -1,6 +1,8 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.model;
 
-public class ChonSanPham {
+import java.io.Serializable;
+
+public class ChonSanPham implements Serializable {
     private String idSanPham;
     private String tenSp;
     private String maSp;

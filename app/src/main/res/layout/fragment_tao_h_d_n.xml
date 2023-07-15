@@ -56,12 +56,14 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/tvTenspHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tên sản phẩm"
                     android:textSize="@dimen/_12sdp" />
 
                 <TextView
+                    android:id="@+id/tvMaSpHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -69,6 +71,7 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <TextView
+                    android:id="@+id/tvSoTienSpHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
