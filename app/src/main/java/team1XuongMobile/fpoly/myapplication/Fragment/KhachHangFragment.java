@@ -1,66 +1,183 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import team1XuongMobile.fpoly.myapplication.Adapter.KhachHangAdapter;
+import team1XuongMobile.fpoly.myapplication.Adapter.LoaiSanPhamAdapter;
+import team1XuongMobile.fpoly.myapplication.Fragment.KhachHang.ChiTietKhachHangFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.KhachHang.SuaKhachHangFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.KhachHang.ThemKhachHangFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPham.SuaLoaiSanPhamFragment;
+import team1XuongMobile.fpoly.myapplication.Model.KhachHang;
+import team1XuongMobile.fpoly.myapplication.Model.LoaiSanPham;
 import team1XuongMobile.fpoly.myapplication.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link KhachHangFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class KhachHangFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class KhachHangFragment extends Fragment implements KhachHangAdapter.ViewHolder.KhachHangInterface {
+    RecyclerView recyclerView;
+    KhachHangAdapter khachHangAdapter;
+    ArrayList<KhachHang> khachHangArrayList;
+    private KhachHangFragment khachHangInterface;
+    FloatingActionButton fabThemkh;
+    EditText inputsearchKhachHang;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static final String KEY_ID_KHACH_HANG = "id_kh_bd";
 
     public KhachHangFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment KhachHangFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static KhachHangFragment newInstance(String param1, String param2) {
-        KhachHangFragment fragment = new KhachHangFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_khach_hang, container, false);
+        View view = inflater.inflate(R.layout.fragment_khach_hang, container, false);
+
+        recyclerView = view.findViewById(R.id.rcv_khachhang);
+        fabThemkh = view.findViewById(R.id.fab_themkhachhang);
+        inputsearchKhachHang = view.findViewById(R.id.edt_timkiem_khachhang);
+
+        khachHangInterface = this;
+
+        inputsearchKhachHang.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    khachHangAdapter.getFilter().filter(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        fabThemkh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThemKhachHangFragment themKhachHangFragment = new ThemKhachHangFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_khachang,themKhachHangFragment).addToBackStack(null).commit();
+            }
+        });
+        loadDuLieuKhachHangFirebase();
+        return view;
+    }
+
+    private void loadDuLieuKhachHangFirebase() {
+        khachHangArrayList = new ArrayList<>();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khachHangArrayList.clear();
+                for (DataSnapshot dskh : snapshot.getChildren()){
+                    KhachHang themkh = dskh.getValue(KhachHang.class);
+                    khachHangArrayList.add(themkh);
+                }
+                khachHangAdapter = new KhachHangAdapter(getContext(), khachHangArrayList, khachHangInterface);
+                recyclerView.setAdapter(khachHangAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void updateKhachHangClick(String id) {
+        Bundle bundleKH = new Bundle();
+        bundleKH.putString(KEY_ID_KHACH_HANG, id);
+        SuaKhachHangFragment suaKhachHangFragment = new SuaKhachHangFragment();
+        suaKhachHangFragment.setArguments(bundleKH);
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, suaKhachHangFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void deleteKhachHangClick(String id) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Bạn có muốn xóa hay không?");
+
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(id != null && !id.isEmpty()){
+                    ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "Xóa Thất Bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void chiTietKhachHangClick(String id) {
+        Bundle bundleKH = new Bundle();
+        bundleKH.putString(KEY_ID_KHACH_HANG, id);
+        ChiTietKhachHangFragment chiTietKhachHangFragment = new ChiTietKhachHangFragment();
+        chiTietKhachHangFragment.setArguments(bundleKH);
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietKhachHangFragment).addToBackStack(null).commit();
     }
 }

@@ -50,9 +50,9 @@ public class ChiTietLoaiSPFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chi_tiet_loai_s_p, container, false);
 
         id_lsp = view.findViewById(R.id.tv_chitietloaisp_idloaisp);
-        ten_lsp = view.findViewById(R.id.tv_chitietloaisp_tenloaisp);
+        ten_lsp = view.findViewById(R.id.tv_sdtkh__chitietkh);
 
-        trangthai_lsp = view.findViewById(R.id.tv_chitietloaisp_trangthailoaisp);
+        trangthai_lsp = view.findViewById(R.id.tv_emailkh_chitietkh);
         quaylai1 = view.findViewById(R.id.btn_quay_lai_chitiet_lsp);
         quaylai2 = view.findViewById(R.id.btn_chitietloaisp_quaylai);
 

@@ -22,21 +22,9 @@
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_marginBottom="@dimen/_12sdp"/>
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:drawableEnd="@drawable/ic_timkiem"/>
 
-        <ImageButton
-            android:id="@+id/img_timkiem_loaisanpham"
-            android:src="@drawable/icon_tim_kiem"
-            android:background="@drawable/custome_listview"
-            android:layout_alignParentRight="true"
-            android:layout_toLeftOf="@+id/edt_timkiem_loaisanpham"
-            android:backgroundTint="#35C2C1"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_toStartOf="@id/edt_timkiem_loaisanpham"
-            android:layout_marginTop="@dimen/_18sdp"
-            android:layout_marginEnd="@dimen/_22sdp"
-            />
         <RelativeLayout
 
             android:layout_below="@+id/edt_timkiem_loaisanpham"
