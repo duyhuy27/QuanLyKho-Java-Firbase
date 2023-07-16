@@ -1,39 +1,34 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.ClipData;
 import android.content.Context;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.ChonSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
 
 public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.ViewHolder> {
     private final Context context;
     private ArrayList<ChonSanPham> list;
-    private LinearLayout linearChonSp;
-    private LinearLayout linearChonSpThanhCong;
-    private TaoHDNFragment fragment;
-    private ClickChonSp clickChonSp;
 
-    public ChonSanPhamAdapter(Context context, LinearLayout linearChonSp, LinearLayout linearChonSpThanhCong, TaoHDNFragment fragment, ClickChonSp clickChonSp) {
+    public ChonSanPhamAdapter(Context context) {
         this.context = context;
-        this.linearChonSp = linearChonSp;
-        this.linearChonSpThanhCong = linearChonSpThanhCong;
-        this.fragment = fragment;
-        this.clickChonSp = clickChonSp;
     }
 
     public void setData(ArrayList<ChonSanPham> list) {
@@ -41,9 +36,6 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
         notifyItemInserted(0);
     }
 
-    public interface ClickChonSp {
-        void clickChon(String tenSp, String maSp, String giaSp, TaoHDNFragment fragment, LinearLayout linearChonSp, LinearLayout linearChonSpThanhCong);
-    }
 
     @NonNull
     @Override
@@ -63,9 +55,22 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickChonSp.clickChon(objChonSanPham.getTenSp(), objChonSanPham.getMaSp(), objChonSanPham.getGiaNhap(), fragment, linearChonSp, linearChonSpThanhCong);
+                Bundle bundleChonSp = new Bundle();
+                bundleChonSp.putString("tenSp", objChonSanPham.getTenSp());
+                bundleChonSp.putString("maSp", objChonSanPham.getMaSp());
+                bundleChonSp.putString("soTienSp", objChonSanPham.getGiaNhap());
+
+                TaoHDNFragment fragment = new TaoHDNFragment();
+                fragment.setArguments(bundleChonSp);
+
+                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_content, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
+
     }
 
     @Override
