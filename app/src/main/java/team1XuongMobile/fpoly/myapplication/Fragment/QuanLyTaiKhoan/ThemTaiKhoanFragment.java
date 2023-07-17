@@ -62,7 +62,7 @@ public class ThemTaiKhoanFragment extends Fragment {
 
     Button hoantat;
     ImageButton back;
-    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "", uidstring = "",khstring = "";
+    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "", uidstring = "", khstring = "";
     FirebaseUser firebaseUser;
     String uidtk;
 
@@ -94,7 +94,7 @@ public class ThemTaiKhoanFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quyentruycap.setAdapter(adapter);
         laydulieudangnhap();
-        Log.d("quanjkl", "email dang nhap: "+email_da_dn+"password dang nhap" + password_da_dn);
+        Log.d("quanjkl", "email dang nhap: " + email_da_dn + "password dang nhap" + password_da_dn);
         loadDataNVChuyenSang();
         laytaikhoantuNV();
 
@@ -151,7 +151,7 @@ public class ThemTaiKhoanFragment extends Fragment {
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("idTK",""+timestamp);
+        hashMap.put("idTK", "" + timestamp);
         hashMap.put("uid", uidtk);
         hashMap.put("username", "" + tennhanvienstring);
         hashMap.put("email", "" + emailstring);
@@ -159,7 +159,7 @@ public class ThemTaiKhoanFragment extends Fragment {
         hashMap.put("timestamp", timestamp);
         hashMap.put("vaiTro", "" + quyentruycapstring);
         hashMap.put("kh", khstring);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
         ref.child(uidtk)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -186,7 +186,6 @@ public class ThemTaiKhoanFragment extends Fragment {
     }
 
 
-
     public void laydulieudangnhap() {
         firebaseUser = firebaseAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
@@ -194,10 +193,10 @@ public class ThemTaiKhoanFragment extends Fragment {
         ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                email_da_dn = ""+snapshot.child("email").getValue();
-                password_da_dn = ""+snapshot.child("password").getValue();
-                uidstring = ""+snapshot.child("uid").getValue();
-                khstring = ""+snapshot.child("kh").getValue();
+                email_da_dn = "" + snapshot.child("email").getValue();
+                password_da_dn = "" + snapshot.child("password").getValue();
+                uidstring = "" + snapshot.child("uid").getValue();
+                khstring = "" + snapshot.child("kh").getValue();
 
             }
 
