@@ -5,17 +5,19 @@ public class QuanLyTaiKhoan {
     String tennhanvien;
     String email;
     String uid;
+    String kh;
     String sdt;
 
 
     public QuanLyTaiKhoan() {
     }
 
-    public QuanLyTaiKhoan(String id_qltk, String tennhanvien, String email, String uid, String sdt) {
+    public QuanLyTaiKhoan(String id_qltk, String tennhanvien, String email, String uid, String kh, String sdt) {
         this.id_qltk = id_qltk;
         this.tennhanvien = tennhanvien;
         this.email = email;
         this.uid = uid;
+        this.kh = kh;
         this.sdt = sdt;
     }
 
@@ -57,5 +59,13 @@ public class QuanLyTaiKhoan {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 }

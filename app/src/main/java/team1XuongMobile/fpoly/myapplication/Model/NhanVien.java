@@ -8,9 +8,10 @@ public class NhanVien {
     String vai_tro;
     String trang_thai;
     String uid;
+    String kh;
     long timestamp;
 
-    public NhanVien(String id_nv, String email, String username, String sdt, String vai_tro, String trang_thai, String uid, long timestamp) {
+    public NhanVien(String id_nv, String email, String username, String sdt, String vai_tro, String trang_thai, String uid, String kh, long timestamp) {
         this.id_nv = id_nv;
         this.email = email;
         this.username = username;
@@ -18,7 +19,16 @@ public class NhanVien {
         this.vai_tro = vai_tro;
         this.trang_thai = trang_thai;
         this.uid = uid;
+        this.kh = kh;
         this.timestamp = timestamp;
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 
     public NhanVien() {

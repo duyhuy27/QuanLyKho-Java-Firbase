@@ -108,6 +108,8 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
 
+        laydulieudangnhap();
+
         loadSku();
 
         loadDuLieuNCC();
@@ -254,6 +256,25 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
 
         luuDuLieuSpLenFirebase();
     }
+    String khString = "";
+
+    public void laydulieudangnhap() {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khString = ""+snapshot.child("kh").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private void luuDuLieuSpLenFirebase() {
         progressDialog.setTitle("Xin Đợi...");
@@ -302,7 +323,7 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                         productData.put("timestamp", "" + timestamp);
                         productData.put("img", "" + downloadUri);
                         productData.put("mota", "" + moTa);
-                        productData.put("kh", "a");
+                        productData.put("kh", khString);
 
                         productsRef.child(productId).setValue(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

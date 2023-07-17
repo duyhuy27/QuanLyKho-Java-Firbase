@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,17 +36,17 @@ import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
 
 
-public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAdapter.TaikhoanInterface
-        {
+public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAdapter.TaikhoanInterface {
     RecyclerView recyclerView_qltk;
     EditText inputsearchTK;
-
+    FirebaseUser firebaseUser;
+    FirebaseAuth firebaseAuth;
+    String khstring = "";
     QuanLyTaiKhoanAdapter quanLyTaiKhoanAdapter;
     ArrayList<NhanVien> nhanVienArrayList;
     public static final String KEY_ID_NHAN_VIEN = "idNV";
 
     QuanLyTaiKhoanAdapter.TaikhoanInterface taikhoanInterface;
-
 
 
     @Override
@@ -91,7 +93,7 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
     private void loaddulieuQLTKFirebase() {
         nhanVienArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.orderByChild("kh").equalTo("a")
+        ref.orderByChild("kh").equalTo(khstring)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -117,7 +119,7 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
     @Override
     public void CachChucTKClick(String id) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("vaiTro", "Tổ Trưởng" );
+        hashMap.put("vaiTro", "Tổ Trưởng");
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Bạn có muốn cách chức nhân viên này?");
@@ -151,8 +153,24 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
         builder.show();
     }
 
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                khstring = "" + snapshot.child("kh").getValue();
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
 }
