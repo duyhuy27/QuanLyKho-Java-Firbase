@@ -6,17 +6,19 @@ public class VanChuyenModel {
     String hotline;
     String uid;
     String dia_chi;
+    String kh;
     long timestamp;
 
     public VanChuyenModel() {
     }
 
-    public VanChuyenModel(String id_don_vi_vc, String ten, String hotline, String uid, String dia_chi, long timestamp) {
+    public VanChuyenModel(String id_don_vi_vc, String ten, String hotline, String uid, String dia_chi, String kh, long timestamp) {
         this.id_don_vi_vc = id_don_vi_vc;
         this.ten = ten;
         this.hotline = hotline;
         this.uid = uid;
         this.dia_chi = dia_chi;
+        this.kh = kh;
         this.timestamp = timestamp;
     }
 
