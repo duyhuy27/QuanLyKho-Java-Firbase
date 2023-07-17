@@ -3,25 +3,33 @@ package team1XuongMobile.fpoly.myapplication.Model;
 public class NhanVien {
     String id_nv;
     String email;
-    String ten;
+    String username;
     String sdt;
     String vai_tro;
     String trang_thai;
     String uid;
     long timestamp;
 
-    public NhanVien() {
-    }
-
-    public NhanVien(String id_nv, String email, String ten, String sdt, String vai_tro, String trang_thai, String uid, long timestamp) {
+    public NhanVien(String id_nv, String email, String username, String sdt, String vai_tro, String trang_thai, String uid, long timestamp) {
         this.id_nv = id_nv;
         this.email = email;
-        this.ten = ten;
+        this.username = username;
         this.sdt = sdt;
         this.vai_tro = vai_tro;
         this.trang_thai = trang_thai;
         this.uid = uid;
         this.timestamp = timestamp;
+    }
+
+    public NhanVien() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getId_nv() {
@@ -40,13 +48,7 @@ public class NhanVien {
         this.email = email;
     }
 
-    public String getTen() {
-        return ten;
-    }
 
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
 
     public String getSdt() {
         return sdt;

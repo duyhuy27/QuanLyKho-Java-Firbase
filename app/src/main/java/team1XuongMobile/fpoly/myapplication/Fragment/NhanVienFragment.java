@@ -1,14 +1,11 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import android.widget.Filter;
-
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -72,7 +66,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         themnhanvien = view.findViewById(R.id.floatingbutton_themnhanvien);
         inputsearchNV = view.findViewById(R.id.edt_timkiem_nhanvien);
         firebaseAuth = FirebaseAuth.getInstance();
-
+        loadDuLieuNhanVienFirebase();
         listener = this;
         inputsearchNV.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,7 +96,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themNVFragment).addToBackStack(null).commit();
             }
         });
-        loadDuLieuNhanVienFirebase();
+
 
         return view;
     }
@@ -111,7 +105,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         nhanVienArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        ref.orderByChild("uid").equalTo(firebaseUser.getUid()).
+        ref.orderByChild("kh").equalTo("a").
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -138,7 +132,6 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     public void updateNVClick(String id) {
         Bundle bundlesuaNV = new Bundle();
         bundlesuaNV.putString(KEY_ID_NHAN_VIEN, id);
-        Log.e("quanquan", "id chuyen sang: " + id);
         SuaNVFragment suaNVFragment = new SuaNVFragment();
         suaNVFragment.setArguments(bundlesuaNV);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, suaNVFragment).addToBackStack(null).commit();
@@ -199,4 +192,8 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themTaiKhoanFragment).addToBackStack(null).commit();
     }
+
+
+
+
 }

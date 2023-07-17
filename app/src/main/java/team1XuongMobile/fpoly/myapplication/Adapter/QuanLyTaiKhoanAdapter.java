@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,20 +20,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.FilterSearchTaiKhoan;
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.Model.QuanLyTaiKhoan;
 import team1XuongMobile.fpoly.myapplication.R;
 
-public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAdapter.ViewHolder> {
+public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAdapter.ViewHolder> implements Filterable {
     private Context context;
-    public ArrayList<NhanVien> nhanVienArrayList;
+    public ArrayList<NhanVien> nhanVienArrayList, list;
+    FilterSearchTaiKhoan filterSearchTaiKhoan;
+    TaikhoanInterface taikhoanInterface;
 
 
-    public QuanLyTaiKhoanAdapter(Context context, ArrayList<NhanVien> nhanVienArrayList) {
+    public QuanLyTaiKhoanAdapter(Context context, ArrayList<NhanVien> nhanVienArrayList, TaikhoanInterface taikhoanInterface) {
         this.context = context;
         this.nhanVienArrayList = nhanVienArrayList;
+        this.taikhoanInterface = taikhoanInterface;
+        this.list = nhanVienArrayList;
+    }
 
+    public interface TaikhoanInterface {
+        void CachChucTKClick(String id);
+
+
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        if (filterSearchTaiKhoan == null) {
+            filterSearchTaiKhoan = new FilterSearchTaiKhoan(list, this);
+        }
+        return filterSearchTaiKhoan;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,7 +71,6 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
     }
 
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -60,9 +80,40 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tenNhanVien.setText(nhanVienArrayList.get(position).getTen());
+        NhanVien tk = nhanVienArrayList.get(position);
+        holder.tenNhanVien.setText(nhanVienArrayList.get(position).getUsername());
         holder.email.setText(nhanVienArrayList.get(position).getEmail());
         holder.sdt.setText(nhanVienArrayList.get(position).getSdt());
+        holder.showluuchon.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View v) {
+                @SuppressLint("RestrictedApi") MenuBuilder menuBuilder = new MenuBuilder(context);
+                MenuInflater inflater = new MenuInflater(context);
+                inflater.inflate(R.menu.popup_menu_quanlytaikhoan, menuBuilder);
+                @SuppressLint("RestrictedApi") MenuPopupHelper optionTK = new MenuPopupHelper(context, menuBuilder, v);
+                menuBuilder.setCallback(new MenuBuilder.Callback() {
+                    @Override
+                    public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
+                        if (item.getItemId() == R.id.popup_menuQTLK_cachchuc) {
+                            taikhoanInterface.CachChucTKClick(tk.getId_nv());
+                            return true;
+                        } else {
+                            return false;
+                        }
+
+                    }
+
+                    @Override
+                    public void onMenuModeChange(@NonNull MenuBuilder menu) {
+
+                    }
+                });
+                optionTK.show();
+
+
+            }
+        });
 
     }
 

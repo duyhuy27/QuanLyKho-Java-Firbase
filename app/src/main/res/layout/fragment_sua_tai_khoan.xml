@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
-    tools:context=".Fragment.QuanLyTaiKhoan.SuaTaiKhoanFragment">
+    tools:context=".Fragment.QuanLyTaiKhoan.CachChucTaiKhoanFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,34 +47,25 @@
                 android:text="Sửa Tài Khoản "
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/a2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/a1"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:text="Tên Nhân Viên"
-                android:textSize="@dimen/_15sdp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinner_suantaikhoan_tennhanvien"
+            <EditText
+                android:id="@+id/ed_suataikhoan_tennhanvien"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_below="@+id/a2"
+                android:layout_below="@+id/a1"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/custome_listview"
                 android:backgroundTint="#E8E8E8"
-                android:paddingLeft="@dimen/_20sdp" />
+                android:hint="Tên Nhân Viên"
+                android:paddingLeft="@dimen/_25sdp"/>
+
+
 
             <EditText
                 android:id="@+id/ed_suataikhoan_emailtaikhoan"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_below="@+id/spinner_suantaikhoan_tennhanvien"
+                android:layout_below="@+id/ed_suataikhoan_tennhanvien"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/custome_listview"
@@ -99,12 +90,12 @@
                 android:layout_below="@+id/ed_suataikhoan_sdttaikhoan"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="Vai Trò"
+                android:text="Quyền Truy Cập"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/spinner_suantaikhoan_vaitro"
+                android:id="@+id/spinner_suantaikhoan_quyentruycap"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_below="@+id/a4"
@@ -120,7 +111,7 @@
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_below="@+id/spinner_suantaikhoan_vaitro"
+                android:layout_below="@+id/spinner_suantaikhoan_quyentruycap"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/custome_listview"
                 android:backgroundTint="#1E1E1E"

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
+    android:id="@+id/chitietnhanvien"
     tools:context=".Fragment.NhanVien.ChitietNVFragment">
     <RelativeLayout
         android:background="@drawable/wave_background"
@@ -62,6 +63,38 @@
                     android:textSize="@dimen/_15sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/t1"
+                    android:layout_below="@+id/tv_chitietnhanvien_sdtnhanvien"
+                    android:text="Ngày Vào Làm: "
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_ngay_vaolam"
+                    android:layout_below="@+id/tv_chitietnhanvien_sdtnhanvien"
+                    android:layout_toEndOf="@+id/t1"
+                    android:text="14/7/1998"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/t2"
+                    android:layout_below="@+id/t1"
+                    android:text="Số Ngày Làm  :"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_chitietnhanvien_thamnien"
+                    android:layout_below="@+id/tv_chitietnhanvien_ngay_vaolam"
+                    android:layout_toEndOf="@id/t2"
+                    android:text="14"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/a3"
@@ -74,7 +107,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/tv_chitietnhanvien_vaitronhanvien"
-                    android:text="Nhân Viên Kho"
+                    android:text=""
                     android:textSize="@dimen/_17sdp"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
@@ -89,6 +122,7 @@
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
 
             </RelativeLayout>
             <Button

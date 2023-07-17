@@ -16,19 +16,20 @@ import android.view.ViewGroup;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ThemTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentDangKyBinding;
 
 
 public class DangKyFragment extends Fragment {
 
-   private FragmentDangKyBinding binding;
+    private FragmentDangKyBinding binding;
 
-   private String username, email, password, passwordConfirm;
+    private String username, email, password, passwordConfirm;
 
-   public static final String KEY_USERNAME = "userName";
-   public static final String KEY_EMAIL = "email";
-   public static final String KEY_PASSWORD = "password";
+    public static final String KEY_USERNAME = "userName";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PASSWORD = "password";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,18 +113,15 @@ public class DangKyFragment extends Fragment {
             binding.edtPassword.setError("Bạn cần nhập đủ thông tin");
             binding.edtPassword.requestFocus();
             return;
-        }
-        else if (!password.equals(passwordConfirm)){
+        } else if (!password.equals(passwordConfirm)) {
             binding.edtNhaplaiPassword.setError("Mật khẩu không khớp");
             binding.edtNhaplaiPassword.requestFocus();
             return;
-        }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.edtEmail.setError("Email không đúng định dạng");
             binding.edtEmail.requestFocus();
             return;
-        }
-        else {
+        } else {
             dangKy();
         }
     }
@@ -136,6 +134,8 @@ public class DangKyFragment extends Fragment {
 
         GuiOtpFragment fragment = new GuiOtpFragment();
         fragment.setArguments(bundle);
+        ThemTaiKhoanFragment themTaiKhoanFragment = new ThemTaiKhoanFragment();
+        themTaiKhoanFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame_layout, fragment).addToBackStack(null).commit();
     }
