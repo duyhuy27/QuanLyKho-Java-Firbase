@@ -20,8 +20,6 @@ public class LoaiSanPham {
         this.timestamp = timestamp;
     }
 
-
-
     public String getId_loai_sp() {
         return id_loai_sp;
     }

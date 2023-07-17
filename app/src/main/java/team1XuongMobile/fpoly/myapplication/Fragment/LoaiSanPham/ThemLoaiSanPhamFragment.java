@@ -105,7 +105,6 @@ public class ThemLoaiSanPhamFragment extends Fragment {
         hashMap.put("TrangThai",Boolean.parseBoolean(String.valueOf(trangthai)));
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timestamp",timestamp);
-
         hashMap.put("kh",khString);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
@@ -134,7 +133,7 @@ public class ThemLoaiSanPhamFragment extends Fragment {
         ref.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khString = ""+snapshot.child("kh").getValue();
+                khString = "" + snapshot.child("kh").getValue();
             }
 
             @Override

@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -62,8 +63,6 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
-
-        laydulieudangnhap();
     }
 
     @Override
@@ -112,18 +111,46 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
 
     private void loadDuLieuKhachHangFirebase() {
         khachHangArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
-        ref.orderByChild("kh").equalTo(khString).addValueEventListener(new ValueEventListener() {
+
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            // User not logged in, handle the case as needed
+            return;
+        }
+
+        String uid = firebaseUser.getUid();
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khachHangArrayList.clear();
-                for (DataSnapshot dskh : snapshot.getChildren()){
-                    KhachHang themkh = dskh.getValue(KhachHang.class);
-                    khachHangArrayList.add(themkh);
+                String kh = ""+snapshot.child("kh").getValue(String.class);
+                if (kh != null) {
+                    DatabaseReference loaiSpRef = FirebaseDatabase.getInstance().getReference("khach_hang");
+                    Query query = loaiSpRef.orderByChild("kh").equalTo(kh);
+
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            khachHangArrayList.clear();
+                            for (DataSnapshot dslsp : snapshot.getChildren()) {
+                                KhachHang khachHang = dslsp.getValue(KhachHang.class);
+                                if (khachHang != null) {
+                                    khachHangArrayList.add(khachHang);
+                                }
+                            }
+
+                            khachHangAdapter = new KhachHangAdapter(getContext(), khachHangArrayList, khachHangInterface);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerView.setAdapter(khachHangAdapter);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                khachHangAdapter = new KhachHangAdapter(getContext(), khachHangArrayList, khachHangInterface);
-                recyclerView.setAdapter(khachHangAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override
@@ -132,6 +159,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
             }
         });
     }
+
 
     @Override
     public void updateKhachHangClick(String id) {
@@ -188,20 +216,4 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietKhachHangFragment).addToBackStack(null).commit();
     }
 
-    public void laydulieudangnhap(){
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khString = ""+snapshot.child("kh").getValue();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 }

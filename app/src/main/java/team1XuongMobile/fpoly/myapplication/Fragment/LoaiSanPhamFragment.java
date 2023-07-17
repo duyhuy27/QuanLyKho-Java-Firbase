@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         loaiSanPhamInterface = this;
 
         firebaseAuth = FirebaseAuth.getInstance();
-        laydulieudangnhap();
+        loadDuLieuLoaiSanPhamFirebase();
 
 
         inputsearchLoaiSP.addTextChangedListener(new TextWatcher() {
@@ -109,7 +110,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         });
 
 
-        loadDuLieuLoaiSanPhamFirebase();
+
         return view;
 
 
@@ -117,18 +118,46 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
 
     private void loadDuLieuLoaiSanPhamFirebase() {
         loaiSanPhamArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.orderByChild("kh").equalTo(""+khString).addValueEventListener(new ValueEventListener() {
+
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            // User not logged in, handle the case as needed
+            return;
+        }
+
+        String uid = firebaseUser.getUid();
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                loaiSanPhamArrayList.clear();
-                for (DataSnapshot dslsp : snapshot.getChildren()){
-                    LoaiSanPham themlsp = dslsp.getValue(LoaiSanPham.class);
-                    loaiSanPhamArrayList.add(themlsp);
+                String kh = ""+snapshot.child("kh").getValue(String.class);
+                if (kh != null) {
+                    DatabaseReference loaiSpRef = FirebaseDatabase.getInstance().getReference("loai_sp");
+                    Query query = loaiSpRef.orderByChild("kh").equalTo(kh);
+
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            loaiSanPhamArrayList.clear();
+                            for (DataSnapshot dslsp : snapshot.getChildren()) {
+                                LoaiSanPham themlsp = dslsp.getValue(LoaiSanPham.class);
+                                if (themlsp != null) {
+                                    loaiSanPhamArrayList.add(themlsp);
+                                }
+                            }
+
+                            loaiSanPhamAdapter = new LoaiSanPhamAdapter(getContext(), loaiSanPhamArrayList, loaiSanPhamInterface);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerView.setAdapter(loaiSanPhamAdapter);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                loaiSanPhamAdapter = new LoaiSanPhamAdapter(getContext(), loaiSanPhamArrayList, loaiSanPhamInterface);
-                recyclerView.setAdapter(loaiSanPhamAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override
@@ -137,6 +166,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
             }
         });
     }
+
 
     @Override
     public void updateLoaiSPClick(String id) {
@@ -192,21 +222,5 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_loaisanpham, chiTietLoaiSPFragment).addToBackStack(null).commit();
     }
-    public void laydulieudangnhap(){
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khString = ""+snapshot.child("kh").getValue();
-                Log.d("lsp","kh :"+khString);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 }
