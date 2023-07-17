@@ -259,6 +259,7 @@ public class XacMinhOtpFragment extends Fragment {
         String uid = firebaseAuth.getUid();
 
         HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", "" + timestamp);
         hashMap.put("uid", uid);
         hashMap.put("email", email);
         hashMap.put("password", password);
@@ -267,9 +268,10 @@ public class XacMinhOtpFragment extends Fragment {
         hashMap.put("username", username);
         hashMap.put("vaiTro", "admin");
         hashMap.put("avatar", "");
+        hashMap.put("kh", "" + timestamp);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child(uid)
+        ref.child("" + timestamp)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

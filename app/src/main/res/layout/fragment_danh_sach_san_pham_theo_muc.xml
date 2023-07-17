@@ -8,6 +8,13 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
     <EditText
         android:id="@+id/edt_tim_kiem"
         android:layout_width="match_parent"
@@ -40,6 +47,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:visibility="gone"
         android:layout_centerInParent="true">
 
         <ImageView

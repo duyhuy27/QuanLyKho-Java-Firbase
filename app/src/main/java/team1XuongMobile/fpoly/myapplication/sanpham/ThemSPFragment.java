@@ -302,6 +302,7 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                         productData.put("timestamp", "" + timestamp);
                         productData.put("img", "" + downloadUri);
                         productData.put("mota", "" + moTa);
+                        productData.put("kh", "a");
 
                         productsRef.child(productId).setValue(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -395,27 +396,28 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         tenNccList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        ref.orderByChild("trangThai").equalTo("true").
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                idNccList.clear();
-                tenNccList.clear();
+                        idNccList.clear();
+                        tenNccList.clear();
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_nha_cc").getValue();
-                    String ten = "" + ds.child("ten_nha_cc").getValue();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String id = "" + ds.child("id_nha_cc").getValue();
+                            String ten = "" + ds.child("ten_nha_cc").getValue();
 
-                    idNccList.add(id);
-                    tenNccList.add(ten);
-                }
-            }
+                            idNccList.add(id);
+                            tenNccList.add(ten);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
     }
 
@@ -424,26 +426,27 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         idLspList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tenLspList.clear();
-                idLspList.clear();
+        ref.orderByChild("TrangThai").equalTo(true)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        tenLspList.clear();
+                        idLspList.clear();
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_loai_sp").getValue();
-                    String ten = "" + ds.child("ten_loai_sp").getValue();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String id = "" + ds.child("id_loai_sp").getValue();
+                            String ten = "" + ds.child("ten_loai_sp").getValue();
 
-                    idLspList.add(id);
-                    tenLspList.add(ten);
-                }
-            }
+                            idLspList.add(id);
+                            tenLspList.add(ten);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
     }
 

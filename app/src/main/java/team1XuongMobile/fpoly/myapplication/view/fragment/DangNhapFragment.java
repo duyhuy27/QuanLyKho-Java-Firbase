@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import team1XuongMobile.fpoly.myapplication.MainActivity;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentDangNhapBinding;
@@ -39,6 +41,8 @@ public class DangNhapFragment extends Fragment {
     private String email = "", password = "";
 
     private String role = "";
+
+    private String id = "";
 
     public static final String TAG = "DangNhapFragment";
 
@@ -127,7 +131,9 @@ public class DangNhapFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        checkVaiTro();
+//                        checkVaiTro();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -145,37 +151,16 @@ public class DangNhapFragment extends Fragment {
         binding.progressbar.setVisibility(View.VISIBLE);
         binding.buttonDangNhap.setVisibility(View.GONE);
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
 
         DatabaseReference refQ = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
 
-        refQ.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                role = "" + snapshot.child("vaiTro").getValue();
-
-                if (role.equals("nhanVien")) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                } else if (role.equals("admin")) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child(firebaseUser.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        refQ.child("" + uid).
+                addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        role  = "" + snapshot.child("vaiTro").getValue();
+                        role = "" + snapshot.child("vaiTro").getValue();
 
                         if (role.equals("nhanVien")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
@@ -191,5 +176,27 @@ public class DangNhapFragment extends Fragment {
 
                     }
                 });
+
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+//        ref.child(firebaseUser.getUid())
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        role  = "" + snapshot.child("vaiTro").getValue();
+//
+//                        if (role.equals("nhanVien")) {
+//                            startActivity(new Intent(getActivity(), MainActivity.class));
+//                            getActivity().finish();
+//                        } else if (role.equals("admin")) {
+//                            startActivity(new Intent(getActivity(), MainActivity.class));
+//                            getActivity().finish();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
     }
 }

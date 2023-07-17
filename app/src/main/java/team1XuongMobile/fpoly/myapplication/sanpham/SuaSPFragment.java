@@ -59,26 +59,27 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
 
     private FragmentSuaSPBinding binding;
 
+    public static final String TAG = "SuaSPFragment";
+
     public static final String KEY_ID_SP = "id";
+
+    private ThuocTinhAdapter thuocTinhAdapter;
 
     private String id = "";
 
-    public static final String TAG = "SuaSPFragment";
-
-    private ArrayList<ThuocTinhModels> thuocTinhModelsArrayList;
-    private ThuocTinhAdapter thuocTinhAdapter;
-
-    private ArrayList<String> skuArray;
+    private String maSpOld = "";
 
     private String idThuocTinhThem;
 
-    ArrayList<ThuocTinhModels> thuocTinhNewModelsArrayList;
+    private String chonIdNcc, chonTenNcc;
 
-    private Uri img_uri;
+    private String chonIdLsp, chonTenLsp;
 
-    private boolean thueAvailable = false;
+    private ArrayList<ThuocTinhModels> thuocTinhModelsArrayList;
 
-    private boolean trangThaiAvailable = false;
+    private ArrayList<String> skuArray;
+
+    private ArrayList<ThuocTinhModels> thuocTinhNewModelsArrayList;
 
     private HashMap<String, Object> attributesHashMap;
 
@@ -86,15 +87,17 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
 
     private ArrayList<String> idLspList, tenLspList;
 
-    private String chonIdNcc, chonTenNcc;
+    private boolean thueAvailable = false;
 
-    private String chonIdLsp, chonTenLsp;
+    private boolean trangThaiAvailable = false;
 
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
 
     private ThuocTinhAdapter.thuocTinhInterface thuocTinhInterface;
+
+    private Uri img_uri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,7 +116,12 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
 
         layDuLieuTuIDTruyenSang();
 
+        loadDuLieuLSP();
+
+        loadDuLieuNCC();
+
         loadDuLieuTuId();
+
 
         loadThuocTinh();
 
@@ -194,27 +202,28 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
         tenNccList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        ref.orderByChild("trangThai").equalTo("true").
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                idNccList.clear();
-                tenNccList.clear();
+                        idNccList.clear();
+                        tenNccList.clear();
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_nha_cc").getValue();
-                    String ten = "" + ds.child("ten_nha_cc").getValue();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String id = "" + ds.child("id_nha_cc").getValue();
+                            String ten = "" + ds.child("ten_nha_cc").getValue();
 
-                    idNccList.add(id);
-                    tenNccList.add(ten);
-                }
-            }
+                            idNccList.add(id);
+                            tenNccList.add(ten);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
     }
 
@@ -223,26 +232,27 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
         idLspList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tenLspList.clear();
-                idLspList.clear();
+        ref.orderByChild("TrangThai").equalTo(true)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        tenLspList.clear();
+                        idLspList.clear();
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_loai_sp").getValue();
-                    String ten = "" + ds.child("ten_loai_sp").getValue();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String id = "" + ds.child("id_loai_sp").getValue();
+                            String ten = "" + ds.child("ten_loai_sp").getValue();
 
-                    idLspList.add(id);
-                    tenLspList.add(ten);
-                }
-            }
+                            idLspList.add(id);
+                            tenLspList.add(ten);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
     }
 
@@ -314,19 +324,20 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
             return;
 
         }
-        Set<String> uniqueSkus = new HashSet<>(skuArray);
-        if (uniqueSkus.contains(binding.edtMaSp.getText().toString())) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Mã sản phẩm / SKU đã tồn tại trên hệ thống").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            }).show();
-
-            binding.edtMaSp.requestFocus();
-            return;
-        } else if (chonTenNcc.isEmpty() || chonTenLsp.isEmpty()) {
+//        Set<String> uniqueSkus = new HashSet<>(skuArray);
+//        if (uniqueSkus.contains(binding.edtMaSp.getText().toString()) || uniqueSkus.contains(maSpOld)) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//            builder.setTitle("Mã sản phẩm / SKU đã tồn tại trên hệ thống").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                }
+//            }).show();
+//
+//            binding.edtMaSp.requestFocus();
+//            return;
+//        }
+        else if (chonTenNcc.isEmpty() || chonTenLsp.isEmpty()) {
             Toast.makeText(getContext(), "Bạn hãy nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
         } else if (!giaGoc.matches("\\d+")) {
@@ -430,10 +441,11 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
                                 }
 
                                 progressDialog.dismiss();
-                                Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Sửa sản phẩm thành công", Toast.LENGTH_SHORT).show();
                                 // Reset the input fields and clear the attributes list
                                 thuocTinhModelsArrayList.clear();
                                 thuocTinhAdapter.notifyDataSetChanged();
+                                getActivity().getSupportFragmentManager().popBackStack();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -602,6 +614,7 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
     }
 
     private void loadThuocTinh() {
+
         thuocTinhModelsArrayList = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("attributes");
         databaseReference.orderByChild("product_id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -659,7 +672,7 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
                 chonIdNcc = "" + snapshot.child("id_nha_cc").getValue();
                 String img = "" + snapshot.child("img").getValue();
                 String khoiLuong = "" + snapshot.child("khoiLuong").getValue();
-                String maSp = "" + snapshot.child("maSp").getValue();
+                maSpOld = "" + snapshot.child("maSp").getValue();
                 String tenSp = "" + snapshot.child("tenSp").getValue();
                 chonTenLsp = "" + snapshot.child("ten_loai").getValue();
                 chonTenNcc = "" + snapshot.child("ten_nha_cc").getValue();
@@ -677,7 +690,7 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
                 }
 
                 binding.edtTenSp.setText(tenSp);
-                binding.edtMaSp.setText(maSp);
+                binding.edtMaSp.setText(maSpOld);
                 binding.edtKhoiLuong.setText(khoiLuong);
 
                 if (thueAvailable.equals("true")) {
@@ -717,6 +730,24 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
 
     @Override
     public void xoaThuocTinh(String id) {
+        progressDialog.setTitle("Đợi...");
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("thuoc_tinh_update");
+        ref.child("" + id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                loadThuocTinhThem();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
