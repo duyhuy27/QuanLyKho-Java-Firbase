@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +48,8 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
     FloatingActionButton fabThemLsp;
     EditText inputsearchLoaiSP;
     public static final String KEY_ID_LOAI_SAN_PHAM = "id_lsp_bd";
+    FirebaseAuth firebaseAuth;
+    String khString="";
 
 
     public LoaiSanPhamFragment() {
@@ -55,6 +60,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -68,6 +74,10 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         inputsearchLoaiSP = view.findViewById(R.id.edt_timkiem_loaisanpham);
 
         loaiSanPhamInterface = this;
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        laydulieudangnhap();
+
 
         inputsearchLoaiSP.addTextChangedListener(new TextWatcher() {
             @Override
@@ -108,7 +118,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
     private void loadDuLieuLoaiSanPhamFirebase() {
         loaiSanPhamArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("kh").equalTo(""+khString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 loaiSanPhamArrayList.clear();
@@ -181,5 +191,22 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         chiTietLoaiSPFragment.setArguments(bundlechitietLSP);
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_loaisanpham, chiTietLoaiSPFragment).addToBackStack(null).commit();
+    }
+    public void laydulieudangnhap(){
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khString = ""+snapshot.child("kh").getValue();
+                Log.d("lsp","kh :"+khString);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

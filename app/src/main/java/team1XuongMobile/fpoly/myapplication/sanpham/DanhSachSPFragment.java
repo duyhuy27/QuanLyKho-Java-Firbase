@@ -67,7 +67,7 @@ public class DanhSachSPFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 loaiSanPhamArrayList.clear();
-                LoaiSanPham objectAll = new LoaiSanPham("01", "Tất cả", true, "", 1);
+                LoaiSanPham objectAll = new LoaiSanPham("01", "Tất cả", true, "","", 1);
 
                 loaiSanPhamArrayList.add(objectAll);
 

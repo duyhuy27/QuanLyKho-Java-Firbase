@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +48,8 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
     private KhachHangFragment khachHangInterface;
     FloatingActionButton fabThemkh;
     EditText inputsearchKhachHang;
+    FirebaseAuth firebaseAuth;
+    String khString="";
 
     public static final String KEY_ID_KHACH_HANG = "id_kh_bd";
 
@@ -57,7 +61,9 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
 
+        laydulieudangnhap();
     }
 
     @Override
@@ -70,6 +76,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
         inputsearchKhachHang = view.findViewById(R.id.edt_timkiem_khachhang);
 
         khachHangInterface = this;
+        firebaseAuth = FirebaseAuth.getInstance();
 
         inputsearchKhachHang.addTextChangedListener(new TextWatcher() {
             @Override
@@ -106,7 +113,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
     private void loadDuLieuKhachHangFirebase() {
         khachHangArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("kh").equalTo(khString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 khachHangArrayList.clear();
@@ -179,5 +186,22 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
         chiTietKhachHangFragment.setArguments(bundleKH);
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietKhachHangFragment).addToBackStack(null).commit();
+    }
+
+    public void laydulieudangnhap(){
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khString = ""+snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

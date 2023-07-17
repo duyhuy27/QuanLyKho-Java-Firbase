@@ -5,18 +5,22 @@ public class LoaiSanPham {
     String ten_loai_sp;
     boolean TrangThai;
     String uid;
+    String kh;
     long timestamp;
 
     public LoaiSanPham() {
     }
 
-    public LoaiSanPham(String id_loai_sp, String ten_loai_sp, boolean trangThai, String uid, long timestamp) {
+    public LoaiSanPham(String id_loai_sp, String ten_loai_sp, boolean trangThai, String uid, String kh, long timestamp) {
         this.id_loai_sp = id_loai_sp;
         this.ten_loai_sp = ten_loai_sp;
         TrangThai = trangThai;
         this.uid = uid;
+        this.kh = kh;
         this.timestamp = timestamp;
     }
+
+
 
     public String getId_loai_sp() {
         return id_loai_sp;
@@ -48,6 +52,14 @@ public class LoaiSanPham {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 
     public long getTimestamp() {
