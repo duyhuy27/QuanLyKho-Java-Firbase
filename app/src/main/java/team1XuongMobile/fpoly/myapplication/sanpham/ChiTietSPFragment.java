@@ -39,6 +39,8 @@ public class ChiTietSPFragment extends Fragment implements ThuocTinhAdapter.thuo
 
     private ThuocTinhAdapter.thuocTinhInterface listener;
 
+    private ArrayList<String> skuArray;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -137,6 +139,7 @@ public class ChiTietSPFragment extends Fragment implements ThuocTinhAdapter.thuo
                     }
                 });
     }
+
 
     private void loadDuLieuThuocTinh() {
         thuocTinhModelsArrayList = new ArrayList<>();
