@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.Fragment;
+package team1XuongMobile.fpoly.myapplication.thongke;
 
 import android.os.Bundle;
 

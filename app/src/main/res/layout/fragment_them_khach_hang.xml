@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageButton
-                        android:id="@+id/btn_quay_lai"
+                        android:id="@+id/btn_quay_lai_kh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_14sdp"
@@ -71,7 +71,7 @@
                         android:textColor="@color/black"
                         android:background="@drawable/background_edit_text"
                         android:backgroundTint="@color/background_color"
-                        android:hint="tên loại sản phẩm" />
+                        android:hint="tên khách hàng" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

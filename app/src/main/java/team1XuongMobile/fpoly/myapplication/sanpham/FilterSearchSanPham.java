@@ -4,6 +4,8 @@ import android.widget.Filter;
 
 import java.util.ArrayList;
 
+import team1XuongMobile.fpoly.myapplication.nhacungcap.NhaCungCapModel;
+
 public class FilterSearchSanPham extends Filter {
     ArrayList<SanPhamModels> list;
     SanPhamAdapter adapter;
@@ -20,11 +22,10 @@ public class FilterSearchSanPham extends Filter {
             charSequence = charSequence.toString().toUpperCase().trim();
             ArrayList<SanPhamModels> establishes = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                SanPhamModels item = list.get(i);
-                String productName = item.getTen_loai().toUpperCase();
-                String skuCode = item.getMaSp().toUpperCase();
-                if (productName.contains(charSequence) || skuCode.contains(charSequence)) {
-                    establishes.add(item);
+                if (list.get(i).getTenSp().toUpperCase().contains(charSequence)) {
+                    establishes.add(list.get(i));
+                } else if (list.get(i).getMaSp().toUpperCase().contains(charSequence)) {
+                    establishes.add(list.get(i));
                 }
             }
 
@@ -34,7 +35,6 @@ public class FilterSearchSanPham extends Filter {
             filterResults.count = list.size();
             filterResults.values = list;
         }
-
 
         return filterResults;
     }

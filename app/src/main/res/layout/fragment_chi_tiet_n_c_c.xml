@@ -15,46 +15,54 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/background_color"
         android:layout_marginTop="@dimen/_60sdp"
         android:layout_marginHorizontal="@dimen/_14sdp"
         app:cardCornerRadius="@dimen/_20sdp">
-        <ImageButton
-            android:id="@+id/button_troLai"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_trolai"
-            android:background="#FFFF"
-            android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_14sdp"/>
 
-
-        <TextView
-            android:id="@+id/tv_themNhaCungCap"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chi tiết nhà cung cấp"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            android:padding="@dimen/_14sdp"
-            android:gravity="center"
-            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginEnd="@dimen/_14sdp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/button_troLai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_trolai"
+                    android:background="#FFFF"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_14sdp"/>
+
+
+                <TextView
+                    android:id="@+id/tv_themNhaCungCap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chi tiết nhà cung cấp"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:padding="@dimen/_14sdp"
+                    android:gravity="center"
+                    />
+
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID nhà cung cấp"
+                    android:text="ID nhà cung cấp: "
                     android:textSize="@dimen/_14sdp"/>
                 <TextView
                     android:id="@+id/tv_idNCC"
@@ -73,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên nhà cung cấp"
+                    android:text="Tên nhà cung cấp: "
                     android:textSize="@dimen/_14sdp"/>
                 <TextView
                     android:id="@+id/tv_tenNCC"
@@ -106,7 +114,7 @@
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_7sdp"
-                android:layout_marginBottom="@dimen/_270sdp"
+
                 >
                 <TextView
                     android:layout_width="wrap_content"
@@ -117,6 +125,28 @@
                     android:id="@+id/tv_soDienThoaiNCC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/_14sdp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_200sdp"
+                >
+                <TextView
+                    android:id="@+id/tv_trangThai1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trạng thái: "
+                    android:textColor="#27B446"
+                    android:textSize="@dimen/_14sdp"/>
+                <TextView
+                    android:id="@+id/tv_trangThai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#27B446"
                     android:textSize="@dimen/_14sdp"/>
             </LinearLayout>
 

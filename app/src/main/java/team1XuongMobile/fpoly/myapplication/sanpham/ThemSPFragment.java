@@ -47,6 +47,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentThemSPBinding;
@@ -84,19 +86,29 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
 
     private ThuocTinhAdapter.thuocTinhInterface thuocTinhInterface;
 
+    private ArrayList<String> skuArray;
+
+    DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference("SanPham");
+
+
+    private String productId = "";
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentThemSPBinding.inflate(inflater, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        productId = productsRef.push().getKey();
 
         thuocTinhInterface = this;
 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
+
+        loadSku();
 
         loadDuLieuNCC();
 
@@ -107,6 +119,27 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         listener();
 
         return binding.getRoot();
+    }
+
+    private void loadSku() {
+        skuArray = new ArrayList<>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SanPham");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                skuArray.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String sku = ds.child("maSp").getValue(String.class);
+                    skuArray.add(sku);
+                }
+                // Check for duplicate
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+            }
+        });
     }
 
 
@@ -178,6 +211,19 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
             Toast.makeText(getContext(), "Mời bạn nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
 
+        }
+        Set<String> uniqueSkus = new HashSet<>(skuArray);
+        if (uniqueSkus.contains(binding.edtMaSp.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Mã sản phẩm / SKU đã tồn tại trên hệ thống").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            }).show();
+
+            binding.edtMaSp.requestFocus();
+            return;
         } else if (chonTenNcc.isEmpty() || chonTenLsp.isEmpty()) {
             Toast.makeText(getContext(), "Bạn hãy nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
@@ -223,86 +269,83 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
             String path = "sanpham_img/" + "" + timestamp;
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(path);
-            storageReference.putFile(img_uri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Task<Uri> task = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!task.isSuccessful()) ;
-                            Uri downloadUri = task.getResult();
-                            if (task.isSuccessful()) {
-                                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            storageReference.putFile(img_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> task = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!task.isSuccessful()) ;
+                    Uri downloadUri = task.getResult();
+                    if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-                                // Generate a unique product ID
-                                DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference("SanPham");
-                                String productId = productsRef.push().getKey();
+                        // Generate a unique product ID
 
-                                // Save the product to the database
-                                HashMap<String, Object> productData = new HashMap<>();
-                                productData.put("idSanPham", "" + productId);
-                                productData.put("tenSp", "" + tenSp);
-                                productData.put("maSp", "" + maSp);
-                                productData.put("khoiLuong", "" + khoiLuong);
-                                productData.put("giaNhap", "" + giaGoc);
-                                productData.put("giaBan", "" + giaBan);
-                                productData.put("thueAvailable", "" + thueAvailable);
-                                productData.put("thueDauRa", "" + thueDauRa);
-                                productData.put("thueDauVao", "" + thueDauVao);
-                                productData.put("trangThaiAvailable", "" + trangThaiAvailable);
-                                productData.put("ten_loai", "" + chonTenLsp);
-                                productData.put("id_loai", "" + chonIdLsp);
-                                productData.put("id_nha_cc", "" + chonIdNcc);
-                                productData.put("ten_nha_cc", "" + chonTenNcc);
-                                productData.put("uid", firebaseUser.getUid());
-                                productData.put("codeIme", "");
-                                productData.put("timestamp","" + timestamp);
-                                productData.put("img", "" + downloadUri);
 
-                                productsRef.child(productId).setValue(productData)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                DatabaseReference attributesRef = FirebaseDatabase.getInstance().getReference("attributes");
-                                                for (ThuocTinhModels thuocTinhModel : thuocTinhModelsArrayList) {
-                                                    // Generate a unique attribute ID
-                                                    String attributeId = attributesRef.push().getKey();
+                        // Save the product to the database
+                        HashMap<String, Object> productData = new HashMap<>();
+                        productData.put("idSanPham", "" + productId);
+                        productData.put("tenSp", "" + tenSp);
+                        productData.put("maSp", "" + maSp);
+                        productData.put("khoiLuong", "" + khoiLuong);
+                        productData.put("giaNhap", "" + giaGoc);
+                        productData.put("giaBan", "" + giaBan);
+                        productData.put("thueAvailable", "" + thueAvailable);
+                        productData.put("thueDauRa", "" + thueDauRa);
+                        productData.put("thueDauVao", "" + thueDauVao);
+                        productData.put("trangThaiAvailable", "" + trangThaiAvailable);
+                        productData.put("ten_loai", "" + chonTenLsp);
+                        productData.put("id_loai", "" + chonIdLsp);
+                        productData.put("id_nha_cc", "" + chonIdNcc);
+                        productData.put("ten_nha_cc", "" + chonTenNcc);
+                        productData.put("uid", firebaseUser.getUid());
+                        productData.put("codeIme", "");
+                        productData.put("timestamp", "" + timestamp);
+                        productData.put("img", "" + downloadUri);
+                        productData.put("mota", "" + moTa);
+                        productData.put("kh", "a");
 
-                                                    // Create a HashMap to store attribute details
-                                                    HashMap<String, Object> attributeData = new HashMap<>();
-                                                    attributeData.put("product_id", productId);
-                                                    attributeData.put("ten_tt", thuocTinhModel.getTen_tt());
-                                                    attributeData.put("gia_tri_tt", thuocTinhModel.getGia_tri_tt());
+                        productsRef.child(productId).setValue(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                DatabaseReference attributesRef = FirebaseDatabase.getInstance().getReference("attributes");
+                                for (ThuocTinhModels thuocTinhModel : thuocTinhModelsArrayList) {
+                                    // Generate a unique attribute ID
+                                    String attributeId = attributesRef.push().getKey();
 
-                                                    // Save the attribute to the database
-                                                    attributesRef.child(attributeId).setValue(attributeData);
-                                                }
+                                    // Create a HashMap to store attribute details
+                                    HashMap<String, Object> attributeData = new HashMap<>();
+                                    attributeData.put("product_id", productId);
+                                    attributeData.put("ten_tt", thuocTinhModel.getTen_tt());
+                                    attributeData.put("gia_tri_tt", thuocTinhModel.getGia_tri_tt());
 
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                                                // Reset the input fields and clear the attributes list
-                                                thuocTinhModelsArrayList.clear();
-                                                thuocTinhAdapter.notifyDataSetChanged();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getContext(), "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                                                Log.d(TAG, "onFailure: thêm sản phẩm thất bại " + e.getMessage());
-                                            }
-                                        });
+                                    // Save the attribute to the database
+                                    attributesRef.child(attributeId).setValue(attributeData);
+                                }
+
+                                progressDialog.dismiss();
+                                Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                                // Reset the input fields and clear the attributes list
+                                thuocTinhModelsArrayList.clear();
+                                thuocTinhAdapter.notifyDataSetChanged();
                             }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Tải ảnh lên thất bại", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "onFailure: không thể tại ảnh lên vì " + e.getMessage());
-                        }
-                    });
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getContext(), "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailure: thêm sản phẩm thất bại " + e.getMessage());
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Tải ảnh lên thất bại", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onFailure: không thể tại ảnh lên vì " + e.getMessage());
+                }
+            });
         }
     }
 
@@ -314,19 +357,17 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Chọn nhà cung cấp")
-                .setItems(nccArr, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        chonIdNcc = idNccList.get(i);
-                        chonTenNcc = tenNccList.get(i);
+        builder.setTitle("Chọn nhà cung cấp").setItems(nccArr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                chonIdNcc = idNccList.get(i);
+                chonTenNcc = tenNccList.get(i);
 
-                        binding.edtNcc.setText(chonTenNcc);
+                binding.edtNcc.setText(chonTenNcc);
 
-                        Log.d(TAG, "onClick: Id và tên nhà cung cấp mà người dùng đã chọn " + chonIdNcc + chonTenNcc);
-                    }
-                })
-                .show();
+                Log.d(TAG, "onClick: Id và tên nhà cung cấp mà người dùng đã chọn " + chonIdNcc + chonTenNcc);
+            }
+        }).show();
     }
 
     private void showDialogChonLSP() {
@@ -337,19 +378,17 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Chọn loại sản phẩm")
-                .setItems(lspArr, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        chonIdLsp = idLspList.get(i);
-                        chonTenLsp = tenLspList.get(i);
+        builder.setTitle("Chọn loại sản phẩm").setItems(lspArr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                chonIdLsp = idLspList.get(i);
+                chonTenLsp = tenLspList.get(i);
 
-                        binding.edtLsp.setText(chonTenLsp);
+                binding.edtLsp.setText(chonTenLsp);
 
-                        Log.d(TAG, "onClick: Id và tên loại sản phẩm mà người dùng đã chọn " + chonIdLsp + chonTenLsp);
-                    }
-                })
-                .show();
+                Log.d(TAG, "onClick: Id và tên loại sản phẩm mà người dùng đã chọn " + chonIdLsp + chonTenLsp);
+            }
+        }).show();
     }
 
     private void loadDuLieuNCC() {
@@ -357,27 +396,28 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         tenNccList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        ref.orderByChild("trangThai").equalTo("true").
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                idNccList.clear();
-                tenNccList.clear();
+                        idNccList.clear();
+                        tenNccList.clear();
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_nha_cc").getValue();
-                    String ten = "" + ds.child("ten_nha_cc").getValue();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String id = "" + ds.child("id_nha_cc").getValue();
+                            String ten = "" + ds.child("ten_nha_cc").getValue();
 
-                    idNccList.add(id);
-                    tenNccList.add(ten);
-                }
-            }
+                            idNccList.add(id);
+                            tenNccList.add(ten);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
     }
 
@@ -386,26 +426,27 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         idLspList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tenLspList.clear();
-                idLspList.clear();
+        ref.orderByChild("TrangThai").equalTo(true)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        tenLspList.clear();
+                        idLspList.clear();
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = "" + ds.child("id_loai").getValue();
-                    String ten = "" + ds.child("ten_loai").getValue();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String id = "" + ds.child("id_loai_sp").getValue();
+                            String ten = "" + ds.child("ten_loai_sp").getValue();
 
-                    idLspList.add(id);
-                    tenLspList.add(ten);
-                }
-            }
+                            idLspList.add(id);
+                            tenLspList.add(ten);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
     }
 
@@ -413,7 +454,8 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         thuocTinhModelsArrayList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("thuoc_tinh");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        ref.orderByChild("idSp").equalTo(productId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 thuocTinhModelsArrayList.clear();
@@ -435,20 +477,18 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
     private void showDialocChonAnh() {
         String[] options = {"Máy Ảnh", "Thư Viện"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Chọn")
-                .setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0) {
-                            // người dùng chọn máy ảnh
-                            pickMayAnhFuntion();
-                        } else if (i == 1) {
-                            // người dùng chọn thư viện
-                            pickThuVienFuntion();
-                        }
-                    }
-                })
-                .show();
+        builder.setTitle("Chọn").setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (i == 0) {
+                    // người dùng chọn máy ảnh
+                    pickMayAnhFuntion();
+                } else if (i == 1) {
+                    // người dùng chọn thư viện
+                    pickThuVienFuntion();
+                }
+            }
+        }).show();
     }
 
     private void pickMayAnhFuntion() {
@@ -468,45 +508,37 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         galleryActivityResult.launch(intent);
     }
 
-    private ActivityResultLauncher<Intent> cameraActivityResult = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent intent = result.getData();
+    private ActivityResultLauncher<Intent> cameraActivityResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent intent = result.getData();
 
-                        try {
-                            Picasso.get().load(img_uri).placeholder(R.drawable.ic_camera).error(R.drawable.ic_camera)
-                                    .into(binding.cardPickerCamera);
-                        } catch (Exception e) {
-                            Log.d(TAG, "onActivityResult: Không thể load ảnh " + e.getMessage());
-                        }
-                    }
+                try {
+                    Picasso.get().load(img_uri).placeholder(R.drawable.ic_camera).error(R.drawable.ic_camera).into(binding.cardPickerCamera);
+                } catch (Exception e) {
+                    Log.d(TAG, "onActivityResult: Không thể load ảnh " + e.getMessage());
                 }
             }
-    );
+        }
+    });
 
-    private ActivityResultLauncher<Intent> galleryActivityResult = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent intent = result.getData();
+    private ActivityResultLauncher<Intent> galleryActivityResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent intent = result.getData();
 
-                        img_uri = intent.getData();
+                img_uri = intent.getData();
 
-                        try {
-                            Picasso.get().load(img_uri).placeholder(R.drawable.ic_camera).error(R.drawable.ic_camera)
-                                    .into(binding.cardPickerCamera);
-                        } catch (Exception e) {
-                            Log.d(TAG, "onActivityResult: Không thể load ảnh " + e.getMessage());
-                        }
-                    }
+                try {
+                    Picasso.get().load(img_uri).placeholder(R.drawable.ic_camera).error(R.drawable.ic_camera).into(binding.cardPickerCamera);
+                } catch (Exception e) {
+                    Log.d(TAG, "onActivityResult: Không thể load ảnh " + e.getMessage());
                 }
             }
-    );
+        }
+    });
 
     private void showDialogAddThuocTinh() {
         Dialog dialog = new Dialog(getContext());
@@ -553,27 +585,25 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                     attributesHashMap.put("ten_tt", "" + tenTT);
                     attributesHashMap.put("gia_tri_tt", "" + giaTriTT);
                     attributesHashMap.put("timestamp", timestamp);
+                    attributesHashMap.put("idSp", "" + productId);
 
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("thuoc_tinh");
-                    ref.child("" + timestamp)
-                            .setValue(attributesHashMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    progressDialog.dismiss();
-                                    dialog.dismiss();
-                                    Toast.makeText(getContext(), "Thêm thông tin thành công", Toast.LENGTH_SHORT).show();
-                                    loadDuLieuThuocTinh();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Thêm thông tin thất bại", Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, "onFailure: theem thông tin thất bại vì" + e.getMessage());
-                                }
-                            });
+                    ref.child("" + timestamp).setValue(attributesHashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            progressDialog.dismiss();
+                            dialog.dismiss();
+                            Toast.makeText(getContext(), "Thêm thông tin thành công", Toast.LENGTH_SHORT).show();
+                            loadDuLieuThuocTinh();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getContext(), "Thêm thông tin thất bại", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onFailure: theem thông tin thất bại vì" + e.getMessage());
+                        }
+                    });
                 }
             }
         });
@@ -594,23 +624,20 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         progressDialog.setTitle("Đợi...");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("thuoc_tinh");
-        ref.child(id)
-                .removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        loadDuLieuThuocTinh();
-                        Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+        ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                progressDialog.dismiss();
+                loadDuLieuThuocTinh();
+                Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

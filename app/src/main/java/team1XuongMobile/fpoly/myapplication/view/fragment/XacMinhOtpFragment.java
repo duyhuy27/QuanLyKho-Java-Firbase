@@ -25,11 +25,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -255,6 +259,7 @@ public class XacMinhOtpFragment extends Fragment {
         String uid = firebaseAuth.getUid();
 
         HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", "" + timestamp);
         hashMap.put("uid", uid);
         hashMap.put("email", email);
         hashMap.put("password", password);
@@ -263,9 +268,10 @@ public class XacMinhOtpFragment extends Fragment {
         hashMap.put("username", username);
         hashMap.put("vaiTro", "admin");
         hashMap.put("avatar", "");
+        hashMap.put("kh", "" + timestamp);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child(uid)
+        ref.child("" + timestamp)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

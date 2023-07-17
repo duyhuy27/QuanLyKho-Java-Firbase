@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/wave_background"
+    android:orientation="vertical"
     tools:context=".Fragment.LoaiSanPham.ThemLoaiSanPhamFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -24,21 +25,23 @@
             android:layout_marginEnd="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_12sdp"
             android:background="@drawable/custome_listview"
-            android:orientation="vertical"
-            android:backgroundTint="@color/background_color">
+            android:backgroundTint="@color/background_color"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <ImageButton
-                    android:id="@+id/btn_quay_lai"
+                    android:id="@+id/btn_quay_lai_them_lsp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_14sdp"
                     android:background="@drawable/background_edit_text"
                     android:padding="@dimen/_6sdp"
                     android:src="@drawable/ic_quay_lai" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,25 +57,21 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_margin="@dimen/_14sdp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_them_tenloaisp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_14sdp"
-                    android:layout_marginEnd="@dimen/_14sdp"
-                    android:textColor="@color/black"
                     android:background="@drawable/background_edit_text"
-                    android:hint="tên loại sản phẩm" />
+                    android:hint="tên loại sản phẩm"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_14sdp"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:layout_margin="@dimen/_14sdp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -86,7 +85,7 @@
                     android:id="@+id/swt_them_trangthai_loaisp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton

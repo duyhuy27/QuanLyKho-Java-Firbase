@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageButton
-                    android:id="@+id/btn_quay_lai"
+                    android:id="@+id/btn_quay_lai_chitiet_lsp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_14sdp"
@@ -58,12 +58,11 @@
                 android:layout_marginTop="@dimen/_20sdp">
 
                 <TextView
-                    android:id="@+id/idlsp1"
+                    android:id="@+id/tv_tenkh_chitietkh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID loại sản phẩm :"
-                    android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"/>
+                    android:text="ID loại sản phẩm : "
+                    android:textSize="@dimen/_14sdp" />
                 <TextView
                     android:id="@+id/tv_chitietloaisp_idloaisp"
                     android:layout_width="wrap_content"
@@ -71,48 +70,46 @@
                     android:text="4444"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    android:layout_toRightOf="@+id/idlsp1"/>
+                    android:layout_toRightOf="@+id/tv_tenkh_chitietkh"/>
                 <TextView
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:id="@+id/idlsp2"
+                    android:id="@+id/img_phone_in_talk_chitietkh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên loại sản phẩm :"
+                    android:text="Tên loại sản phẩm : "
                     android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"
+
                     android:layout_below="@+id/tv_chitietloaisp_idloaisp"/>
                 <TextView
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:id="@+id/tv_chitietloaisp_tenloaisp"
+                    android:id="@+id/tv_sdtkh__chitietkh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4444"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     android:layout_below="@+id/tv_chitietloaisp_idloaisp"
-                    android:layout_toRightOf="@+id/idlsp2"/>
+                    android:layout_toRightOf="@+id/img_phone_in_talk_chitietkh"/>
 
                 <TextView
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:id="@+id/idlsp3"
+                    android:id="@+id/img_emailkh_chitietkh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trạng thái :"
+                    android:text="Trạng thái : "
                     android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"
-                    android:textColor="#28B446"
-                    android:layout_below="@+id/tv_chitietloaisp_tenloaisp"/>
+
+                    android:layout_below="@+id/tv_sdtkh__chitietkh"/>
                 <TextView
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:id="@+id/tv_chitietloaisp_trangthailoaisp"
+                    android:id="@+id/tv_emailkh_chitietkh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="còn hoạt động"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    android:textColor="#28B446"
-                    android:layout_below="@+id/tv_chitietloaisp_tenloaisp"
-                    android:layout_toRightOf="@+id/idlsp3"/>
+                    android:layout_below="@+id/tv_sdtkh__chitietkh"
+                    android:layout_toRightOf="@+id/img_emailkh_chitietkh"/>
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton

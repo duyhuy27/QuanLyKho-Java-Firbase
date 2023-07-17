@@ -117,7 +117,7 @@ public class ChatGptFragment extends Fragment {
         Request request = new Request.Builder()
                 .url("\n" +
                         "https://api.openai.com/v1/chat/completions")
-                .header("Authorization", "Bearer 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") // key moi
+                .header("Authorization", "Bearer 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") // key moi
                 .post(body)
                 .build();
 

@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.Fragment;
+package team1XuongMobile.fpoly.myapplication.Fragment.KhachHang;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link VanChuyenFragment#newInstance} factory method to
+ * Use the {@link LichSuChiTietKhachHangVFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VanChuyenFragment extends Fragment {
+public class LichSuChiTietKhachHangVFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class VanChuyenFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public VanChuyenFragment() {
+    public LichSuChiTietKhachHangVFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class VanChuyenFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment VanChuyenFragment.
+     * @return A new instance of fragment LichSuChiTietKhachHangVFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VanChuyenFragment newInstance(String param1, String param2) {
-        VanChuyenFragment fragment = new VanChuyenFragment();
+    public static LichSuChiTietKhachHangVFragment newInstance(String param1, String param2) {
+        LichSuChiTietKhachHangVFragment fragment = new LichSuChiTietKhachHangVFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class VanChuyenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_van_chuyen, container, false);
+        return inflater.inflate(R.layout.fragment_lich_su_chi_tiet_khach_hang_v, container, false);
     }
 }

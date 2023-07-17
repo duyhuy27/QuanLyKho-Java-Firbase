@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,12 +25,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
+import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
+
 import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.NhaCungCapFragment;
+import team1XuongMobile.fpoly.myapplication.nhacungcap.NhaCungCapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.PhieuXuatFragment;
@@ -40,8 +40,8 @@ import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
 
 import team1XuongMobile.fpoly.myapplication.sanpham.SanPhamFragment;
 
-import team1XuongMobile.fpoly.myapplication.Fragment.ThongKeFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.VanChuyenFragment;
+import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
