@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +40,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 public class SuaNVFragment extends Fragment {
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     String idNV = "";
 
     public static final String KEY_ID_NHAN_VIEN = "idNV";
@@ -52,7 +54,7 @@ public class SuaNVFragment extends Fragment {
     Spinner suavaitro;
     RadioButton suadanglam, suadanghi, suatamnghi;
 
-    String suaten = "", suaemailstring = "", suavaitrostring = "", suasdtstring = "", trangthai = "";
+    String suaten = "", suaemailstring = "", suavaitrostring = "", suasdtstring = "", trangthai = "",khstring = "";
 
 
     public SuaNVFragment() {
@@ -94,6 +96,7 @@ public class SuaNVFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dataListspinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         suavaitro.setAdapter(adapter);
+        laydulieudangnhap();
         loadDataNVChuyenSang();
         setDataNVLenView();
         backsua.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +192,24 @@ public class SuaNVFragment extends Fragment {
         if (bundle != null) {
             idNV = bundle.getString(KEY_ID_NHAN_VIEN);
         }
+    }
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                khstring = ""+snapshot.child("kh").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
