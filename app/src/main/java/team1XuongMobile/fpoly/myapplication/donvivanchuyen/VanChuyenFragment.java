@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +43,7 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
     private static final String TAG = "VanChuyenFragment";
     private VanChuyenAdapter.chucNangInterfaceVanChuyen chucNangInterfaceVanChuyen;
     public static final String KEY_ID = "id";
+    private String kh = "";
 
 
 
@@ -57,6 +60,7 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
         // Inflate the layout for this fragment
         binding = FragmentDanhSachDVCBinding.inflate(inflater, container, false);
         chucNangInterfaceVanChuyen = this;
+        laydulieudangnhap();
         listener();
         loadDataFireBase();
 
@@ -99,7 +103,8 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
     public void loadDataFireBase() {
         danhSachDVCList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("don_vi_vc");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("kh").equalTo(kh)
+        .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 danhSachDVCList.clear();
@@ -173,5 +178,23 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
 
 
         builder.show();
+    }
+    public void laydulieudangnhap() {
+        FirebaseUser firebaseUser;
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh  = "" + snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

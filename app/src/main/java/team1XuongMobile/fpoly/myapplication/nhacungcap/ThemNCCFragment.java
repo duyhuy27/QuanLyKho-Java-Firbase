@@ -19,8 +19,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -29,9 +32,10 @@ import team1XuongMobile.fpoly.myapplication.databinding.FragmentThemNCCBinding;
 
 public class ThemNCCFragment extends Fragment {
     private FragmentThemNCCBinding binding;
-    private String ten ="", dia_chi= "", sdt = "", email = "";
+    private String ten ="", dia_chi= "", sdt = "", email = "", kh = "";
     private boolean trangThai = false;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
     public static final String TAG = "ThemesNCCFragment";
 
@@ -41,6 +45,8 @@ public class ThemNCCFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
+        laydulieudangnhap();
     }
 
     @Override
@@ -89,8 +95,9 @@ public class ThemNCCFragment extends Fragment {
         progressDialog.setTitle("Đang lưu");
         progressDialog.show();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
         long timestamp = System.currentTimeMillis();
+
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id_nha_cc","" + timestamp);
@@ -101,7 +108,7 @@ public class ThemNCCFragment extends Fragment {
         hashMap.put("trangThai", "" + trangThai);
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timstamp", timestamp);
-        hashMap.put("kh", "" + timestamp);
+        hashMap.put("kh", kh);
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("nha_cung_cap");
@@ -123,6 +130,22 @@ public class ThemNCCFragment extends Fragment {
                 });
 
 
+    }
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh  = "" + snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }
