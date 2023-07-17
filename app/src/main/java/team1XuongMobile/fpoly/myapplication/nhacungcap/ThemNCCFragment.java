@@ -101,6 +101,8 @@ public class ThemNCCFragment extends Fragment {
         hashMap.put("trangThai", "" + trangThai);
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timstamp", timestamp);
+        hashMap.put("kh", "" + timestamp);
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("nha_cung_cap");
         ref.child("" + timestamp).setValue(hashMap)
