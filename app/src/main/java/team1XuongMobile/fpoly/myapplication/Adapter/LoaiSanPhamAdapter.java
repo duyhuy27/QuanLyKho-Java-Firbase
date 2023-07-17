@@ -104,8 +104,6 @@ public class LoaiSanPhamAdapter extends RecyclerView.Adapter<LoaiSanPhamAdapter.
                 });
 
 
-
-
             }
         });
     }
