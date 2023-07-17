@@ -7,21 +7,22 @@ public class KhachHang {
     String email_kh;
     String diachi_kh;
     String uid;
+    String kh;
     long timestamp;
 
     public KhachHang() {
     }
 
-    public KhachHang(String id_kh, String ten_kh, String sdt_kh, String email_kh, String diachi_kh, String uid, long timestamp) {
+    public KhachHang(String id_kh, String ten_kh, String sdt_kh, String email_kh, String diachi_kh, String uid, String kh, long timestamp) {
         this.id_kh = id_kh;
         this.ten_kh = ten_kh;
         this.sdt_kh = sdt_kh;
         this.email_kh = email_kh;
         this.diachi_kh = diachi_kh;
         this.uid = uid;
+        this.kh = kh;
         this.timestamp = timestamp;
     }
-
 
     public String getId_kh() {
         return id_kh;
@@ -73,6 +74,14 @@ public class KhachHang {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 
     public void setTimestamp(long timestamp) {
