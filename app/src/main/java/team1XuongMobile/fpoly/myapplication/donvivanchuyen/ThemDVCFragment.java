@@ -93,6 +93,8 @@ public class ThemDVCFragment extends Fragment {
         hashMap.put("hotline","" + sdt);
         hashMap.put("timestamp", timestamp);
         hashMap.put("uid",firebaseUser.getUid());
+        hashMap.put("kh", "" + timestamp);
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("don_vi_vc");
         ref.child(""+timestamp).setValue(hashMap)
