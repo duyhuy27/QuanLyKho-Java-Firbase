@@ -20,7 +20,9 @@ public class SanPhamModels {
     private String timestamp;
     private String img;
 
-    public SanPhamModels(String idSanPham, String tenSp, String maSp, String khoiLuong, String giaNhap, String giaBan, String thueAvailable, String thueDauRa, String thueDauVao, String trangThaiAvailable, String ten_loai, String id_loai, String id_nha_cc, String ten_nha_cc, String uid, String codeIme, String timestamp, String img) {
+    private String kh;
+
+    public SanPhamModels(String idSanPham, String tenSp, String maSp, String khoiLuong, String giaNhap, String giaBan, String thueAvailable, String thueDauRa, String thueDauVao, String trangThaiAvailable, String ten_loai, String id_loai, String id_nha_cc, String ten_nha_cc, String uid, String codeIme, String timestamp, String img, String kh) {
         this.idSanPham = idSanPham;
         this.tenSp = tenSp;
         this.maSp = maSp;
@@ -39,9 +41,20 @@ public class SanPhamModels {
         this.codeIme = codeIme;
         this.timestamp = timestamp;
         this.img = img;
+        this.kh = kh;
     }
 
+
+
     public SanPhamModels() {
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 
     public String getIdSanPham() {

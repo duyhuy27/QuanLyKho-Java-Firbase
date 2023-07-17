@@ -49,7 +49,9 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     FloatingActionButton themnhanvien;
     public static final String KEY_ID_NHAN_VIEN = "idNV";
     EditText inputsearchNV;
+    String khstring = "";
     FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
 
     @Override
@@ -66,6 +68,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         themnhanvien = view.findViewById(R.id.floatingbutton_themnhanvien);
         inputsearchNV = view.findViewById(R.id.edt_timkiem_nhanvien);
         firebaseAuth = FirebaseAuth.getInstance();
+        laydulieudangnhap();
         loadDuLieuNhanVienFirebase();
         listener = this;
         inputsearchNV.addTextChangedListener(new TextWatcher() {
@@ -102,10 +105,10 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     }
 
     private void loadDuLieuNhanVienFirebase() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
         nhanVienArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        ref.orderByChild("kh").equalTo("a").
+        ref.orderByChild("kh").equalTo(khstring).
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -193,7 +196,24 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themTaiKhoanFragment).addToBackStack(null).commit();
     }
 
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                khstring = "" + snapshot.child("kh").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
 }

@@ -23,8 +23,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +47,7 @@ public class ThemNVFragment extends Fragment {
     EditText tennhanvien, email, sdt;
     Spinner vaitro;
     RadioButton danglam, danghi, tamnghi;
-    String tenstring = "", emailstring = "", trangthai = "", vaitrostring = "", sdtstring = "",ngaystring = "";
+    String tenstring = "", emailstring = "", trangthai = "", vaitrostring = "", sdtstring = "", ngaystring = "", khstring = "";
     FirebaseUser firebaseUser;
 
 
@@ -94,6 +97,7 @@ public class ThemNVFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vaitro.setAdapter(adapter);
         danglam.setChecked(true);
+        laydulieudangnhap();
         hoanttat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,12 +121,10 @@ public class ThemNVFragment extends Fragment {
         } else if (!email.getText().toString().matches("^[A-Za-z0-9_.]{6,32}@([a-zA-Z0-9]{2,12}+.)([a-zA-Z]{2,12})+$")) {
             email.requestFocus();
             email.setError("Sai định dang email");
-        }
-        else if (!sdt.getText().toString().matches("^[0-9]{9,10}")) {
+        } else if (!sdt.getText().toString().matches("^[0-9]{9,10}")) {
             sdt.requestFocus();
             sdt.setError("Số điện thoại không hợp lệ");
-        }
-        else if (!TextUtils.isDigitsOnly(sdt.getText().toString())) {
+        } else if (!TextUtils.isDigitsOnly(sdt.getText().toString())) {
             sdt.requestFocus();
             sdt.setError("Số điện thoại phải là số");
         } else {
@@ -162,8 +164,8 @@ public class ThemNVFragment extends Fragment {
         hashMap.put("sdt", "" + sdtstring);
         hashMap.put("trang_thai", "" + trangthai);
         hashMap.put("uid", firebaseUser.getUid());
-        hashMap.put("timestamp",timestamp);
-        hashMap.put("kh", "a");
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("kh", khstring);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         ref.child("" + timestamp)
                 .setValue(hashMap)
@@ -182,6 +184,25 @@ public class ThemNVFragment extends Fragment {
                     }
                 });
 
+    }
+
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                khstring = "" + snapshot.child("kh").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
