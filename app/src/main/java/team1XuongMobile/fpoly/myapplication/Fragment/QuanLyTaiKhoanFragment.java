@@ -65,6 +65,8 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
         inputsearchTK = view.findViewById(R.id.edt_quanlytaikhoan_timkiem);
         taikhoanInterface = this;
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
 
         inputsearchTK.addTextChangedListener(new TextWatcher() {
             @Override
