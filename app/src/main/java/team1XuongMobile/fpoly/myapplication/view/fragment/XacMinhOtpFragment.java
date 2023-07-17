@@ -271,7 +271,7 @@ public class XacMinhOtpFragment extends Fragment {
         hashMap.put("kh", "" + timestamp);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child("" + timestamp)
+        ref.child(uid)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
