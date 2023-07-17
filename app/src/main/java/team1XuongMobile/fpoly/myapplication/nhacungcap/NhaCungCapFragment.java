@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
     private NhaCungCapAdapter.chucNangInterfaceNhaCungCap chucNangInterfaceNhaCungCap;
     public static final String TAG = "NhaCungCapFragment";
     public static final String KEY_ID = "id";
+    private String kh = "";
 
 
 
@@ -56,7 +59,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
         binding = FragmentDanhSachNCCBinding.inflate(inflater, container,false);
         nhaCungCapModelArrayList = new ArrayList<>();
         chucNangInterfaceNhaCungCap = this;
-
+        laydulieudangnhap();
         loadDataFirebase();
 
         listener();
@@ -95,7 +98,8 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
     }
     private void loadDataFirebase() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("kh").equalTo(kh)
+        .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 nhaCungCapModelArrayList.clear();
@@ -172,5 +176,23 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
 
 
         builder.show();
+    }
+    public void laydulieudangnhap() {
+        FirebaseUser firebaseUser;
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh  = "" + snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

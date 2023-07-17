@@ -20,8 +20,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -36,7 +39,7 @@ public class ThemKhachHangFragment extends Fragment {
     AppCompatButton hoantat;
 
     TextInputEditText ed_ten_kh, ed_sdt_kh, ed_email_kh , ed_diachi_kh;
-    String ten_kh = "", sdt_kh = "", email_kh = "", diachi_kh = "" ;
+    String ten_kh = "", sdt_kh = "", email_kh = "", diachi_kh = "" ,khString="";
 
     FirebaseUser firebaseUser;
 
@@ -48,6 +51,9 @@ public class ThemKhachHangFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        laydulieudangnhap();
 
     }
 
@@ -70,7 +76,6 @@ public class ThemKhachHangFragment extends Fragment {
             }
         });
 
-        firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -127,6 +132,8 @@ public class ThemKhachHangFragment extends Fragment {
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timestamp",timestamp);
 
+        hashMap.put("kh",khString);
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
         ref.child(""+timestamp)
                 .setValue(hashMap)
@@ -154,5 +161,22 @@ public class ThemKhachHangFragment extends Fragment {
     //check định dạng sdt
     private boolean isValidPhoneNumber(CharSequence phoneNumber) {
         return !TextUtils.isEmpty(phoneNumber) && android.util.Patterns.PHONE.matcher(phoneNumber).matches();
+    }
+
+    public void laydulieudangnhap(){
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khString = ""+snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
