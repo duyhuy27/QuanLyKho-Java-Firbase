@@ -62,7 +62,7 @@ public class ThemTaiKhoanFragment extends Fragment {
 
     Button hoantat;
     ImageButton back;
-    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "", uidstring = "";
+    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "", uidstring = "",khstring = "";
     FirebaseUser firebaseUser;
     String uidtk;
 
@@ -158,7 +158,7 @@ public class ThemTaiKhoanFragment extends Fragment {
         hashMap.put("sdt", "" + sdtstring);
         hashMap.put("timestamp", timestamp);
         hashMap.put("vaiTro", "" + quyentruycapstring);
-        hashMap.put("kh", "a");
+        hashMap.put("kh", khstring);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
         ref.child(uidtk)
                 .setValue(hashMap)
@@ -197,6 +197,7 @@ public class ThemTaiKhoanFragment extends Fragment {
                 email_da_dn = ""+snapshot.child("email").getValue();
                 password_da_dn = ""+snapshot.child("password").getValue();
                 uidstring = ""+snapshot.child("uid").getValue();
+                khstring = ""+snapshot.child("kh").getValue();
 
             }
 
