@@ -24,7 +24,7 @@ public class FilterSearchNhanVien extends Filter {
             charSequence = charSequence.toString().toUpperCase().trim();
             ArrayList<NhanVien> establishes = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getTen().toUpperCase().contains(charSequence)) {
+                if (list.get(i).getUsername().toUpperCase().contains(charSequence)) {
                     establishes.add(list.get(i));
                 }
             }

@@ -1,11 +1,17 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,8 +40,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.ChitietNVFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.SuaNVFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.view.fragment.XacMinhThanhCongFragment;
 
 
 public class ThemTaiKhoanFragment extends Fragment {
@@ -41,13 +55,16 @@ public class ThemTaiKhoanFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     String idNV = "";
     public static final String KEY_ID_NHAN_VIEN = "idNV";
+
     Spinner quyentruycap;
     TextView tennhanvien, email, sdt;
+    String email_da_dn, password_da_dn;
 
     Button hoantat;
     ImageButton back;
-    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "";
+    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "", uidstring = "";
     FirebaseUser firebaseUser;
+    String uidtk;
 
 
     @Override
@@ -66,43 +83,57 @@ public class ThemTaiKhoanFragment extends Fragment {
         quyentruycap = view.findViewById(R.id.spinner_themntaikhoan_quyentruycap);
         hoantat = view.findViewById(R.id.btn_themtaikhoan_hoantat);
         back = view.findViewById(R.id.imgbt_themtaikhoan_back);
-        loadDataNVChuyenSang();
-        laytaikhoantuNV();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
-        ArrayList<String> dataListspinner = new ArrayList<String>();
+        ArrayList<String> dataListspinner = new ArrayList<>();
         dataListspinner.add("admin");
         dataListspinner.add("nhanVien");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, dataListspinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dataListspinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quyentruycap.setAdapter(adapter);
+        laydulieudangnhap();
+        Log.d("quanjkl", "email dang nhap: "+email_da_dn+"password dang nhap" + password_da_dn);
+        loadDataNVChuyenSang();
+        laytaikhoantuNV();
+
         hoantat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 firebaseAuth.createUserWithEmailAndPassword(emailstring, sdtstring)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onSuccess(AuthResult authResult) {
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    luuDuLieuQLTKLenFirebase();
+                                    Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                                    firebaseAuth.signInWithEmailAndPassword(email_da_dn, password_da_dn)
+                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        NhanVienFragment nhanVienFragment = new NhanVienFragment();
+                                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, nhanVienFragment).addToBackStack(null).commit();
+                                                    } else {
+                                                    }
+                                                }
+                                            });
 
-                                luuDuLieuQLTKLenFirebase();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("quanquan", "onFailure: "+e.getMessage());
-                                Toast.makeText(getContext(), "Không tạo được tài khoản", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
+
+
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         return view;
@@ -112,33 +143,37 @@ public class ThemTaiKhoanFragment extends Fragment {
 
     private void luuDuLieuQLTKLenFirebase() {
         firebaseUser = firebaseAuth.getCurrentUser();
+        uidtk = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         quyentruycapstring = (String) quyentruycap.getSelectedItem();
-        progressDialog.setTitle("Dang luu...");
+        progressDialog.setTitle("Dang lưu...");
         progressDialog.show();
         long timestamp = System.currentTimeMillis();
+
+
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id_qltk", "" + timestamp);
-        hashMap.put("ten", "" + tennhanvienstring);
+        hashMap.put("idTK",""+timestamp);
+        hashMap.put("uid", uidtk);
+        hashMap.put("username", "" + tennhanvienstring);
         hashMap.put("email", "" + emailstring);
         hashMap.put("sdt", "" + sdtstring);
-        hashMap.put("vaiTro", "" + quyentruycapstring);
-        hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timestamp", timestamp);
+        hashMap.put("vaiTro", "" + quyentruycapstring);
+        hashMap.put("kh", "a");
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
-        ref.child("" + timestamp)
+        ref.child(uidtk)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Thêm Thành Công", Toast.LENGTH_SHORT).show();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Thêm Thất Bại", Toast.LENGTH_SHORT).show();
+
                     }
                 });
     }
@@ -150,14 +185,37 @@ public class ThemTaiKhoanFragment extends Fragment {
         }
     }
 
+
+
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                email_da_dn = ""+snapshot.child("email").getValue();
+                password_da_dn = ""+snapshot.child("password").getValue();
+                uidstring = ""+snapshot.child("uid").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void laytaikhoantuNV() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         ref.child(idNV).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tennhanvienstring = "" + snapshot.child("ten").getValue();
+                tennhanvienstring = "" + snapshot.child("username").getValue();
                 emailstring = "" + snapshot.child("email").getValue();
                 sdtstring = "" + snapshot.child("sdt").getValue();
+
                 tennhanvien.setText(tennhanvienstring);
                 email.setText(emailstring);
                 sdt.setText(sdtstring);

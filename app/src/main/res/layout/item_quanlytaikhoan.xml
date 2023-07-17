@@ -28,7 +28,8 @@
 
     <TextView
         android:id="@+id/tv_itemquanlytaikhoan_email"
-        android:layout_width="@dimen/_110sdp"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_itemquanlytaikhoan_tennhanvien"
         android:layout_toEndOf="@id/a1"

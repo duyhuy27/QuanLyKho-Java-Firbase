@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ThemTaiKhoanFragment;
+
 import java.util.Objects;
 
 import team1XuongMobile.fpoly.myapplication.MainActivity;
@@ -45,6 +47,9 @@ public class DangNhapFragment extends Fragment {
     private String id = "";
 
     public static final String TAG = "DangNhapFragment";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PASSWORD = "password";
+
 
 
     @Override
@@ -71,31 +76,32 @@ public class DangNhapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 validateData();
+
             }
         });
 
-//        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                binding.progressbar.setVisibility(View.VISIBLE);
-//                email = binding.edtEmail.getText().toString().trim();
-//                firebaseAuth.sendPasswordResetEmail(email)
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                binding.progressbar.setVisibility(View.GONE);
-//                                Toast.makeText(getContext(), "Đã gửi email đổi mật khẩu tới địa chỉ email của bạn", Toast.LENGTH_SHORT).show();
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                binding.progressbar.setVisibility(View.GONE);
-//                                Toast.makeText(getContext(), "Gửi email đổi mật khẩu thất bại vì " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//            }
-//        });
+        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.progressbar.setVisibility(View.VISIBLE);
+                email = binding.edtEmail.getText().toString().trim();
+                firebaseAuth.sendPasswordResetEmail(email)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                binding.progressbar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Đã gửi email đổi mật khẩu tới địa chỉ email của bạn", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                binding.progressbar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Gửi email đổi mật khẩu thất bại vì " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
 
         binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +166,7 @@ public class DangNhapFragment extends Fragment {
                 addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         role = "" + snapshot.child("vaiTro").getValue();
 
                         if (role.equals("nhanVien")) {
@@ -199,4 +206,5 @@ public class DangNhapFragment extends Fragment {
 //                    }
 //                });
     }
+
 }

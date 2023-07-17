@@ -11,9 +11,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
 
@@ -36,6 +46,10 @@ import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    TextView ten_nguoidung;
+    String tenstring;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
 
     @Override
@@ -45,12 +59,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         replaceFragment(new ManHinhChinhFragment());
+        firebaseAuth = FirebaseAuth.getInstance();
+
         drawerLayout = findViewById(R.id.drawerlayout);
         navigationView = findViewById(R.id.navi);
         navigationView.inflateMenu(R.menu.menu_navigation);
+        View layout_header = navigationView.getHeaderView(0);
+        ten_nguoidung = layout_header.findViewById(R.id.tv_ten_nguoi_dung_layout_header);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar, 0, 0);
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        laydulieudangnhap();
 
     }
 
@@ -121,6 +140,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alertDialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    firebaseAuth.signOut();
+                    Intent intent = new Intent(MainActivity.this, FormDangNhapActivity.class);
+                    startActivity(intent);
+                    finish();
+
 
                 }
             });
@@ -135,6 +160,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.layout_content, fragment);
         transaction.commit();
+    }
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                tenstring = ""+snapshot.child("username").getValue();
+                ten_nguoidung.setText(tenstring);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

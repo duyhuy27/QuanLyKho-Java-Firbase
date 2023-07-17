@@ -11,20 +11,28 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.R;
 
 
 public class ManHinhChinhFragment extends Fragment {
     TextView tv_ten_nguoi_dung;
+    String tenstring;
     EditText ed_cauhoi;
     ImageButton imgbt_sendcauhoi;
+    Button chatAi;
     FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     FirebaseUser firebaseUser;
@@ -53,10 +61,12 @@ public class ManHinhChinhFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_man_hinh_chinh, container, false);
         tv_ten_nguoi_dung = view.findViewById(R.id.tv_ten_nguoi_dung_manhinhchinh);
         ed_cauhoi = view.findViewById(R.id.ed_guicauhoi_manhinhchinh);
+        chatAi = view.findViewById(R.id.btn_manhinhchinh_chatai);
         imgbt_sendcauhoi = view.findViewById(R.id.imgbt_guicauhoi_manhinhchinh);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
+        laydulieudangnhap();
         return view;
     }
 
@@ -89,6 +99,25 @@ public class ManHinhChinhFragment extends Fragment {
         });
 
     }
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                tenstring = ""+snapshot.child("username").getValue();
+                tv_ten_nguoi_dung.setText(tenstring);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
 
 }

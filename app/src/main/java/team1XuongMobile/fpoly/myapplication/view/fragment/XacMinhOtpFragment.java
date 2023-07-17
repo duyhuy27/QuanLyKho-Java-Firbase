@@ -240,7 +240,6 @@ public class XacMinhOtpFragment extends Fragment {
                                         public void onFailure(@NonNull Exception e) {
                                             setProgressBar(false);
                                             Toast.makeText(getContext(), "Lỗi gì đó đã xảy ra " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            Log.d(TAG, "onFailure: Không thể tạo account vì " + e.getMessage());
                                         }
                                     });
                         } else {
@@ -250,6 +249,7 @@ public class XacMinhOtpFragment extends Fragment {
                     }
                 });
     }
+
 
     private void luuDuLieuLenFirebase() {
         setProgressBar(true);

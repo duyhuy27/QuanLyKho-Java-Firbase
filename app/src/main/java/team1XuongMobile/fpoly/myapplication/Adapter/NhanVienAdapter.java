@@ -2,6 +2,8 @@ package team1XuongMobile.fpoly.myapplication.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.provider.ContactsContract;
 
 import android.view.LayoutInflater;
@@ -81,10 +83,18 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         NhanVien nhanVien = nhanVienArrayList.get(position);
-        holder.tenNhanVien.setText(nhanVienArrayList.get(position).getTen());
+        holder.tenNhanVien.setText(nhanVienArrayList.get(position).getUsername());
         holder.sdt.setText(nhanVienArrayList.get(position).getSdt());
+        holder.sdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:"+list.get(position).getSdt()));
+                v.getContext().startActivity(intent);
+            }
+        });
         holder.chitiet.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
             @Override

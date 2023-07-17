@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:id="@+id/popup_menuQLTK_sua"
+        android:id="@+id/popup_menuQTLK_cachchuc"
         android:iconTint="@color/black"
-        android:title="Sửa" />
-    <item
-        android:id="@+id/popup_menuQTLK_xoa"
-        android:iconTint="@color/black"
-        android:title="Xoá" />
+        android:title="Cách Chức" />
 </menu>
