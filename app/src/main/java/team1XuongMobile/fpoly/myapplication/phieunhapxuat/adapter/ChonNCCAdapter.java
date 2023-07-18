@@ -1,7 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +9,23 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
 
 public class ChonNCCAdapter extends RecyclerView.Adapter<ChonNCCAdapter.ViewHolder> {
     private final Context context;
     private ArrayList<ChonNCC> chonNCCArrayList;
+    private ChonNhaCungCapListener listener;
 
-    public ChonNCCAdapter(Context context) {
+    public ChonNCCAdapter(Context context, ChonNhaCungCapListener listener) {
         this.context = context;
+        this.listener = listener;
     }
 
     public void setData(ArrayList<ChonNCC> chonNCCArrayList) {
@@ -46,21 +48,14 @@ public class ChonNCCAdapter extends RecyclerView.Adapter<ChonNCCAdapter.ViewHold
         }
         holder.tvChonTenNcc.setText(objChonNCC.getTen_nha_cc());
         holder.tvChonSDTNCC.setText(objChonNCC.getSo_dien_dienthoai());
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("title", objChonNCC.getTen_nha_cc());
-                bundle.putString("idNCC", objChonNCC.getId_nha_cc());
-
-                TaoHDNFragment taoHDNFragment = new TaoHDNFragment();
-                taoHDNFragment.setArguments(bundle);
-
-                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, taoHDNFragment)
-                        .addToBackStack(null).commit();
+                int position = holder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    ChonNCC objChonNCC = chonNCCArrayList.get(position);
+                    listener.onClickChonNhaCungCap(objChonNCC);
+                }
             }
         });
     }

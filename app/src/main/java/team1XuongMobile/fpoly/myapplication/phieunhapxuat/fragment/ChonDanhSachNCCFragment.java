@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonNCCAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
 
@@ -27,12 +30,22 @@ public class ChonDanhSachNCCFragment extends Fragment {
     private ChonNCCAdapter adapter;
     private RecyclerView chonNCCRecyclerView;
     private ArrayList<ChonNCC> chonNCCArrayList;
+    public ChonNhaCungCapListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (ChonNhaCungCapListener) requireContext();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("You must implement FirstFragmentListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chon_danh_sach_ncc, container, false);
-
-        adapter = new ChonNCCAdapter(requireContext());
+        adapter = new ChonNCCAdapter(requireContext(), listener);
         chonNCCArrayList = new ArrayList<>();
 
         chonNCCRecyclerView = view.findViewById(R.id.rcv_chonDanhSachNCC);
@@ -41,6 +54,7 @@ public class ChonDanhSachNCCFragment extends Fragment {
         chonNCCRecyclerView.setLayoutManager(layoutManager);
 
         loadDataFirebase();
+
         return view;
     }
 
@@ -64,4 +78,5 @@ public class ChonDanhSachNCCFragment extends Fragment {
             }
         });
     }
+
 }

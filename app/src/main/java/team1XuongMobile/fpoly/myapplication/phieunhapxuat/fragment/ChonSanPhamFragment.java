@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPhamListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonSanPhamAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
 
@@ -27,13 +29,24 @@ public class ChonSanPhamFragment extends Fragment {
     private ArrayList<ChonSanPham> list;
     private ChonSanPhamAdapter adapter;
     private RecyclerView rcvChonSanPham;
+    private ChonSanPhamListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (ChonSanPhamListener) requireContext();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("You must implement FirstFragmentListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chon_san_pham, container, false);
         rcvChonSanPham = view.findViewById(R.id.rcv_chonSanPham);
         list = new ArrayList<>();
-        adapter = new ChonSanPhamAdapter(requireContext());
+        adapter = new ChonSanPhamAdapter(requireContext(), listener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         rcvChonSanPham.setLayoutManager(layoutManager);
 

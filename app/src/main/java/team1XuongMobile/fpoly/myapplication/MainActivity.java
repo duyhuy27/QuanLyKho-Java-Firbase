@@ -17,8 +17,13 @@ import com.google.android.material.navigation.NavigationView;
 
 import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
 
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPhamListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuNhapFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuXuatFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
 import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
@@ -33,9 +38,10 @@ import team1XuongMobile.fpoly.myapplication.sanpham.SanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChonNhaCungCapListener, ChonSanPhamListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private TaoHDNFragment fragment;
 
 
     @Override
@@ -52,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        fragment = new TaoHDNFragment();
     }
 
     @Override
@@ -126,8 +133,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
             alertDialog.show();
         }
-
-
         return true;
     }
 
@@ -137,4 +142,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
     }
 
+    @Override
+    public void onClickChonNhaCungCap(ChonNCC objChonNCC) {
+        Bundle bundleNhaCungCap = new Bundle();
+        bundleNhaCungCap.putString("idNhaCungCap", objChonNCC.getId_nha_cc());
+        fragment.setArguments(bundleNhaCungCap);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onClickChonSanPham(ChonSanPham objChonSanPham) {
+        Bundle bundleSanPham = new Bundle();
+        bundleSanPham.putString("idSanPham", objChonSanPham.getIdSanPham());
+        fragment.setArguments(bundleSanPham);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
