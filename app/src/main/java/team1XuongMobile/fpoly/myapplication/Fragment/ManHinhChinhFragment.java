@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class ManHinhChinhFragment extends Fragment {
     String tenstring;
     EditText ed_cauhoi;
     ImageButton imgbt_sendcauhoi;
-    Button chatAi;
+    AppCompatButton chatAi;
     FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     FirebaseUser firebaseUser;

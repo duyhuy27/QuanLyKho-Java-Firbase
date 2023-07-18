@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     TextView ten_nguoidung;
-    String tenstring;
+    String tenstring, vaitrostring;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
@@ -65,13 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout = findViewById(R.id.drawerlayout);
         navigationView = findViewById(R.id.navi);
-        navigationView.inflateMenu(R.menu.menu_navigation);
+
+        laydulieudangnhap();
         View layout_header = navigationView.getHeaderView(0);
         ten_nguoidung = layout_header.findViewById(R.id.tv_ten_nguoi_dung_layout_header);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar, 0, 0);
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        laydulieudangnhap();
+
 
     }
 
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.layout_content, fragment);
         transaction.commit();
     }
+
     public void laydulieudangnhap() {
         firebaseUser = firebaseAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
@@ -170,8 +173,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tenstring = ""+snapshot.child("username").getValue();
+                tenstring = "" + snapshot.child("username").getValue();
+                vaitrostring = "" + snapshot.child("vaiTro").getValue();
+                Log.d("quanquan", "vai tro dn " + vaitrostring);
                 ten_nguoidung.setText(tenstring);
+                if (vaitrostring.equals("nhanVien") == true) {
+                    navigationView.getMenu().clear();
+                    Log.d("quanquan", "chay dang nhap vao day ");
+                    navigationView.inflateMenu(R.menu.menu_navigation_nhanvien);
+                    Toast.makeText(MainActivity.this, "Bạn Đã Đăng Bằng Tài Khoản Nhân Viên", Toast.LENGTH_SHORT).show();
+                } else {
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.menu_navigation);
+                    Toast.makeText(MainActivity.this, "Bạn Đã Đăng Bằng Tài Khoản Admin", Toast.LENGTH_SHORT).show();
+                }
 
             }
 

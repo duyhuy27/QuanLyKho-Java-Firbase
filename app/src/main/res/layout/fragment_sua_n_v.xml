@@ -131,15 +131,16 @@
                     android:textStyle="bold" />
             </RadioGroup>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_suanhanvien_hoantat"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_below="@+id/a3"
                 android:textSize="@dimen/_18sdp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/custome_listview"
-                android:backgroundTint="#1E1E1E"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/background_button"
                 android:text="Hoàn Tất" />
 
 

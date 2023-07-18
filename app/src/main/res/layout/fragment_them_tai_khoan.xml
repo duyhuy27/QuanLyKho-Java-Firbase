@@ -126,15 +126,16 @@
                 android:paddingLeft="@dimen/_20sdp" />
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_themtaikhoan_hoantat"
                 android:layout_width="@dimen/_270sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_below="@+id/spinner_themntaikhoan_quyentruycap"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/custome_listview"
-                android:backgroundTint="#1E1E1E"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/background_button"
                 android:text="Hoàn Tất"
                 android:textSize="@dimen/_18sdp" />
 

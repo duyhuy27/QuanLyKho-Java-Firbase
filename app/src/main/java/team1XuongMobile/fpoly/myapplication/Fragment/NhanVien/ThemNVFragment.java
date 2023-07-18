@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -42,7 +43,7 @@ public class ThemNVFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
 
 
-    Button hoanttat;
+    AppCompatButton hoanttat;
     ImageButton back;
     EditText tennhanvien, email, sdt;
     Spinner vaitro;
@@ -156,7 +157,7 @@ public class ThemNVFragment extends Fragment {
         progressDialog.show();
         long timestamp = System.currentTimeMillis();
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id_nv", "" + timestamp);
+        hashMap.put("id", "" + timestamp);
         hashMap.put("username", "" + tenstring);
         hashMap.put("ngay_vaolam", "" + ngaystring);
         hashMap.put("vaiTro", "" + vaitrostring);

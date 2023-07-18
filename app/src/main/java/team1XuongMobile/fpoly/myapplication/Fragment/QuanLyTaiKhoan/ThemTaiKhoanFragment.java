@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -59,10 +60,10 @@ public class ThemTaiKhoanFragment extends Fragment {
     Spinner quyentruycap;
     TextView tennhanvien, email, sdt;
     String email_da_dn, password_da_dn;
-
-    Button hoantat;
+    AppCompatButton hoantat;
     ImageButton back;
-    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "", sdtstring = "", uidstring = "", khstring = "";
+    String tennhanvienstring = "", quyentruycapstring = "", emailstring = "",
+            sdtstring = "", uidstring = "", khstring = "", trangthaiString, idNVString = "";
     FirebaseUser firebaseUser;
     String uidtk;
 
@@ -101,33 +102,37 @@ public class ThemTaiKhoanFragment extends Fragment {
         hoantat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                firebaseAuth.createUserWithEmailAndPassword(emailstring, sdtstring)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    luuDuLieuQLTKLenFirebase();
-                                    Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                                    firebaseAuth.signInWithEmailAndPassword(email_da_dn, password_da_dn)
-                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        NhanVienFragment nhanVienFragment = new NhanVienFragment();
-                                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, nhanVienFragment).addToBackStack(null).commit();
-                                                    } else {
+                if (trangthaiString.equalsIgnoreCase("Đã Nghỉ")) {
+                    Log.d("quanquan", "hoantat: " + trangthaiString);
+                    Toast.makeText(getContext(), "Nhân Viên Đã Nghỉ Không Thể Bổ Nhiệm", Toast.LENGTH_SHORT).show();
+                } else if (trangthaiString.equalsIgnoreCase("Tạm Nghỉ")) {
+                    Toast.makeText(getContext(), "Nhân Viên Không Thể Bổ Nhiệm Khi Đang Nghỉ", Toast.LENGTH_SHORT).show();
+                } else {
+                    firebaseAuth.createUserWithEmailAndPassword(emailstring, sdtstring)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        luuDuLieuQLTKLenFirebase();
+                                        Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                                        firebaseAuth.signInWithEmailAndPassword(email_da_dn, password_da_dn)
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            NhanVienFragment nhanVienFragment = new NhanVienFragment();
+                                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, nhanVienFragment).addToBackStack(null).commit();
+                                                        } else {
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
 
-                                } else {
-                                    Toast.makeText(getContext(), "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getContext(), "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-
-
+                            });
+                }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +156,9 @@ public class ThemTaiKhoanFragment extends Fragment {
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("idTK", "" + timestamp);
+        hashMap.put("id", "" + timestamp);
+        hashMap.put("idNV", "" + idNVString);
+        hashMap.put("trangThai", "Đang Hoạt Động" );
         hashMap.put("uid", uidtk);
         hashMap.put("username", "" + tennhanvienstring);
         hashMap.put("email", "" + emailstring);
@@ -176,7 +183,24 @@ public class ThemTaiKhoanFragment extends Fragment {
 
                     }
                 });
+        HashMap<String, Object> hashMapvt = new HashMap<>();
+        hashMapvt.put("vaiTro", "" + quyentruycapstring);
+        DatabaseReference refnv = FirebaseDatabase.getInstance().getReference("nhan_vien");
+        refnv.child("" + idNV)
+                .updateChildren(hashMapvt).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
+
 
     private void loadDataNVChuyenSang() {
         Bundle bundle = getArguments();
@@ -215,6 +239,9 @@ public class ThemTaiKhoanFragment extends Fragment {
                 tennhanvienstring = "" + snapshot.child("username").getValue();
                 emailstring = "" + snapshot.child("email").getValue();
                 sdtstring = "" + snapshot.child("sdt").getValue();
+                trangthaiString = "" + snapshot.child("trang_thai").getValue();
+                idNVString = "" + snapshot.child("id").getValue();
+                Log.d("quanquan", "vaitro string" + trangthaiString);
 
                 tennhanvien.setText(tennhanvienstring);
                 email.setText(emailstring);

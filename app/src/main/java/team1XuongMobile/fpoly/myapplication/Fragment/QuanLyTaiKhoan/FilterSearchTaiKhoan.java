@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
 import team1XuongMobile.fpoly.myapplication.Adapter.QuanLyTaiKhoanAdapter;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
+import team1XuongMobile.fpoly.myapplication.Model.QuanLyTaiKhoan;
 
 public class FilterSearchTaiKhoan extends Filter {
-    ArrayList<NhanVien> list;
+    ArrayList<QuanLyTaiKhoan> list;
     QuanLyTaiKhoanAdapter quanLyTaiKhoanAdapter;
 
-    public FilterSearchTaiKhoan(ArrayList<NhanVien> list, QuanLyTaiKhoanAdapter quanLyTaiKhoanAdapter) {
+    public FilterSearchTaiKhoan(ArrayList<QuanLyTaiKhoan> list, QuanLyTaiKhoanAdapter quanLyTaiKhoanAdapter) {
         this.list = list;
         this.quanLyTaiKhoanAdapter = quanLyTaiKhoanAdapter;
     }
@@ -22,7 +23,7 @@ public class FilterSearchTaiKhoan extends Filter {
         FilterResults filterResults = new FilterResults();
         if (constraint != null && constraint.length() > 0) {
             constraint = constraint.toString().toUpperCase().trim();
-            ArrayList<NhanVien> establishes = new ArrayList<>();
+            ArrayList<QuanLyTaiKhoan> establishes = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getUsername().toUpperCase().contains(constraint)) {
                     establishes.add(list.get(i));
@@ -41,7 +42,7 @@ public class FilterSearchTaiKhoan extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        quanLyTaiKhoanAdapter.nhanVienArrayList = (ArrayList<NhanVien>) results.values;
+        quanLyTaiKhoanAdapter.quanLyTaiKhoanArrayList = (ArrayList<QuanLyTaiKhoan>) results.values;
         quanLyTaiKhoanAdapter.notifyDataSetChanged();
 
 

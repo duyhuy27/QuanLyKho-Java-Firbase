@@ -4,7 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,21 +22,26 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.collection.LLRBNode;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
+import team1XuongMobile.fpoly.myapplication.Adapter.QuanLyTaiKhoanAdapter;
+import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
 
 
 public class ChitietNVFragment extends Fragment {
     TextView ten, email, sdt, vaitro, trangthai, ngay_vaolam, thamnien;
-    Button quaylai;
+    AppCompatButton quaylai;
     long thoigian_hientai;
-    String tenstring = "", emailstring = "", sdtstring = "", vaitrostring = "", trangthaistring = "", ngay_vaolamstring = "", idNV = "";
+    String tenstring = "", emailstring = "", sdtstring = "", vaitrostring = "", trangthaistring = "", ngay_vaolamstring = "", idNV = "", khstring;
 
     public static final String KEY_ID_NHAN_VIEN = "idNV";
     String idTK = "";
@@ -72,7 +79,6 @@ public class ChitietNVFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        LayIdTK();
         loadDataNVChuyenSang();
         setDataNVLenView();
 
@@ -88,7 +94,7 @@ public class ChitietNVFragment extends Fragment {
 
 
     private void setDataNVLenView() {
-        checkvaiTro();
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         ref.child(idNV)
 
@@ -99,7 +105,7 @@ public class ChitietNVFragment extends Fragment {
                         emailstring = "" + snapshot.child("email").getValue();
                         sdtstring = "" + snapshot.child("sdt").getValue();
                         ngay_vaolamstring = "" + snapshot.child("ngay_vaolam").getValue();
-
+                        vaitrostring = "" + snapshot.child("vaiTro").getValue();
                         trangthaistring = "" + snapshot.child("trang_thai").getValue();
                         if (trangthaistring.equalsIgnoreCase("Đang Làm")) {
                             trangthai.setTextColor(Color.GREEN);
@@ -117,6 +123,7 @@ public class ChitietNVFragment extends Fragment {
                         email.setText(emailstring);
                         sdt.setText(sdtstring);
                         ngay_vaolam.setText(ngay_vaolamstring);
+                        vaitro.setText(vaitrostring);
                         thamnien.setText(String.valueOf(ThamNienNV()));
 
 
@@ -131,105 +138,6 @@ public class ChitietNVFragment extends Fragment {
 
     }
 
-    public void LayIdTK() {
-
-
-    }
-
-    public void checkvaiTro() {
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    idTK = dataSnapshot.child("idTK").getValue(String.class);
-                    Log.d("quanquan", "idtk " + idTK);
-                    if (idTK == null) {
-                        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("nhan_vien");
-                        ref1.child(idNV).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                vaitrostring = "" + snapshot.child("vaiTro").getValue();
-                                vaitro.setText(vaitrostring);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    } else {
-                        ref.orderByChild("idTK").equalTo(idTK).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
-                                    vaitrostring = dataSnapshot1.child("vaiTro").getValue(String.class);
-                                    vaitro.setText(vaitrostring);
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-
-
-//                    ref.orderByChild("idTK").equalTo(idTK).addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            if (dataSnapshot.hasChildren()) {
-//                                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                                    vaitrostring = childSnapshot.child("vaiTro").getValue(String.class);
-//                                    Log.d("quanquan", "vaitro " + vaitrostring);
-//                                    vaitro.setText(vaitrostring);
-//                                }
-//                            } else if (!dataSnapshot.hasChildren()) {
-//                                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("nhan_vien");
-//                                ref1.child(idNV).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        vaitrostring = "" + snapshot.child("vaiTro").getValue(String.class);
-//                                        vaitro.setText(vaitrostring);
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//                                    }
-//                                });
-//
-//                            }
-//
-//                        }
-//
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                        }
-//                    });
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-
-            }
-        });
-
-
-    }
 
     public long ThamNienNV() {
         Calendar currentDate = Calendar.getInstance();

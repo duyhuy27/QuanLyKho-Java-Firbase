@@ -28,20 +28,22 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAdapter.ViewHolder> implements Filterable {
     private Context context;
-    public ArrayList<NhanVien> nhanVienArrayList, list;
+    public ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList, list;
     FilterSearchTaiKhoan filterSearchTaiKhoan;
     TaikhoanInterface taikhoanInterface;
 
 
-    public QuanLyTaiKhoanAdapter(Context context, ArrayList<NhanVien> nhanVienArrayList, TaikhoanInterface taikhoanInterface) {
+    public QuanLyTaiKhoanAdapter(Context context, ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList, TaikhoanInterface taikhoanInterface) {
         this.context = context;
-        this.nhanVienArrayList = nhanVienArrayList;
+        this.quanLyTaiKhoanArrayList = quanLyTaiKhoanArrayList;
         this.taikhoanInterface = taikhoanInterface;
-        this.list = nhanVienArrayList;
+        this.list = quanLyTaiKhoanArrayList;
     }
 
     public interface TaikhoanInterface {
         void CachChucTKClick(String id);
+
+        void ChiTietTKClick(String id);
 
 
     }
@@ -80,10 +82,12 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        NhanVien tk = nhanVienArrayList.get(position);
-        holder.tenNhanVien.setText(nhanVienArrayList.get(position).getUsername());
-        holder.email.setText(nhanVienArrayList.get(position).getEmail());
-        holder.sdt.setText(nhanVienArrayList.get(position).getSdt());
+        QuanLyTaiKhoan quanLyTaiKhoan = quanLyTaiKhoanArrayList.get(position);
+
+        holder.tenNhanVien.setText(quanLyTaiKhoanArrayList.get(position).getUsername());
+        holder.email.setText(quanLyTaiKhoanArrayList.get(position).getEmail());
+        holder.sdt.setText(quanLyTaiKhoanArrayList.get(position).getSdt());
+
         holder.showluuchon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
             @Override
@@ -96,12 +100,13 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
                     @Override
                     public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
                         if (item.getItemId() == R.id.popup_menuQTLK_cachchuc) {
-                            taikhoanInterface.CachChucTKClick(tk.getId_nv());
+                            taikhoanInterface.CachChucTKClick(quanLyTaiKhoan.getUid());
                             return true;
-                        } else {
-                            return false;
+                        } else if (item.getItemId() == R.id.popup_menuQTLK_chitiet) {
+                            taikhoanInterface.ChiTietTKClick(quanLyTaiKhoan.getUid());
+                            return true;
                         }
-
+                        return false;
                     }
 
                     @Override
@@ -119,7 +124,7 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
 
     @Override
     public int getItemCount() {
-        return nhanVienArrayList.size();
+        return quanLyTaiKhoanArrayList.size();
     }
 
 
