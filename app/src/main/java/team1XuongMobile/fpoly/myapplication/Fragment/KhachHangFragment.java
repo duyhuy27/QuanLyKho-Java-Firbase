@@ -102,7 +102,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
             @Override
             public void onClick(View v) {
                 ThemKhachHangFragment themKhachHangFragment = new ThemKhachHangFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_khachang,themKhachHangFragment).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content,themKhachHangFragment).addToBackStack(null).commit();
             }
         });
         loadDuLieuKhachHangFirebase();

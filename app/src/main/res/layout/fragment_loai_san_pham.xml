@@ -16,15 +16,15 @@
             android:id="@+id/edt_timkiem_loaisanpham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_marginBottom="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/custome_listview"
             android:backgroundTint="#E8E8E8"
-            android:drawableEnd="@drawable/ic_timkiem"
+            android:drawableEnd="@drawable/search"
             android:hint="Tìm kiếm loại sản phẩm"
-            android:padding="@dimen/_12sdp" />
+            android:padding="@dimen/_10sdp" />
 
         <RelativeLayout
 
