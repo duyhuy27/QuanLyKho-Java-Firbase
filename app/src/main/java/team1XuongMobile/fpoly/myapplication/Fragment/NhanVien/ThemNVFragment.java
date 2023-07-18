@@ -4,14 +4,15 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,13 +30,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
-import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
-import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
 
 
@@ -44,12 +43,12 @@ public class ThemNVFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
 
 
-    Button hoanttat;
+    AppCompatButton hoanttat;
     ImageButton back;
     EditText tennhanvien, email, sdt;
     Spinner vaitro;
     RadioButton danglam, danghi, tamnghi;
-    String ten = "", emailstring = "", trangthai = "", vaitrostring = "", sdtstring = "";
+    String tenstring = "", emailstring = "", trangthai = "", vaitrostring = "", sdtstring = "", ngaystring = "", khstring = "";
     FirebaseUser firebaseUser;
 
 
@@ -98,6 +97,8 @@ public class ThemNVFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, dataListspinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vaitro.setAdapter(adapter);
+        danglam.setChecked(true);
+        laydulieudangnhap();
         hoanttat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,23 +122,30 @@ public class ThemNVFragment extends Fragment {
         } else if (!email.getText().toString().matches("^[A-Za-z0-9_.]{6,32}@([a-zA-Z0-9]{2,12}+.)([a-zA-Z]{2,12})+$")) {
             email.requestFocus();
             email.setError("Sai định dang email");
+        } else if (!sdt.getText().toString().matches("^[0-9]{9,10}")) {
+            sdt.requestFocus();
+            sdt.setError("Số điện thoại không hợp lệ");
         } else if (!TextUtils.isDigitsOnly(sdt.getText().toString())) {
             sdt.requestFocus();
             sdt.setError("Số điện thoại phải là số");
         } else {
+            luuDuLieuNhanVienLenFirebase();
             tennhanvien.setText("");
             email.setText("");
             sdt.setText("");
-            luuDuLieuNhanVienLenFirebase();
+
         }
     }
 
     private void luuDuLieuNhanVienLenFirebase() {
         firebaseUser = firebaseAuth.getCurrentUser();
-        ten = tennhanvien.getText().toString().trim();
+        tenstring = tennhanvien.getText().toString().trim();
         emailstring = email.getText().toString().trim();
         sdtstring = sdt.getText().toString().trim();
         vaitrostring = (String) vaitro.getSelectedItem();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng ngày tháng
+        ngaystring = sdf.format(calendar.getTime());
         if (danglam.isChecked()) {
             trangthai = "Đang Làm";
         } else if (danghi.isChecked()) {
@@ -149,14 +157,16 @@ public class ThemNVFragment extends Fragment {
         progressDialog.show();
         long timestamp = System.currentTimeMillis();
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id_nv", "" + timestamp);
-        hashMap.put("ten", "" + ten);
-        hashMap.put("vai_tro", "" + vaitrostring);
+        hashMap.put("id", "" + timestamp);
+        hashMap.put("username", "" + tenstring);
+        hashMap.put("ngay_vaolam", "" + ngaystring);
+        hashMap.put("vaiTro", "" + vaitrostring);
         hashMap.put("email", "" + emailstring);
         hashMap.put("sdt", "" + sdtstring);
         hashMap.put("trang_thai", "" + trangthai);
         hashMap.put("uid", firebaseUser.getUid());
-        hashMap.put("timestamp",timestamp);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("kh", khstring);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         ref.child("" + timestamp)
                 .setValue(hashMap)
@@ -175,6 +185,25 @@ public class ThemNVFragment extends Fragment {
                     }
                 });
 
+    }
+
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                khstring = "" + snapshot.child("kh").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

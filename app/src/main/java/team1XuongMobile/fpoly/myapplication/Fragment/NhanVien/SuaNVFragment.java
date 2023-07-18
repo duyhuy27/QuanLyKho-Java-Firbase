@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,18 +41,21 @@ import team1XuongMobile.fpoly.myapplication.R;
 public class SuaNVFragment extends Fragment {
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
-    String idNV="";
+    FirebaseUser firebaseUser;
+    String idNV = "";
+
     public static final String KEY_ID_NHAN_VIEN = "idNV";
 
 
-    Button suahoantat;
+    AppCompatButton suahoantat;
     ImageButton backsua;
     EditText suatennhanvien;
     EditText suaemail;
     EditText suasdt;
     Spinner suavaitro;
     RadioButton suadanglam, suadanghi, suatamnghi;
-    String suaten = "", suaemailstring = "", suatrangthai = "", suavaitrostring = "", suasdtstring = "", trangthai = "";
+
+    String suaten = "", suaemailstring = "", suavaitrostring = "", suasdtstring = "", trangthai = "",khstring = "";
 
 
     public SuaNVFragment() {
@@ -78,17 +83,23 @@ public class SuaNVFragment extends Fragment {
         suahoantat = view.findViewById(R.id.btn_suanhanvien_hoantat);
         backsua = view.findViewById(R.id.imgbt_suanhanvien_back);
         firebaseAuth = FirebaseAuth.getInstance();
-        loadDataNVChuyenSang();
-        setDataNVLenView();
+
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
-        ArrayList<String> dataListspinner = new ArrayList<String>();
-        dataListspinner.add("Nhân Viên Kho");
-        dataListspinner.add("Nhân Viên Chi Nhánh");
+        ArrayList<String> dataListspinner = new ArrayList<>();
+        dataListspinner.add("Lao Công");
+        dataListspinner.add("Bảo Vệ");
+        dataListspinner.add("Nhân Viên Bốc Vác");
+        dataListspinner.add("Nhân Viên Kiểm Kê");
+        dataListspinner.add("Tổ Trưởng");
+        dataListspinner.add("Tổ Phó");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dataListspinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         suavaitro.setAdapter(adapter);
+        laydulieudangnhap();
+        loadDataNVChuyenSang();
+        setDataNVLenView();
         backsua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +128,10 @@ public class SuaNVFragment extends Fragment {
         } else if (!suaemail.getText().toString().matches("^[A-Za-z0-9_.]{6,32}@([a-zA-Z0-9]{2,12}+.)([a-zA-Z]{2,12})+$")) {
             suaemail.requestFocus();
             suaemail.setError("Sai định dang email");
+        } else if (!suasdt.getText().toString().matches("^[0-9]{9,10}")) {
+            suasdt.requestFocus();
+            suasdt.setError("Số điện thoại không hợp lệ");
+
         } else if (!TextUtils.isDigitsOnly(suasdt.getText().toString())) {
             suasdt.requestFocus();
             suasdt.setError("Số điện thoại phải là số");
@@ -130,6 +145,7 @@ public class SuaNVFragment extends Fragment {
         suaemailstring = suaemail.getText().toString().trim();
         suasdtstring = suasdt.getText().toString().trim();
         suavaitrostring = (String) suavaitro.getSelectedItem();
+
         if (suadanglam.isChecked()) {
             trangthai = "Đang Làm";
         } else if (suadanghi.isChecked()) {
@@ -137,12 +153,11 @@ public class SuaNVFragment extends Fragment {
         } else if (suatamnghi.isChecked()) {
             trangthai = "Tạm Nghỉ";
         }
-        progressDialog.setTitle("Dang luu...");
+        progressDialog.setTitle("Dang lưu...");
         progressDialog.show();
-        long timestamp = System.currentTimeMillis();
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("ten", "" + suaten);
-        hashMap.put("vai_tro", "" + suavaitrostring);
+        hashMap.put("username", "" + suaten);
+        hashMap.put("vaiTro", "" + suavaitrostring);
         hashMap.put("email", "" + suaemailstring);
         hashMap.put("sdt", "" + suasdtstring);
         hashMap.put("trang_thai", "" + trangthai);
@@ -177,9 +192,27 @@ public class SuaNVFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             idNV = bundle.getString(KEY_ID_NHAN_VIEN);
-            Log.e("quanquan", "id nhan duoc: "+idNV );
         }
     }
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                khstring = ""+snapshot.child("kh").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     private void setDataNVLenView() {
 
@@ -189,19 +222,29 @@ public class SuaNVFragment extends Fragment {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        suaten = "" + snapshot.child("ten").getValue();
+                        suaten = "" + snapshot.child("username").getValue();
                         suaemailstring = "" + snapshot.child("email").getValue();
                         suasdtstring = "" + snapshot.child("sdt").getValue();
-                        suavaitrostring = "" + snapshot.child("vai_tro").getValue();
+                        suavaitrostring = "" + snapshot.child("vaiTro").getValue();
                         trangthai = "" + snapshot.child("trang_thai").getValue();
 
                         suatennhanvien.setText(suaten);
                         suaemail.setText(suaemailstring);
                         suasdt.setText(suasdtstring);
-                        if (suavaitrostring.equals("Nhân Viên Kho")) {
+
+
+                        if (suavaitrostring.equals("Lao Công")) {
                             suavaitro.setSelection(0);
-                        } else if (suavaitrostring.equals("Nhân Viên Chi Nhánh")) {
+                        } else if (suavaitrostring.equals("Bảo Vệ")) {
                             suavaitro.setSelection(1);
+                        } else if (suavaitrostring.equals("Nhân Viên Bốc Vác")) {
+                            suavaitro.setSelection(2);
+                        } else if (suavaitrostring.equals("Nhân Viên Kiểm Kê")) {
+                            suavaitro.setSelection(3);
+                        } else if (suavaitrostring.equals("Tổ Trưởng")) {
+                            suavaitro.setSelection(4);
+                        } else if (suavaitrostring.equals("Tổ Phó")) {
+                            suavaitro.setSelection(5);
                         }
 
                         if (trangthai.equals("Đang Làm")) {

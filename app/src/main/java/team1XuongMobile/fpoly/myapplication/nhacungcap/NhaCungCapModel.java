@@ -8,12 +8,13 @@ public class NhaCungCapModel {
     String email;
     String trangThai;
     String uid;
+    String kh;
     long timestamp;
 
     public NhaCungCapModel() {
     }
 
-    public NhaCungCapModel(String id_nha_cc, String dia_chi, String ten_nha_cc, String so_dien_dienthoai, String email, String trangThai, String uid, long timestamp) {
+    public NhaCungCapModel(String id_nha_cc, String dia_chi, String ten_nha_cc, String so_dien_dienthoai, String email, String trangThai, String uid, String kh, long timestamp) {
         this.id_nha_cc = id_nha_cc;
         this.dia_chi = dia_chi;
         this.ten_nha_cc = ten_nha_cc;
@@ -21,6 +22,7 @@ public class NhaCungCapModel {
         this.email = email;
         this.trangThai = trangThai;
         this.uid = uid;
+        this.kh = kh;
         this.timestamp = timestamp;
     }
 

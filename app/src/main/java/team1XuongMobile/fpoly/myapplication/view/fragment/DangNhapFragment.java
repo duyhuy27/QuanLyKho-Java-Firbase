@@ -25,6 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ThemTaiKhoanFragment;
+
+import java.util.Objects;
+
 import team1XuongMobile.fpoly.myapplication.MainActivity;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentDangNhapBinding;
@@ -40,7 +44,12 @@ public class DangNhapFragment extends Fragment {
 
     private String role = "";
 
+    private String id = "";
+
     public static final String TAG = "DangNhapFragment";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PASSWORD = "password";
+
 
 
     @Override
@@ -67,31 +76,32 @@ public class DangNhapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 validateData();
+
             }
         });
 
-//        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                binding.progressbar.setVisibility(View.VISIBLE);
-//                email = binding.edtEmail.getText().toString().trim();
-//                firebaseAuth.sendPasswordResetEmail(email)
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                binding.progressbar.setVisibility(View.GONE);
-//                                Toast.makeText(getContext(), "Đã gửi email đổi mật khẩu tới địa chỉ email của bạn", Toast.LENGTH_SHORT).show();
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                binding.progressbar.setVisibility(View.GONE);
-//                                Toast.makeText(getContext(), "Gửi email đổi mật khẩu thất bại vì " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//            }
-//        });
+        binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.progressbar.setVisibility(View.VISIBLE);
+                email = binding.edtEmail.getText().toString().trim();
+                firebaseAuth.sendPasswordResetEmail(email)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                binding.progressbar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Đã gửi email đổi mật khẩu tới địa chỉ email của bạn", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                binding.progressbar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Gửi email đổi mật khẩu thất bại vì " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
 
         binding.tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +137,9 @@ public class DangNhapFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        checkVaiTro();
+//                        checkVaiTro();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -145,37 +157,17 @@ public class DangNhapFragment extends Fragment {
         binding.progressbar.setVisibility(View.VISIBLE);
         binding.buttonDangNhap.setVisibility(View.GONE);
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
 
         DatabaseReference refQ = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
 
-        refQ.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                role = "" + snapshot.child("vaiTro").getValue();
-
-                if (role.equals("nhanVien")) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                } else if (role.equals("admin")) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.child(firebaseUser.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        refQ.child("" + uid).
+                addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        role  = "" + snapshot.child("vaiTro").getValue();
+
+                        role = "" + snapshot.child("vaiTro").getValue();
 
                         if (role.equals("nhanVien")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
@@ -191,5 +183,28 @@ public class DangNhapFragment extends Fragment {
 
                     }
                 });
+
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+//        ref.child(firebaseUser.getUid())
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        role  = "" + snapshot.child("vaiTro").getValue();
+//
+//                        if (role.equals("nhanVien")) {
+//                            startActivity(new Intent(getActivity(), MainActivity.class));
+//                            getActivity().finish();
+//                        } else if (role.equals("admin")) {
+//                            startActivity(new Intent(getActivity(), MainActivity.class));
+//                            getActivity().finish();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
     }
+
 }

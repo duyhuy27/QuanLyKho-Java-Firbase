@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
+    android:orientation="vertical"
     tools:context=".Fragment.ManHinhChinhFragment">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"
         android:background="@drawable/custome_listview"
         android:backgroundTint="@color/white"
@@ -78,7 +80,59 @@
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_30sdp"
             android:src="@drawable/baseline_send_24" />
+    </RelativeLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/custome_listview"
+        android:backgroundTint="@color/white"
+        android:paddingStart="@dimen/_10sdp"
+
+        android:paddingTop="@dimen/_10sdp">
+        <TextView
+            android:id="@+id/s1"
+            android:text="Tính Năng Thử Nghiệm"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/s2"
+            android:layout_below="@+id/s1"
+            android:text="CHAT VỚI AI"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/s3"
+            android:layout_below="@+id/s2"
+            android:src="@drawable/chat_aii"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_3sdp"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_manhinhchinh_chatai"
+            android:text="Dùng Thử"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@drawable/background_button"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_below="@+id/s3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
 
     </RelativeLayout>
 
-</FrameLayout>
+</LinearLayout>

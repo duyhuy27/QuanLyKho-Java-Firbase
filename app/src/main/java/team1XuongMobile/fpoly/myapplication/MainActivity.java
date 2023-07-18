@@ -10,10 +10,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
 
@@ -24,6 +36,8 @@ import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuXuatFrag
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
+
+import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
 import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
@@ -43,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private TaoHDNFragment fragment;
 
+    TextView ten_nguoidung;
+    String tenstring, vaitrostring;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +70,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         replaceFragment(new ManHinhChinhFragment());
+        firebaseAuth = FirebaseAuth.getInstance();
+
         drawerLayout = findViewById(R.id.drawerlayout);
         navigationView = findViewById(R.id.navi);
-        navigationView.inflateMenu(R.menu.menu_navigation);
+
+        laydulieudangnhap();
+        View layout_header = navigationView.getHeaderView(0);
+        ten_nguoidung = layout_header.findViewById(R.id.tv_ten_nguoi_dung_layout_header);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar, 0, 0);
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         fragment = new TaoHDNFragment();
+
+
     }
 
     @Override
@@ -128,6 +154,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alertDialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    firebaseAuth.signOut();
+                    Intent intent = new Intent(MainActivity.this, FormDangNhapActivity.class);
+                    startActivity(intent);
+                    finish();
+
 
                 }
             });
@@ -164,4 +196,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
         fragment.loadDataFirebaseChonSanPham(objChonSanPham.getIdSanPham());
     }
+
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                tenstring = "" + snapshot.child("username").getValue();
+                vaitrostring = "" + snapshot.child("vaiTro").getValue();
+                Log.d("quanquan", "vai tro dn " + vaitrostring);
+                ten_nguoidung.setText(tenstring);
+                if (vaitrostring.equals("nhanVien") == true) {
+                    navigationView.getMenu().clear();
+                    Log.d("quanquan", "chay dang nhap vao day ");
+                    navigationView.inflateMenu(R.menu.menu_navigation_nhanvien);
+                    Toast.makeText(MainActivity.this, "Bạn Đã Đăng Bằng Tài Khoản Nhân Viên", Toast.LENGTH_SHORT).show();
+                } else {
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.menu_navigation);
+                    Toast.makeText(MainActivity.this, "Bạn Đã Đăng Bằng Tài Khoản Admin", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

@@ -19,8 +19,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -35,14 +38,15 @@ public class ThemLoaiSanPhamFragment extends Fragment {
     AppCompatButton hoantat;
     Switch swt_trangthai;
     TextInputEditText loaisp;
-    String ten_lsp = "" ;
+    String ten_lsp = "" ,khString="";
     boolean trangthai;
     FirebaseUser firebaseUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        laydulieudangnhap();
     }
 
     @Override
@@ -62,7 +66,6 @@ public class ThemLoaiSanPhamFragment extends Fragment {
             }
         });
 
-        firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -102,6 +105,7 @@ public class ThemLoaiSanPhamFragment extends Fragment {
         hashMap.put("TrangThai",Boolean.parseBoolean(String.valueOf(trangthai)));
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timestamp",timestamp);
+        hashMap.put("kh",khString);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
         ref.child(""+timestamp)
@@ -120,5 +124,22 @@ public class ThemLoaiSanPhamFragment extends Fragment {
                         Toast.makeText(getContext(), "Thêm Thất Bại", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void laydulieudangnhap(){
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khString = "" + snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

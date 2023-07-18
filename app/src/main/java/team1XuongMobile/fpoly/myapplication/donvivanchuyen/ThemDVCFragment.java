@@ -15,8 +15,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -29,13 +32,15 @@ public class ThemDVCFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private FirebaseUser firebaseUser;
-    private String ten = "", dia_chi = "", sdt = "";
+    private String ten = "", dia_chi = "", sdt = "", kh = "";
     private final String TAG = "ThemDVCFragment";
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
+        laydulieudangnhap();
 
     }
 
@@ -93,6 +98,9 @@ public class ThemDVCFragment extends Fragment {
         hashMap.put("hotline","" + sdt);
         hashMap.put("timestamp", timestamp);
         hashMap.put("uid",firebaseUser.getUid());
+        hashMap.put("kh", kh);
+
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("don_vi_vc");
         ref.child(""+timestamp).setValue(hashMap)
@@ -113,5 +121,21 @@ public class ThemDVCFragment extends Fragment {
                 });
 
 
+    }
+    public void laydulieudangnhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
+        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 kh  = "" + snapshot.child("kh").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

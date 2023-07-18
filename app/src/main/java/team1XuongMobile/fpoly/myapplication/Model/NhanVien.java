@@ -1,35 +1,49 @@
 package team1XuongMobile.fpoly.myapplication.Model;
 
 public class NhanVien {
-    String id_nv;
+    String avatar;
+    String id;
     String email;
-    String ten;
+    String password;
+    String username;
     String sdt;
-    String vai_tro;
+    String vaiTro;
     String trang_thai;
     String uid;
+    String kh;
     long timestamp;
+
+    public NhanVien(String avatar, String id, String email, String password, String username, String sdt, String vaiTro, String trang_thai, String uid, String kh, long timestamp) {
+        this.avatar = avatar;
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.sdt = sdt;
+        this.vaiTro = vaiTro;
+        this.trang_thai = trang_thai;
+        this.uid = uid;
+        this.kh = kh;
+        this.timestamp = timestamp;
+    }
 
     public NhanVien() {
     }
 
-    public NhanVien(String id_nv, String email, String ten, String sdt, String vai_tro, String trang_thai, String uid, long timestamp) {
-        this.id_nv = id_nv;
-        this.email = email;
-        this.ten = ten;
-        this.sdt = sdt;
-        this.vai_tro = vai_tro;
-        this.trang_thai = trang_thai;
-        this.uid = uid;
-        this.timestamp = timestamp;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public String getId_nv() {
-        return id_nv;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public void setId_nv(String id_nv) {
-        this.id_nv = id_nv;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -40,12 +54,20 @@ public class NhanVien {
         this.email = email;
     }
 
-    public String getTen() {
-        return ten;
+    public String getPassword() {
+        return password;
     }
 
-    public void setTen(String ten) {
-        this.ten = ten;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getSdt() {
@@ -56,12 +78,12 @@ public class NhanVien {
         this.sdt = sdt;
     }
 
-    public String getVai_tro() {
-        return vai_tro;
+    public String getVaiTro() {
+        return vaiTro;
     }
 
-    public void setVai_tro(String vai_tro) {
-        this.vai_tro = vai_tro;
+    public void setVaiTro(String vaiTro) {
+        this.vaiTro = vaiTro;
     }
 
     public String getTrang_thai() {
@@ -78,6 +100,14 @@ public class NhanVien {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 
     public long getTimestamp() {
