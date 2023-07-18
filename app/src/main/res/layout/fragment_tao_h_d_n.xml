@@ -55,28 +55,69 @@
                 android:padding="@dimen/_14sdp"
                 android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/tvTenSpHDN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tên sản phẩm"
-                    android:textSize="@dimen/_12sdp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvMaSpHDN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:text="Mã sản phẩm"
-                    android:textSize="@dimen/_12sdp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tên sản phẩm"
+                        android:textSize="@dimen/_12sdp" />
 
-                <TextView
-                    android:id="@+id/tvSoTienSpHDN"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvTenSpHDN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tên sản phẩm"
+                        android:gravity="end"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:text="Số tiền của sản phẩm"
-                    android:textSize="@dimen/_12sdp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Mã sản phẩm"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/tvMaSpHDN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Mã sản phẩm"
+                        android:textSize="@dimen/_12sdp"
+                        android:gravity="end" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Số tiền của sản phẩm"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/tvSoTienSpHDN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Số tiền của sản phẩm"
+                        android:textSize="@dimen/_12sdp"
+                        android:gravity="end" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -98,6 +139,7 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center"
+                        android:inputType="textMultiLine"
                         android:background="@drawable/background_edit_text_05" />
 
                     <ImageView
@@ -145,38 +187,39 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <TextView
-                    android:id="@+id/tv_tongSoLuong"
+                    android:id="@+id/tv_tongSoLuongHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="1"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_12sdp"
+                    android:text="0" />
 
                 <TextView
-                    android:id="@+id/tv_soTienHang"
+                    android:id="@+id/tv_soTienHangHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_tongSoLuong"
+                    android:layout_below="@+id/tv_tongSoLuongHDN"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="20.000"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_12sdp"
+                    android:text="0" />
 
                 <TextView
-                    android:id="@+id/tv_thue"
+                    android:id="@+id/tv_thueHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_soTienHang"
+                    android:layout_below="@id/tv_soTienHangHDN"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="2.000"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_12sdp"
+                    android:text="0" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/layoutChonNgay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -185,13 +228,22 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tvChonNgayNhap"
+                    android:id="@+id/tv09"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chọn ngày nhập"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvChonNgayNhap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_below="@id/tv09"
+                    android:layout_marginTop="@dimen/_5sdp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -208,13 +260,22 @@
                 android:padding="@dimen/_10sdp">
 
                 <TextView
-                    android:id="@+id/tvNhaCungCap"
+                    android:id="@+id/tv05cungcap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nhà cung cấp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNhaCungCap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_below="@id/tv05cungcap"
+                    android:layout_marginTop="@dimen/_5sdp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -245,7 +306,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="22.000"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 

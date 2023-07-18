@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import team1XuongMobile.fpoly.myapplication.R;
 
 public class PhieuNhapFragment extends Fragment {
-    FloatingActionButton fab_themPhieuNhap;
+    private FloatingActionButton fab_themPhieuNhap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

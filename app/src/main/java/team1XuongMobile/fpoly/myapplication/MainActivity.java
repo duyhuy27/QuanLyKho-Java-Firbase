@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleNhaCungCap.putString("idNhaCungCap", objChonNCC.getId_nha_cc());
         fragment.setArguments(bundleNhaCungCap);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, fragment)
+                .add(R.id.layout_content, fragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -159,8 +159,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleSanPham.putString("idSanPham", objChonSanPham.getIdSanPham());
         fragment.setArguments(bundleSanPham);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, fragment)
+                .add(R.id.layout_content, fragment)
                 .addToBackStack(null)
                 .commit();
+        fragment.loadDataFirebaseChonSanPham(objChonSanPham.getIdSanPham());
     }
 }

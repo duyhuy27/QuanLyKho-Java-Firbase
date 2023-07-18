@@ -30,7 +30,7 @@ public class ChonDanhSachNCCFragment extends Fragment {
     private ChonNCCAdapter adapter;
     private RecyclerView chonNCCRecyclerView;
     private ArrayList<ChonNCC> chonNCCArrayList;
-    public ChonNhaCungCapListener listener;
+    private ChonNhaCungCapListener listener;
 
     @Override
     public void onAttach(@NonNull Context context) {
