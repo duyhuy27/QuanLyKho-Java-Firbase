@@ -37,6 +37,7 @@ import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.ChitietNVFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.SuaNVFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.ThemNVFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.CachChucTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ThemTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
@@ -217,6 +218,8 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themTaiKhoanFragment).addToBackStack(null).commit();
     }
+
+
 
 
 }

@@ -34,7 +34,11 @@ import java.util.HashMap;
 
 import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
 import team1XuongMobile.fpoly.myapplication.Adapter.QuanLyTaiKhoanAdapter;
+import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.SuaNVFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.CachChucTaiKhoanFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ChiTietTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
+import team1XuongMobile.fpoly.myapplication.Model.QuanLyTaiKhoan;
 import team1XuongMobile.fpoly.myapplication.R;
 
 
@@ -45,7 +49,9 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
     FirebaseAuth firebaseAuth;
     String khstring = "";
     QuanLyTaiKhoanAdapter quanLyTaiKhoanAdapter;
-    ArrayList<NhanVien> nhanVienArrayList;
+    ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList;
+
+    public static final String KEY_ID_TAI_KHOAN = "id";
     public static final String KEY_ID_NHAN_VIEN = "idNV";
 
     QuanLyTaiKhoanAdapter.TaikhoanInterface taikhoanInterface;
@@ -88,6 +94,7 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
 
             }
         });
+        laydulieudangnhap();
 
         loaddulieuQLTKFirebase();
         return view;
@@ -96,39 +103,35 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
 
     private void loaddulieuQLTKFirebase() {
         firebaseUser = firebaseAuth.getCurrentUser();
-        nhanVienArrayList = new ArrayList<>();
+        quanLyTaiKhoanArrayList = new ArrayList<>();
+
         if (firebaseUser == null) {
             return;
         }
-        String uid = firebaseUser.getUid();
-        DatabaseReference useref = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
+        DatabaseReference useref = FirebaseDatabase.getInstance().getReference("Accounts");
         useref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khstring = "" + snapshot.child("kh").getValue(String.class);
-                if (khstring != null) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
-                    Query query = ref.orderByChild("kh").equalTo(khstring);
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            nhanVienArrayList.clear();
-                            for (DataSnapshot dsnv : snapshot.getChildren()) {
-                                NhanVien themnhanvien = dsnv.getValue(NhanVien.class);
-                                nhanVienArrayList.add(themnhanvien);
-                                Log.d("quanquan", "list" + nhanVienArrayList);
-                            }
-                            quanLyTaiKhoanAdapter = new QuanLyTaiKhoanAdapter(getContext(), nhanVienArrayList, taikhoanInterface);
-                            recyclerView_qltk.setAdapter(quanLyTaiKhoanAdapter);
-                            recyclerView_qltk.setLayoutManager(new LinearLayoutManager(getContext()));
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), "Không lấy được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+                useref.orderByChild("kh").equalTo(khstring).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        quanLyTaiKhoanArrayList.clear();
+                        for (DataSnapshot dstk : snapshot.getChildren()) {
+                            QuanLyTaiKhoan themtk = dstk.getValue(QuanLyTaiKhoan.class);
+                            quanLyTaiKhoanArrayList.add(themtk);
+                            Log.d("quanquan", "list" + quanLyTaiKhoanArrayList);
                         }
-                    });
-                }
+                        quanLyTaiKhoanAdapter = new QuanLyTaiKhoanAdapter(getContext(), quanLyTaiKhoanArrayList, taikhoanInterface);
+                        recyclerView_qltk.setAdapter(quanLyTaiKhoanAdapter);
+                        recyclerView_qltk.setLayoutManager(new LinearLayoutManager(getContext()));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
             }
 
@@ -137,44 +140,27 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
 
             }
         });
+
+
     }
 
 
     @Override
     public void CachChucTKClick(String id) {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("vaiTro", "Tổ Trưởng");
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Bạn có muốn cách chức nhân viên này?");
+        Bundle bundlecachchucTK = new Bundle();
+        bundlecachchucTK.putString(KEY_ID_TAI_KHOAN, id);
+        CachChucTaiKhoanFragment cachChucTaiKhoanFragment = new CachChucTaiKhoanFragment();
+        cachChucTaiKhoanFragment.setArguments(bundlecachchucTK);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, cachChucTaiKhoanFragment).addToBackStack(null).commit();
+    }
 
-        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (id != null && !id.isEmpty()) {
-                    ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(getContext(), "Cách Chức Thành Công", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Cách Chức Thất Bại", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
-
-            }
-        });
-        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
+    @Override
+    public void ChiTietTKClick(String id) {
+        Bundle bundlechitietTK = new Bundle();
+        bundlechitietTK.putString(KEY_ID_TAI_KHOAN, id);
+        ChiTietTaiKhoanFragment chiTietTaiKhoanFragment = new ChiTietTaiKhoanFragment();
+        chiTietTaiKhoanFragment.setArguments(bundlechitietTK);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietTaiKhoanFragment).addToBackStack(null).commit();
     }
 
     public void laydulieudangnhap() {
@@ -186,6 +172,7 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 khstring = "" + snapshot.child("kh").getValue();
+                Log.d("quanquan", "kh " + khstring);
 
             }
 
