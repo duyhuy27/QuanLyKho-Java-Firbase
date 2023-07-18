@@ -29,6 +29,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
 
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPhamListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuNhapFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuXuatFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
+
 import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
 import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
@@ -36,8 +44,6 @@ import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
 import team1XuongMobile.fpoly.myapplication.nhacungcap.NhaCungCapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.PhieuNhapFragment;
-import team1XuongMobile.fpoly.myapplication.Fragment.PhieuXuatFragment;
 
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
 
@@ -46,9 +52,11 @@ import team1XuongMobile.fpoly.myapplication.sanpham.SanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChonNhaCungCapListener, ChonSanPhamListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private TaoHDNFragment fragment;
+
     TextView ten_nguoidung;
     String tenstring, vaitrostring;
     FirebaseAuth firebaseAuth;
@@ -73,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar, 0, 0);
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragment = new TaoHDNFragment();
 
 
     }
@@ -155,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
             alertDialog.show();
         }
-
-
         return true;
     }
 
@@ -164,6 +172,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.layout_content, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onClickChonNhaCungCap(ChonNCC objChonNCC) {
+        Bundle bundleNhaCungCap = new Bundle();
+        bundleNhaCungCap.putString("idNhaCungCap", objChonNCC.getId_nha_cc());
+        fragment.setArguments(bundleNhaCungCap);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.layout_content, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onClickChonSanPham(ChonSanPham objChonSanPham) {
+        Bundle bundleSanPham = new Bundle();
+        bundleSanPham.putString("idSanPham", objChonSanPham.getIdSanPham());
+        fragment.setArguments(bundleSanPham);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.layout_content, fragment)
+                .addToBackStack(null)
+                .commit();
+        fragment.loadDataFirebaseChonSanPham(objChonSanPham.getIdSanPham());
     }
 
     public void laydulieudangnhap() {

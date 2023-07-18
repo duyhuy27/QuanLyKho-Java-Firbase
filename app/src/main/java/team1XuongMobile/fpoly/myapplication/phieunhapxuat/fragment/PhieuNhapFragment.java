@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import team1XuongMobile.fpoly.myapplication.R;
 
 public class PhieuNhapFragment extends Fragment {
-    FloatingActionButton fab_themPhieuNhap;
+    private FloatingActionButton fab_themPhieuNhap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,11 +22,15 @@ public class PhieuNhapFragment extends Fragment {
         fab_themPhieuNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, new ChiTietHDNFragment())
-                        .addToBackStack(null).commit();
+                onclickThemPhieuNhap();
             }
         });
         return view;
+    }
+
+    public void onclickThemPhieuNhap() {
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, new ChonDanhSachNCCFragment()).
+                addToBackStack(null).commit();
     }
 }

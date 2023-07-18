@@ -21,22 +21,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPhamListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonSanPhamAdapter;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
 
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonNCCAdapter;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
-
-public class ChonDanhSachNCCFragment extends Fragment {
-    private ChonNCCAdapter adapter;
-    private RecyclerView chonNCCRecyclerView;
-    private ArrayList<ChonNCC> chonNCCArrayList;
-    private ChonNhaCungCapListener listener;
+public class ChonSanPhamFragment extends Fragment {
+    private ArrayList<ChonSanPham> list;
+    private ChonSanPhamAdapter adapter;
+    private RecyclerView rcvChonSanPham;
+    private ChonSanPhamListener listener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            listener = (ChonNhaCungCapListener) requireContext();
+            listener = (ChonSanPhamListener) requireContext();
         } catch (ClassCastException e) {
             throw new ClassCastException("You must implement FirstFragmentListener");
         }
@@ -44,32 +43,29 @@ public class ChonDanhSachNCCFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chon_danh_sach_ncc, container, false);
-        adapter = new ChonNCCAdapter(requireContext(), listener);
-        chonNCCArrayList = new ArrayList<>();
-
-        chonNCCRecyclerView = view.findViewById(R.id.rcv_chonDanhSachNCC);
-
+        View view = inflater.inflate(R.layout.fragment_chon_san_pham, container, false);
+        rcvChonSanPham = view.findViewById(R.id.rcv_chonSanPham);
+        list = new ArrayList<>();
+        adapter = new ChonSanPhamAdapter(requireContext(), listener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
-        chonNCCRecyclerView.setLayoutManager(layoutManager);
+        rcvChonSanPham.setLayoutManager(layoutManager);
 
-        loadDataFirebase();
-
+        loadFirebase(); // Đổ dữ liệu lên recyclerView
         return view;
     }
 
-    public void loadDataFirebase() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
+    private void loadFirebase() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SanPham");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chonNCCArrayList.clear();
+                list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ChonNCC objChonNCC = dataSnapshot.getValue(ChonNCC.class);
-                    chonNCCArrayList.add(objChonNCC);
+                    ChonSanPham objChonSanPham = dataSnapshot.getValue(ChonSanPham.class);
+                    list.add(objChonSanPham);
                 }
-                adapter.setData(chonNCCArrayList);
-                chonNCCRecyclerView.setAdapter(adapter);
+                adapter.setData(list);
+                rcvChonSanPham.setAdapter(adapter);
             }
 
             @Override
