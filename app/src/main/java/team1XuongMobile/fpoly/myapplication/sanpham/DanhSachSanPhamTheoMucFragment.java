@@ -140,30 +140,30 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
         binding.progressbar.setVisibility(View.VISIBLE)
         ;
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
-        ref.orderByChild("id_loai").equalTo(idLoaiSp)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        Query query = ref.orderByChild("id_loai").equalTo(idLoaiSp);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        sanPhamModelsArrayList.clear();
+                sanPhamModelsArrayList.clear();
 
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
-                            sanPhamModelsArrayList.add(sanPhamModels);
-                        }
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
+                    sanPhamModelsArrayList.add(sanPhamModels);
+                }
 
-                        sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
-                        binding.rcvSanPham.setAdapter(sanPhamAdapter);
+                sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
+                binding.rcvSanPham.setAdapter(sanPhamAdapter);
 
-                        binding.progressbar.setVisibility(View.GONE);
+                binding.progressbar.setVisibility(View.GONE);
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle database error if needed
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database error if needed
+            }
+        });
     }
 
     private void loadTatCaSanPham() {
@@ -171,7 +171,7 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
 
         binding.progressbar.setVisibility(View.VISIBLE);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 sanPhamModelsArrayList.clear();
@@ -182,12 +182,10 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
                 }
 
 
-
                 sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
                 binding.rcvSanPham.setAdapter(sanPhamAdapter);
 
                 binding.progressbar.setVisibility(View.GONE);
-
 
 
 //                if (sanPhamModelsArrayList.isEmpty()) {
@@ -288,13 +286,9 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).addToBackStack(null).commit();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (tenSp.equals("Tất cả")) {
-//            loadTatCaSanPham();
-//        } else {
-//            loadSanPhamTheoMuc();
-//        }
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupLoadSanPham();
+    }
 }
