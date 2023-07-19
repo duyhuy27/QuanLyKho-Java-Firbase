@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_trolai"
-                    android:background="@android:color/background_light"
+                    android:background="@android:color/transparent"
                     android:layout_marginTop="@dimen/_14sdp"
                     android:layout_marginStart="@dimen/_14sdp"
                     />

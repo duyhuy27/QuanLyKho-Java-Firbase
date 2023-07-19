@@ -28,7 +28,7 @@
             android:backgroundTint="@color/background_color"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -38,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_14sdp"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/background_edit_text"
                     android:padding="@dimen/_6sdp"
                     android:src="@drawable/ic_quay_lai" />
@@ -47,11 +48,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:text="Thêm loại sản phẩm"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
                     android:textStyle="bold" />
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout

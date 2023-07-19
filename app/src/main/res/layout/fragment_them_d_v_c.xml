@@ -1,92 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
     <View
         android:id="@+id/view_nen"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:background="@drawable/wave_background"/>
+        android:background="@drawable/wave_background" />
+
     <androidx.cardview.widget.CardView
-        app:contentPadding="@dimen/_7sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_60sdp"
         app:cardBackgroundColor="@color/background_color"
-        android:layout_marginHorizontal="@dimen/_14sdp"
-        app:cardCornerRadius="@dimen/_20sdp">
+        app:cardCornerRadius="@dimen/_20sdp"
+        app:contentPadding="@dimen/_7sdp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
                 <ImageButton
                     android:id="@+id/button_troLai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_trolai"
-                    android:background="@android:color/background_light"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_14sdp"
-                    />
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_trolai" />
 
                 <TextView
                     android:id="@+id/tv_themDVC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thêm đơn vị vận chuyển"
-                    android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    />
+                    android:text="Thêm đơn vị vận chuyển"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginEnd="@dimen/_14sdp"
+                android:orientation="vertical"
 
                 >
+
                 <EditText
                     android:id="@+id/ed_tenDVC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Tên đơn vị vận chuyển"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/background_edit_text"
-                    android:padding="@dimen/_10sdp"
+                    android:hint="Tên đơn vị vận chuyển"
 
-                    android:layout_marginBottom="@dimen/_10sdp"/>
+                    android:padding="@dimen/_10sdp" />
+
                 <EditText
                     android:id="@+id/ed_soDienThoaiDVC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Số điện thoại"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/background_edit_text"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"/>
+                    android:hint="Số điện thoại"
+                    android:padding="@dimen/_10sdp" />
 
                 <EditText
                     android:id="@+id/ed_diaChiDVC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Địa chỉ"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/background_edit_text"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"/>
-
-
+                    android:hint="Địa chỉ"
+                    android:padding="@dimen/_10sdp" />
 
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -102,13 +104,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
-
-
-
-
-
-
 
 
     </androidx.cardview.widget.CardView>

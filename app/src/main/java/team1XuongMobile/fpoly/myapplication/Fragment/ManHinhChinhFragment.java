@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.sanpham.chat.ChatGptFragment;
+import team1XuongMobile.fpoly.myapplication.sanpham.qrcode.TaoQRFragment;
 
 
 public class ManHinhChinhFragment extends Fragment {
@@ -80,7 +82,7 @@ public class ManHinhChinhFragment extends Fragment {
             public void onClick(View v) {
                 cauhoi = ed_cauhoi.getText().toString();
                 String email = "huy.mobcontact@gmail.com";
-                 Toemail = email.split(",");
+                Toemail = email.split(",");
                 if (ed_cauhoi.length() == 0) {
                     ed_cauhoi.requestFocus();
                     ed_cauhoi.setError("Hãy viết câu hỏi bạn muốn gửi");
@@ -99,7 +101,16 @@ public class ManHinhChinhFragment extends Fragment {
             }
         });
 
+        chatAi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ChatGptFragment()).addToBackStack(null).commit();
+
+            }
+        });
+
     }
+
     public void laydulieudangnhap() {
         firebaseUser = firebaseAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
@@ -107,7 +118,7 @@ public class ManHinhChinhFragment extends Fragment {
         ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tenstring = ""+snapshot.child("username").getValue();
+                tenstring = "" + snapshot.child("username").getValue();
                 tv_ten_nguoi_dung.setText(tenstring);
 
             }
@@ -118,7 +129,6 @@ public class ManHinhChinhFragment extends Fragment {
             }
         });
     }
-
 
 
 }

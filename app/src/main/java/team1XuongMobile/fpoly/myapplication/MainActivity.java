@@ -115,11 +115,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             replaceFragment(new SanPhamFragment());
             drawerLayout.close();
         } else if (id == R.id.PhieuNhap_navi) {
-            setTitle("Phiếu Nhập Xuất");
+            setTitle("Phiếu Nhập");
             replaceFragment(new PhieuNhapFragment());
             drawerLayout.close();
         } else if (id == R.id.PhieuXuat_navi) {
-            setTitle("Phiếu Nhập Xuất");
+            setTitle("Phiếu Xuất");
             replaceFragment(new PhieuXuatFragment()
             );
             drawerLayout.close();
