@@ -11,12 +11,20 @@ public class LoaiSanPham {
     public LoaiSanPham() {
     }
 
-    public LoaiSanPham(String id_loai_sp, String ten_loai_sp, boolean trangThai, String uid, String kh, long timestamp) {
+    public LoaiSanPham(String id_loai_sp, String ten_loai_sp,String uid , boolean trangThai, String kh, long timestamp) {
         this.id_loai_sp = id_loai_sp;
         this.ten_loai_sp = ten_loai_sp;
         TrangThai = trangThai;
         this.uid = uid;
         this.kh = kh;
+        this.timestamp = timestamp;
+    }
+
+    public LoaiSanPham(String id_loai_sp, String ten_loai_sp,boolean trangThai , String uid, long timestamp) {
+        this.id_loai_sp = id_loai_sp;
+        this.ten_loai_sp = ten_loai_sp;
+        TrangThai = trangThai;
+        this.uid = uid;
         this.timestamp = timestamp;
     }
 

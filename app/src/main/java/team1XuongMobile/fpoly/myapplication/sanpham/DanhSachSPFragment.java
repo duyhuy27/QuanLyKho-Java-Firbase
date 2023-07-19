@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +14,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -47,6 +51,7 @@ public class DanhSachSPFragment extends Fragment {
         configViewPager(binding.viewpager2);
         binding.tabLayout.setupWithViewPager(binding.viewpager2);
 
+
         binding.buttonQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +72,7 @@ public class DanhSachSPFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 loaiSanPhamArrayList.clear();
-                LoaiSanPham objectAll = new LoaiSanPham("01", "Tất cả", true, "","", 1);
+                LoaiSanPham objectAll = new LoaiSanPham("01", "Tất cả", true, "true",1 );
 
                 loaiSanPhamArrayList.add(objectAll);
 
@@ -86,24 +91,90 @@ public class DanhSachSPFragment extends Fragment {
                     viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
                             "" + loaiSanPham.getId_loai_sp(),
                             "" + loaiSanPham.getTen_loai_sp(),
-                            "" + loaiSanPham.getUid()), loaiSanPham.getTen_loai_sp()
+                            "" + loaiSanPham.getUid()),
+                            loaiSanPham.getTen_loai_sp()
                     );
-                    viewPagerAdapter.notifyDataSetChanged();
-                    viewpager2.setAdapter(viewPagerAdapter);
-
-                    applyTabSpacing();
                 }
+
+                viewPagerAdapter.notifyDataSetChanged();
+                viewpager2.setAdapter(viewPagerAdapter);
+                applyTabSpacing();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle database error if needed
             }
         });
-
-        viewpager2.setAdapter(viewPagerAdapter);
-
     }
+//    private void configViewPager(ViewPager viewpager2) {
+//        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), getContext(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//        loaiSanPhamArrayList = new ArrayList<>();
+//
+//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//        if (firebaseUser == null) {
+//            // User not logged in, handle the case as needed
+//            return;
+//        }
+//
+//        String uid = firebaseUser.getUid();
+//
+//        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
+//        userRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String kh = "" + snapshot.child("kh").getValue(String.class);
+//                if (kh != null) {
+//                    DatabaseReference loaiSpRef = FirebaseDatabase.getInstance().getReference("loai_sp");
+//                    Query query = loaiSpRef.orderByChild("kh").equalTo(kh);
+//
+//                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            loaiSanPhamArrayList.clear();
+//
+//                            LoaiSanPham objectAll = new LoaiSanPham("00", "Tất cả", "", true, 1);
+//                            loaiSanPhamArrayList.add(objectAll);
+//
+//                            for (DataSnapshot ds : snapshot.getChildren()) {
+//                                LoaiSanPham loaiSanPham = ds.getValue(LoaiSanPham.class);
+//                                loaiSanPhamArrayList.add(loaiSanPham);
+//                            }
+//
+//                            setupViewPager(viewpager2); // Update the ViewPager with new fragments
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                            Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void setupViewPager(ViewPager viewpager2) {
+////        viewPagerAdapter.clearFragments();
+//
+//        for (LoaiSanPham loaiSanPham : loaiSanPhamArrayList) {
+//            viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
+//                    "" + loaiSanPham.getId_loai_sp(),
+//                    "" + loaiSanPham.getTen_loai_sp(),
+//                    "" + loaiSanPham.getUid()), loaiSanPham.getTen_loai_sp()
+//            );
+//        }
+//
+//        viewpager2.setAdapter(viewPagerAdapter);
+//        applyTabSpacing();
+//    }
+
+
 
     private void applyTabSpacing() {
         ViewGroup slidingTabStrip = (ViewGroup) binding.tabLayout.getChildAt(0);
@@ -151,5 +222,4 @@ public class DanhSachSPFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
         }
-    }
-}
+    }}
