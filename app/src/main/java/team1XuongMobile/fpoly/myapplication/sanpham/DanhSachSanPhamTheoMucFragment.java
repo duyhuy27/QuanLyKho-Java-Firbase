@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import team1XuongMobile.fpoly.myapplication.Adapter.KhachHangAdapter;
+import team1XuongMobile.fpoly.myapplication.Model.KhachHang;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentDanhSachSanPhamTheoMucBinding;
 
@@ -82,7 +85,10 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentDanhSachSanPhamTheoMucBinding.inflate(inflater, container, false);
+        binding = FragmentDanhSachSanPhamTheoMucBinding.inflate(LayoutInflater.from(getContext()), container, false);
+
+        String idLoaiSp = getArguments().getString("idLoaiSp");
+        Log.d("DSSPTM", "idLoaiSp: " + idLoaiSp);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -131,104 +137,14 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
         Log.d(TAG, "loadSanPhamTheoMuc: id loai " + idLoaiSp);
         sanPhamModelsArrayList = new ArrayList<>();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
-
+        binding.progressbar.setVisibility(View.VISIBLE)
+        ;
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
-
-        binding.progressbar.setVisibility(View.VISIBLE);
-
-        Query query = ref.orderByChild("id_loai").equalTo(idLoaiSp);
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                sanPhamModelsArrayList.clear();
-
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
-                    if (sanPhamModels != null && sanPhamModels.getUid() == uid) {
-                        sanPhamModelsArrayList.add(sanPhamModels);
-                    }
-                }
-
-                Log.d(TAG, "onDataChange: list " + sanPhamModelsArrayList);
-
-                binding.progressbar.setVisibility(View.GONE);
-
-                sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
-                binding.rcvSanPham.setAdapter(sanPhamAdapter);
-                binding.rcvSanPham.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error if needed
-                Log.d(TAG, "onCancelled: khong load duoc san pham theo muc vi " + error.getMessage());
-            }
-        });
-    }
-
-
-//    private void loadSanPhamTheoMuc() {
-//        Log.d(TAG, "loadSanPhamTheoMuc: id loai " + idLoaiSp);
-//
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//        String uid = firebaseUser.getUid();
-//
-//        Log.d(TAG, "loadSanPhamTheoMuc: uid = " + uid + ", idLoaiSp = " + idLoaiSp);
-//
-//        sanPhamModelsArrayList = new ArrayList<>();
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
-//
-//        binding.progressbar.setVisibility(View.VISIBLE);
-//
-//        // Perform a single query to filter data by both uid and id_loai
-//        Query query = ref.orderByChild("id_loai").equalTo(idLoaiSp);
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                sanPhamModelsArrayList.clear();
-//
-//                for (DataSnapshot ds : snapshot.getChildren()) {
-//                    SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
-//                    sanPhamModelsArrayList.add(sanPhamModels);
-//                }
-//
-//                Log.d(TAG, "onDataChange: list " + sanPhamModelsArrayList);
-//
-//                binding.progressbar.setVisibility(View.GONE);
-//
-//                sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
-//                binding.rcvSanPham.setAdapter(sanPhamAdapter);
-//                binding.rcvSanPham.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                // Handle database error if needed
-//                Log.d(TAG, "onCancelled: khong load duoc san pham theo muc vi " + error.getMessage());
-//            }
-//        });
-//    }
-
-    private void loadTatCaSanPham() {
-        sanPhamModelsArrayList = new ArrayList<>();
-
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
-
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
-
-
-        binding.progressbar.setVisibility(View.VISIBLE);
-
-        ref.orderByChild("kh").equalTo("a")
+        ref.orderByChild("id_loai").equalTo(idLoaiSp)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         sanPhamModelsArrayList.clear();
 
                         for (DataSnapshot ds : snapshot.getChildren()) {
@@ -236,36 +152,70 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
                             sanPhamModelsArrayList.add(sanPhamModels);
                         }
 
-                        binding.progressbar.setVisibility(View.GONE);
                         sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
+                        binding.rcvSanPham.setAdapter(sanPhamAdapter);
 
+                        binding.progressbar.setVisibility(View.GONE);
 
-                        if (sanPhamModelsArrayList.isEmpty()) {
-                            binding.linerAddSp.setVisibility(View.VISIBLE);
-                            binding.tvAddSp.setPaintFlags(binding.tvAddSp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-                            binding.tvAddSp.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ThemSPFragment()).addToBackStack(null).commit();
-                                }
-                            });
-
-                            binding.rcvSanPham.setVisibility(View.GONE);
-                        } else {
-                            binding.linerAddSp.setVisibility(View.GONE);
-                            binding.rcvSanPham.setVisibility(View.VISIBLE);
-                            binding.rcvSanPham.setAdapter(sanPhamAdapter);
-                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        // Handle database error if needed
                     }
                 });
+    }
+
+    private void loadTatCaSanPham() {
+        sanPhamModelsArrayList = new ArrayList<>();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
+
+        binding.progressbar.setVisibility(View.VISIBLE);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                sanPhamModelsArrayList.clear();
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
+                    sanPhamModelsArrayList.add(sanPhamModels);
+                }
+
+
+
+                sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
+                binding.rcvSanPham.setAdapter(sanPhamAdapter);
+
+                binding.progressbar.setVisibility(View.GONE);
+
+
+
+//                if (sanPhamModelsArrayList.isEmpty()) {
+//                    binding.linerAddSp.setVisibility(View.VISIBLE);
+//                    binding.tvAddSp.setPaintFlags(binding.tvAddSp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//
+//                    binding.tvAddSp.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ThemSPFragment()).addToBackStack(null).commit();
+//                        }
+//                    });
+//
+//                    binding.rcvSanPham.setVisibility(View.GONE);
+//                } else {
+//                    binding.linerAddSp.setVisibility(View.GONE);
+//                    binding.rcvSanPham.setVisibility(View.VISIBLE);
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
+
 
     public static final String KEY_ID_SP = "id";
 
@@ -337,4 +287,14 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).addToBackStack(null).commit();
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (tenSp.equals("Tất cả")) {
+//            loadTatCaSanPham();
+//        } else {
+//            loadSanPhamTheoMuc();
+//        }
+//    }
 }

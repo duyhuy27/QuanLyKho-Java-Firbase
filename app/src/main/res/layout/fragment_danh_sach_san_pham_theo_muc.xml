@@ -38,7 +38,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="true"
         app:stackFromEnd="true"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:listitem="@layout/item_san_pham" />
 
     <LinearLayout
