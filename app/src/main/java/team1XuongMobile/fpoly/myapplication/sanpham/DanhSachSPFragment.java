@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.sanpham;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,8 @@ public class DanhSachSPFragment extends Fragment {
 
     private ArrayList<LoaiSanPham> loaiSanPhamArrayList;
 
+    public static final String TAG = "DanhSachSPFragment";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,117 +67,74 @@ public class DanhSachSPFragment extends Fragment {
     }
 
     private void configViewPager(ViewPager viewpager2) {
-        viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), getContext(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         loaiSanPhamArrayList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            return;
+        }
+
+        String uid = firebaseUser.getUid();
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                loaiSanPhamArrayList.clear();
-                LoaiSanPham objectAll = new LoaiSanPham("01", "Tất cả", true, "true",1 );
+                String kh = "" + snapshot.child("kh").getValue(String.class);
+                Log.d(TAG, "onDataChange: kh " + kh);
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
+                Query query = ref.orderByChild("kh").equalTo(kh);
 
-                loaiSanPhamArrayList.add(objectAll);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        loaiSanPhamArrayList.clear();
+                        LoaiSanPham objectAll = new LoaiSanPham("01", "Tất cả", true, "true", 1);
 
-                viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
-                                "" + objectAll.getId_loai_sp(),
-                                "" + objectAll.getTen_loai_sp(),
-                                "" + objectAll.getUid()),
-                        objectAll.getTen_loai_sp());
+                        loaiSanPhamArrayList.add(objectAll);
 
-                viewPagerAdapter.notifyDataSetChanged();
+                        Log.d(TAG, "onDataChange: loai_sanPhamArrayList" + loaiSanPhamArrayList);
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    LoaiSanPham loaiSanPham = ds.getValue(LoaiSanPham.class);
-                    loaiSanPhamArrayList.add(loaiSanPham);
+                        viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
+                                        "" + objectAll.getId_loai_sp(),
+                                        "" + objectAll.getTen_loai_sp(),
+                                        "" + objectAll.getUid()),
+                                objectAll.getTen_loai_sp());
 
-                    viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
-                            "" + loaiSanPham.getId_loai_sp(),
-                            "" + loaiSanPham.getTen_loai_sp(),
-                            "" + loaiSanPham.getUid()),
-                            loaiSanPham.getTen_loai_sp()
-                    );
-                }
+                        viewPagerAdapter.notifyDataSetChanged();
 
-                viewPagerAdapter.notifyDataSetChanged();
-                viewpager2.setAdapter(viewPagerAdapter);
-                applyTabSpacing();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            LoaiSanPham loaiSanPham = ds.getValue(LoaiSanPham.class);
+                            loaiSanPhamArrayList.add(loaiSanPham);
+
+                            viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
+                                            "" + loaiSanPham.getId_loai_sp(),
+                                            "" + loaiSanPham.getTen_loai_sp(),
+                                            "" + loaiSanPham.getUid()),
+                                    loaiSanPham.getTen_loai_sp()
+                            );
+                        }
+
+                        viewPagerAdapter.notifyDataSetChanged();
+                        viewpager2.setAdapter(viewPagerAdapter);
+                        applyTabSpacing();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle database error if needed
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error if needed
+
             }
         });
+
     }
-//    private void configViewPager(ViewPager viewpager2) {
-//        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), getContext(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-//        loaiSanPhamArrayList = new ArrayList<>();
-//
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//        if (firebaseUser == null) {
-//            // User not logged in, handle the case as needed
-//            return;
-//        }
-//
-//        String uid = firebaseUser.getUid();
-//
-//        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
-//        userRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String kh = "" + snapshot.child("kh").getValue(String.class);
-//                if (kh != null) {
-//                    DatabaseReference loaiSpRef = FirebaseDatabase.getInstance().getReference("loai_sp");
-//                    Query query = loaiSpRef.orderByChild("kh").equalTo(kh);
-//
-//                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            loaiSanPhamArrayList.clear();
-//
-//                            LoaiSanPham objectAll = new LoaiSanPham("00", "Tất cả", "", true, 1);
-//                            loaiSanPhamArrayList.add(objectAll);
-//
-//                            for (DataSnapshot ds : snapshot.getChildren()) {
-//                                LoaiSanPham loaiSanPham = ds.getValue(LoaiSanPham.class);
-//                                loaiSanPhamArrayList.add(loaiSanPham);
-//                            }
-//
-//                            setupViewPager(viewpager2); // Update the ViewPager with new fragments
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(getContext(), "Không thêm được dữ liệu lên Firebase", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    private void setupViewPager(ViewPager viewpager2) {
-////        viewPagerAdapter.clearFragments();
-//
-//        for (LoaiSanPham loaiSanPham : loaiSanPhamArrayList) {
-//            viewPagerAdapter.addFragment(DanhSachSanPhamTheoMucFragment.newInstance(
-//                    "" + loaiSanPham.getId_loai_sp(),
-//                    "" + loaiSanPham.getTen_loai_sp(),
-//                    "" + loaiSanPham.getUid()), loaiSanPham.getTen_loai_sp()
-//            );
-//        }
-//
-//        viewpager2.setAdapter(viewPagerAdapter);
-//        applyTabSpacing();
-//    }
-
-
 
     private void applyTabSpacing() {
         ViewGroup slidingTabStrip = (ViewGroup) binding.tabLayout.getChildAt(0);
@@ -222,4 +182,5 @@ public class DanhSachSPFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
         }
-    }}
+    }
+}
