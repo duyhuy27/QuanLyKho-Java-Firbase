@@ -21,16 +21,18 @@
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <ImageView
+                    android:id="@+id/imgTrangThaiChiTietHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_radio_button_checked_24" />
+                    android:src="@drawable/trang_thai_chua_hoan_thanh" />
 
                 <TextView
+                    android:id="@+id/tvTrangThaiChiTietHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Hoàn thành"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:text="Chưa hoàn thành"
                     android:textSize="@dimen/_12sdp"
                     tools:ignore="TextSizeCheck" />
             </LinearLayout>
@@ -44,6 +46,7 @@
                 android:padding="@dimen/_14sdp">
 
                 <TextView
+                    android:id="@+id/tvTongTienCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tổng số tiền"
@@ -63,6 +66,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/tvTenNguoiTaoCTHDN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -80,6 +84,7 @@
                 android:padding="@dimen/_14sdp">
 
                 <TextView
+                    android:id="@+id/tvTenDonViCungCapCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tên đơn vị cung cấp"
@@ -88,6 +93,7 @@
                     tools:ignore="TextSizeCheck" />
 
                 <TextView
+                    android:id="@+id/tvSoDienThoaiCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -97,6 +103,7 @@
                     tools:ignore="TextSizeCheck" />
 
                 <TextView
+                    android:id="@+id/tvDiaChiNCC_CTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -137,7 +144,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_tenSanPham"
+                        android:id="@+id/tv_tenSanPhamCTHDN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tên sản phẩm"
@@ -145,6 +152,7 @@
                         tools:ignore="TextSizeCheck" />
 
                     <TextView
+                        android:id="@+id/tvMaSpCTHDN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_tenSanPham"
@@ -152,6 +160,7 @@
                         android:text="Mã sản phẩm" />
 
                     <TextView
+                        android:id="@+id/tvGiaTienCTHDN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_tenSanPham"
@@ -160,6 +169,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvTongTienSpCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -210,7 +220,7 @@
                     tools:ignore="TextSizeCheck" />
 
                 <TextView
-                    android:id="@+id/tv_tienHang"
+                    android:id="@+id/tv_tienHangCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -220,10 +230,10 @@
                     tools:ignore="TextSizeCheck" />
 
                 <TextView
-                    android:id="@+id/tv_thue"
+                    android:id="@+id/tv_thueCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_tienHang"
+                    android:layout_below="@+id/tv_tienHangCTHDN"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="2.000"
@@ -232,10 +242,10 @@
                     tools:ignore="TextSizeCheck" />
 
                 <TextView
-                    android:id="@+id/tv_tongTien"
+                    android:id="@+id/tv_tongTienCTHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_thue"
+                    android:layout_below="@id/tv_thueCTHDN"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="22.000"
@@ -254,10 +264,11 @@
         android:padding="@dimen/_14sdp">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnXacNhanHDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_button"
-            android:text="Quay lại"
+            android:text="Xác nhận"
             android:textColor="@color/white" />
     </RelativeLayout>
 </RelativeLayout>
