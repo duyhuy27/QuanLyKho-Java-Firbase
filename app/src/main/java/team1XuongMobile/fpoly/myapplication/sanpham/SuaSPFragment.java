@@ -375,9 +375,68 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
         String timestamp = "" + System.currentTimeMillis();
 
         if (img_uri == null) {
-            progressDialog.dismiss();
-            Toast.makeText(getContext(), "Bạn chưa chọn ảnh", Toast.LENGTH_SHORT).show();
-            return;
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            // Generate a unique product ID
+            // Save the product to the database
+            HashMap<String, Object> productData = new HashMap<>();
+            productData.put("tenSp", "" + tenSp);
+            productData.put("maSp", "" + maSp);
+            productData.put("khoiLuong", "" + khoiLuong);
+            productData.put("giaNhap", "" + giaGoc);
+            productData.put("giaBan", "" + giaBan);
+            productData.put("thueAvailable", "" + thueAvailable);
+            productData.put("thueDauRa", "" + thueDauRa);
+            productData.put("thueDauVao", "" + thueDauVao);
+            productData.put("trangThaiAvailable", "" + trangThaiAvailable);
+            productData.put("ten_loai", "" + chonTenLsp);
+            productData.put("id_loai", "" + chonIdLsp);
+            productData.put("id_nha_cc", "" + chonIdNcc);
+            productData.put("ten_nha_cc", "" + chonTenNcc);
+            productData.put("uid", firebaseUser.getUid());
+            productData.put("codeIme", "");
+            productData.put("timestamp", "" + timestamp);
+            productData.put("mota", "" + moTa);
+
+            DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference("SanPham");
+            productsRef.child(id).updateChildren(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    DatabaseReference attributesRef = FirebaseDatabase.getInstance().getReference("attributes");
+                    for (ThuocTinhModels thuocTinhModel : thuocTinhNewModelsArrayList) {
+                        // Generate a unique attribute ID
+                        String attributeId = attributesRef.push().getKey();
+
+                        // Create a HashMap to store attribute details
+                        HashMap<String, Object> attributeData = new HashMap<>();
+                        attributeData.put("product_id", id);
+                        attributeData.put("ten_tt", thuocTinhModel.getTen_tt());
+                        attributeData.put("gia_tri_tt", thuocTinhModel.getGia_tri_tt());
+
+                        // Save the attribute to the database
+                        attributesRef.child(attributeId).setValue(attributeData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("thuoc_tinh_update");
+                                databaseReference.child(idThuocTinhThem).removeValue();
+                            }
+                        });
+                    }
+
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Sửa sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                    // Reset the input fields and clear the attributes list
+                    thuocTinhModelsArrayList.clear();
+                    thuocTinhAdapter.notifyDataSetChanged();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onFailure: thêm sản phẩm thất bại " + e.getMessage());
+                }
+            });
         } else {
             String path = "sanpham_img/" + "" + timestamp;
 
@@ -514,6 +573,8 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
                 Intent intent = result.getData();
 
                 img_uri = intent.getData();
+
+                Log.d(TAG, "onActivityResult: type ò img_uri " + img_uri);
 
                 try {
                     Picasso.get().load(img_uri).placeholder(R.drawable.ic_camera).error(R.drawable.ic_camera).into(binding.cardPickerCamera);
@@ -688,6 +749,11 @@ public class SuaSPFragment extends Fragment implements ThuocTinhAdapter.thuocTin
                 } catch (Exception e) {
                     Log.d(TAG, "onDataChange: Không thể load ảnh " + e.getMessage());
                 }
+
+//                img_uri = Uri.parse(img);
+
+
+
 
                 binding.edtTenSp.setText(tenSp);
                 binding.edtMaSp.setText(maSpOld);
