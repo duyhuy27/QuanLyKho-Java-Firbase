@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custome_listview"
-    android:padding="@dimen/_10sdp"
-    android:backgroundTint="#E8E8E8"
-    android:layout_margin="@dimen/_12sdp">
-    <TextView
-        android:id="@+id/tv_loaisanpham_item_loaisanpham"
-        android:text="Loại sản phẩm"
-        android:paddingLeft="@dimen/_10sdp"
-        android:textSize="@dimen/_18sdp"
-        android:textStyle="bold"
-        android:layout_toStartOf="@+id/imgv_chitiet_itemnhanvien"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/_14sdp"
+    app:cardElevation="1dp"
+    app:contentPadding="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_8sdp">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_loaisanpham_item_loaisanpham"
+            android:text="Loại sản phẩm"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold"
+            android:layout_toStartOf="@+id/imgv_chitiet_itemnhanvien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
-    <ImageView
-        android:id="@+id/imgv_chitiet_itemnhanvien"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:src="@drawable/icon_chitiet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/imgv_chitiet_itemnhanvien"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/icon_chitiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
-</RelativeLayout>
+</androidx.cardview.widget.CardView>
