@@ -1,66 +1,127 @@
 package team1XuongMobile.fpoly.myapplication.view.fragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import team1XuongMobile.fpoly.myapplication.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HoSoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import team1XuongMobile.fpoly.myapplication.MainActivity;
+import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentHoSoBinding;
+import team1XuongMobile.fpoly.myapplication.profile.DoiMatKhauFragment;
+import team1XuongMobile.fpoly.myapplication.profile.SuaHoSoFragment;
+import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
+
+
 public class HoSoFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentHoSoBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static final String TAG = "HoSoFragment";
 
-    public HoSoFragment() {
-        // Required empty public constructor
-    }
+    private FirebaseAuth firebaseAuth;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HoSoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HoSoFragment newInstance(String param1, String param2) {
-        HoSoFragment fragment = new HoSoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ho_so, container, false);
+        binding = FragmentHoSoBinding.inflate(inflater, container, false);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        
+        loadDataFromFirebase();
+
+        userClick();
+
+        return binding.getRoot();
+    }
+
+    private void loadDataFromFirebase() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Accounts");
+        databaseReference.child(firebaseAuth.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String email = "" + snapshot.child("email").getValue();
+                        String name = "" + snapshot.child("username").getValue();
+                        String img = "" + snapshot.child("avatar").getValue();
+
+                        binding.tvUsername.setText(name);
+                        binding.tvEmail.setText(email);
+
+                        try {
+                            Picasso.get().load(img).placeholder(R.drawable.logo).error(R.drawable.logo)
+                                    .into(binding.profileImage);
+                        }
+                        catch (Exception e) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private void userClick() {
+        binding.tvDangXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Đăng xuất")
+                        .setMessage("Đăng xuất khỏi " + firebaseAuth.getCurrentUser().getEmail() + " ?")
+                        .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                firebaseAuth.signOut();
+                                Intent intent = new Intent(getContext(), FormDangNhapActivity.class);
+                                startActivity(intent);
+                                requireActivity().finish();
+                            }
+                        })
+                        .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        binding.doiMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.layout_content, new DoiMatKhauFragment()).addToBackStack(null).commit();
+
+            }
+        });
+
+        binding.buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.layout_content, new SuaHoSoFragment()).addToBackStack(null).commit();
+            }
+        });
+
+
     }
 }

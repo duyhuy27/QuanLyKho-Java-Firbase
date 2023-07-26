@@ -37,17 +37,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profile_image"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_centerHorizontal="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/flag_us_virgin_islands"
+                            android:src="@drawable/logo"
                             app:civ_border_color="@color/white"
                             app:civ_border_width="2dp" />
 
                         <ImageButton
+                            android:id="@+id/buttonEdit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -59,24 +60,23 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/tvUsername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:maxLines="1"
-                        android:text="Team 1 Xuong Mobile"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_18sdp"
                         android:textStyle="bold"
                         tools:fontFamily="monospace" />
 
                     <TextView
+                        android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_6sdp"
                         android:maxLines="1"
-                        android:text="Team 1 Xuong Mobile@gmail.com"
                         android:textColor="@color/white"
-
                         android:textSize="@dimen/_14sdp"
                         android:textStyle="normal" />
 
@@ -87,7 +87,7 @@
             </androidx.cardview.widget.CardView>
 
             <RelativeLayout
-                android:id="@+id/relative_01"
+                android:id="@+id/doiMatKhau"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardView_01"
@@ -120,7 +120,7 @@
                 android:id="@+id/relative_02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/relative_01"
+                android:layout_below="@id/doiMatKhau"
                 android:layout_marginHorizontal="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_20sdp">
 
@@ -267,7 +267,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@id/tvDangxuat"
+                android:id="@+id/tvDangXuat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/thongBao"
