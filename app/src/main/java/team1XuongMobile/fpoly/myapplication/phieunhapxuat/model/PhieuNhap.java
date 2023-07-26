@@ -14,11 +14,12 @@ public class PhieuNhap {
     private String tong_tien_hang;
     private boolean trangThai;
     private String uid;
+    private String kh;
 
     public PhieuNhap() {
     }
 
-    public PhieuNhap(String idSanPham, String id_nha_cc, String id_phieu_nhap, String ngayNhap, String so_luong, String tenSp, String ten_nha_cc, String thue, long timestamp, String tong_tien, String tong_tien_hang, boolean trangThai, String uid) {
+    public PhieuNhap(String idSanPham, String id_nha_cc, String id_phieu_nhap, String ngayNhap, String so_luong, String tenSp, String ten_nha_cc, String thue, long timestamp, String tong_tien, String tong_tien_hang, boolean trangThai, String uid, String kh) {
         this.idSanPham = idSanPham;
         this.id_nha_cc = id_nha_cc;
         this.id_phieu_nhap = id_phieu_nhap;
@@ -32,6 +33,7 @@ public class PhieuNhap {
         this.tong_tien_hang = tong_tien_hang;
         this.trangThai = trangThai;
         this.uid = uid;
+        this.kh = kh;
     }
 
     public String getIdSanPham() {
@@ -136,5 +138,13 @@ public class PhieuNhap {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getKh() {
+        return kh;
+    }
+
+    public void setKh(String kh) {
+        this.kh = kh;
     }
 }

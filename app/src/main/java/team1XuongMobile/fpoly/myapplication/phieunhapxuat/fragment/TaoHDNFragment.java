@@ -37,16 +37,14 @@ import java.util.Locale;
 import team1XuongMobile.fpoly.myapplication.R;
 
 public class TaoHDNFragment extends Fragment {
-    private TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN,
-            tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
-    private String idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "",
-            giaNhap = "", thueNhap = "", tenNhaCungCap = "", tongSoLuong,
-            tongTien, tongTienHang, ngayNhap;
+    private TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN, tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
+    private String kh = "", uid = "", idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "", giaNhap = "", thueNhap = "", tenNhaCungCap = "", tongSoLuong, tongTien, tongTienHang, ngayNhap;
     private LinearLayout linerChonSp, linearTrangThaiChonSp;
     private RelativeLayout layoutChonNgay;
     private EditText edSoLuong;
     protected ImageView imgTangSl, imgGiamSl;
-    private boolean check = true, trangThai = false;
+    private boolean check = true;
+    private final boolean trangThai = false;
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
     private int soLuongSp = 0;
     private AppCompatButton btnTaoDonNhap;
@@ -58,6 +56,8 @@ public class TaoHDNFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tao_h_d_n, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        layDuLieuDangNhap();
 
         tvTongSoLuongHDN = view.findViewById(R.id.tv_tongSoLuongHDN);
         tvSoTienHangHDN = view.findViewById(R.id.tv_soTienHangHDN);
@@ -127,10 +127,7 @@ public class TaoHDNFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 nhanDuLieuChonSanPham();
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, new ChonSanPhamFragment())
-                        .addToBackStack(null)
-                        .commit();
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ChonSanPhamFragment()).addToBackStack(null).commit();
             }
         });
         layoutChonNgay.setOnClickListener(new View.OnClickListener() {
@@ -178,27 +175,24 @@ public class TaoHDNFragment extends Fragment {
                 hashMap.put("trangThai", trangThai);
                 hashMap.put("ngayNhap", String.valueOf(ngayNhap));
                 hashMap.put("timestamp", timestamp);
+                hashMap.put("kh", String.valueOf(kh));
 
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_nhap");
-                reference.child("" + timestamp).setValue(hashMap)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                ChiTietHDNFragment fragment = new ChiTietHDNFragment();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("idPhieuNhap", String.valueOf(timestamp));
-                                fragment.setArguments(bundle);
-                                requireActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_content, fragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(requireActivity(), "Tạo hoá đơn nhập thất bại!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                reference.child("" + timestamp).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        ChiTietHDNFragment fragment = new ChiTietHDNFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idPhieuNhap", String.valueOf(timestamp));
+                        fragment.setArguments(bundle);
+                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).addToBackStack(null).commit();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireActivity(), "Tạo hoá đơn nhập thất bại!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         nhanDuLieuChonNCC();
@@ -264,6 +258,25 @@ public class TaoHDNFragment extends Fragment {
                 tvSoTienSpHDN.setText(giaNhap);
                 tvSoTienHangHDN.setText(giaNhap);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void layDuLieuDangNhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh = String.valueOf(snapshot.child("kh").getValue());
             }
 
             @Override
