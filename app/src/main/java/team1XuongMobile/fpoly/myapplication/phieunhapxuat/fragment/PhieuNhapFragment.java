@@ -60,8 +60,9 @@ public class PhieuNhapFragment extends Fragment {
 
     public void onclickThemPhieuNhap() {
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, new ChonDanhSachNCCFragment()).
-                addToBackStack(null).commit();
+                .replace(R.id.layout_content, new ChonDanhSachNCCFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     private void loadFirebasePhieuNhap() {

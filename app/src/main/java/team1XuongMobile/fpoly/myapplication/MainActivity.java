@@ -55,7 +55,7 @@ import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChonNhaCungCapListener, ChonSanPhamListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private TaoHDNFragment fragment;
+    private Fragment fragment;
 
     TextView ten_nguoidung;
     String tenstring, vaitrostring;
@@ -181,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment.setArguments(bundleNhaCungCap);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layout_content, fragment)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -189,12 +188,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClickChonSanPham(ChonSanPham objChonSanPham) {
         Bundle bundleSanPham = new Bundle();
         bundleSanPham.putString("idSanPham", objChonSanPham.getIdSanPham());
+        bundleSanPham.putBoolean("trangThaiChonSp", true);
         fragment.setArguments(bundleSanPham);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layout_content, fragment)
-                .addToBackStack(null)
                 .commit();
-        fragment.loadDataFirebaseChonSanPham(objChonSanPham.getIdSanPham());
     }
 
     public void laydulieudangnhap() {
