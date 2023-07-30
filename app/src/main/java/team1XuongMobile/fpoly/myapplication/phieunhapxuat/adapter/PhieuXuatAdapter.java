@@ -35,7 +35,14 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        PhieuXuat objPhieuXuat = list.get(position);
+        if (objPhieuXuat == null) {
+            return;
+        }
+        holder.tvMaHoaDonXuat.setText(objPhieuXuat.getId_phieu_xuat());
+        holder.tvNgayXuat.setText(objPhieuXuat.getNgay_xuat());
+        holder.tvTenKhachHang.setText(objPhieuXuat.getTen_kh());
+        holder.tvTongGia.setText(objPhieuXuat.getTong_tien_hang());
     }
 
     @Override

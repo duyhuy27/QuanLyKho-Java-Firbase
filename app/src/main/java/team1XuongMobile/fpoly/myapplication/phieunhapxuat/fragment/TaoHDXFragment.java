@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import team1XuongMobile.fpoly.myapplication.R;
@@ -36,20 +42,27 @@ import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.MyViewModel;
 
 public class TaoHDXFragment extends Fragment {
     private TextView tvChonSanPhamX, tvTongSoLuongX, tvSoTienHangX, tvThueX, tvNgayX, tvKhachHangX, tvDonViVanChuyenX, tvTamTinhX, tvTenSpX, tvMaSpX, tvSoTienSpX;
-    private EditText edSoLuongX;
+    private EditText edSoLuongX, edGhiChu;
     private ImageView imgTangSlX, imgGiamSlX;
     private LinearLayout linearChonSpX, linearTrangThaiSpX;
     private RelativeLayout relativeChonNgayXuat, relativeKhachHang, relativeDonViVanChuyen;
     private AppCompatButton btnTaoHoaDonX;
-    private String idSanPhamX, tenSpXuat, giaXuat, maSpXuat, thueXuat, ngayXuat, idKhachHang, tenKhachHang, idDonViVanChuyen, tenDonViVanChuyen;
+    private String tongTienHang, uid, kh, idSanPhamX, tenSpXuat, giaXuat, maSpXuat, thueXuat, ngayXuat, idKhachHang, tenKhachHang, idDonViVanChuyen, tenDonViVanChuyen, tongSoLuongX, soTienHangX, ngayX, khachHangX, donViVanChuyenX, ghiChuX;
     private boolean trangThaiSpX = true;
+    private final boolean trangThaiHoaDonXuat = false;
     private int soLuongSp = 0;
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
     private MyViewModel viewModel;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tao_h_d_x, container, false);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        layDuLieuDangNhap();
         // Ánh xạ view
         bindViews(view);
         // Khởi tạo dối tượng mới
@@ -109,6 +122,7 @@ public class TaoHDXFragment extends Fragment {
         tvSoTienSpX = view.findViewById(R.id.tvSoTienSpX);
         // EditText
         edSoLuongX = view.findViewById(R.id.edSoLuongSpX);
+        edGhiChu = view.findViewById(R.id.edGhiChuX);
         // ImageView
         imgTangSlX = view.findViewById(R.id.imgTangSlX);
         imgGiamSlX = view.findViewById(R.id.imgGiamSlX);
@@ -166,7 +180,7 @@ public class TaoHDXFragment extends Fragment {
         btnTaoHoaDonX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                clickTaoHoaDonXuat();
             }
         });
     }
@@ -176,6 +190,25 @@ public class TaoHDXFragment extends Fragment {
                 .replace(R.id.layout_content, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void layDuLieuDangNhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh = String.valueOf(snapshot.child("kh").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void nhanDuLieuChonSanPhamX() {
@@ -339,5 +372,56 @@ public class TaoHDXFragment extends Fragment {
 
             }
         });
+    }
+
+    private void clickTaoHoaDonXuat() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        tongSoLuongX = tvTongSoLuongX.getText().toString().trim();
+        soTienHangX = tvSoTienHangX.getText().toString().trim();
+        ngayX = tvNgayX.getText().toString().trim();
+        khachHangX = tvKhachHangX.getText().toString().trim();
+        donViVanChuyenX = tvDonViVanChuyenX.getText().toString().trim();
+        ghiChuX = edGhiChu.getText().toString().trim();
+        tongTienHang = tvTamTinhX.getText().toString().trim();
+        long timestamp = System.currentTimeMillis();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id_phieu_xuat", String.valueOf(timestamp));
+        hashMap.put("ngay_xuat", String.valueOf(ngayX));
+        hashMap.put("id_kh", String.valueOf(idKhachHang));
+        hashMap.put("ten_kh", String.valueOf(khachHangX));
+        hashMap.put("id_don_vi_vc", String.valueOf(idDonViVanChuyen));
+        hashMap.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyenX));
+        hashMap.put("tenSp", String.valueOf(tenSpXuat));
+        hashMap.put("idSanPham", String.valueOf(maSpXuat));
+        hashMap.put("so_luong", String.valueOf(tongSoLuongX));
+        hashMap.put("tong_tien", String.valueOf(soTienHangX));
+        hashMap.put("ghi_chu", String.valueOf(ghiChuX));
+        hashMap.put("tong_tien_hang", String.valueOf(tongTienHang));
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("uid", firebaseUser.getUid());
+        hashMap.put("kh", String.valueOf(kh));
+        hashMap.put("thue_xuat", String.valueOf(thueXuat));
+        hashMap.put("trangThai", trangThaiHoaDonXuat);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phieu_xuat");
+        reference.child(String.valueOf(timestamp)).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        ChiTietHDXFragment fragment = new ChiTietHDXFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idPhieuXuat", String.valueOf(timestamp));
+                        fragment.setArguments(bundle);
+                        replaceFragment(fragment);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
