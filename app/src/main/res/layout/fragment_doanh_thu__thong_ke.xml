@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    tools:context=".thongke.DoanhThu_ThongKeFragment">
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_doanhthufragment_tungay"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/background_button"
+        android:text="TỪ NGÀY"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_doanhthufragment_tungay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginLeft="@dimen/_140sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textSize="@dimen/_17sdp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_doanhthufragment_denngay"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_below="@+id/btn_doanhthufragment_tungay"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/background_button"
+        android:text="ĐẾN NGÀY"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_doanhthufragment_denngay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_below="@+id/tv_doanhthufragment_tungay"
+        android:layout_marginLeft="@dimen/_140sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_17sdp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_doanhthufragment_doanhthu"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_below="@+id/btn_doanhthufragment_denngay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/background_button"
+        android:text="Tổng doanh thu"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/a1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_below="@+id/btn_doanhthufragment_doanhthu"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Tổng Số Tiền Nhập :"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_doanhthufragment_tiennhap"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_below="@+id/btn_doanhthufragment_doanhthu"
+        android:layout_marginLeft="@dimen/_170sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/a2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_below="@+id/a1"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Tổng Số Tiền Xuất :"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_doanhthufragment_tienxuat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_below="@+id/tv_doanhthufragment_tiennhap"
+        android:layout_marginLeft="@dimen/_170sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
+
