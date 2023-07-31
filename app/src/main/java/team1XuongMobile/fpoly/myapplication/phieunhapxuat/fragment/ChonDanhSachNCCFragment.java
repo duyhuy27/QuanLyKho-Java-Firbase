@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
 
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonNhaCungCapListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonNCCAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
 

@@ -21,16 +21,18 @@
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <ImageView
+                    android:id="@+id/imgIconTrangThaiX"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_radio_button_checked_24" />
+                    android:src="@drawable/trang_thai_chua_hoan_thanh" />
 
                 <TextView
+                    android:id="@+id/tvTenTrangThaiX"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Hoàn thành"
+                    android:text="Chưa xác nhận"
                     android:textSize="@dimen/_12sdp"
                     tools:ignore="TextSizeCheck" />
             </LinearLayout>
@@ -247,6 +249,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
+        android:id="@+id/relativeXacNhan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -254,10 +257,11 @@
         android:padding="@dimen/_14sdp">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnXacNhanX"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_button"
-            android:text="Quay lại"
+            android:text="Xác nhận"
             android:textColor="@color/white" />
     </RelativeLayout>
 </RelativeLayout>

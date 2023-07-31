@@ -1,11 +1,9 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,21 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import team1XuongMobile.fpoly.myapplication.Model.KhachHang;
 import team1XuongMobile.fpoly.myapplication.R;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonSanPhamListener;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonKhachHangListener;
 
-public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.ViewHolder> {
+public class ChonKhachHangAdapter extends RecyclerView.Adapter<ChonKhachHangAdapter.ViewHolder> {
+    private ArrayList<KhachHang> list;
     private final Context context;
-    private ArrayList<ChonSanPham> list;
-    private ChonSanPhamListener listener;
+    private ChonKhachHangListener listener;
 
-    public ChonSanPhamAdapter(Context context, ChonSanPhamListener listener) {
+    public ChonKhachHangAdapter(Context context, ChonKhachHangListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
-    public void setData(ArrayList<ChonSanPham> list) {
+    public void setData(ArrayList<KhachHang> list) {
         this.list = list;
         notifyItemInserted(0);
     }
@@ -35,29 +33,23 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_chon_san_pham, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_chon_khach_hang, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ChonSanPham objChonSanPham = list.get(position);
-        if (objChonSanPham == null) {
+        KhachHang objKhachHang = list.get(position);
+        if (objKhachHang == null) {
             return;
         }
-        holder.tvChonSanPham.setText(objChonSanPham.getTenSp());
-
+        holder.tvKhachHang.setText(objKhachHang.getTen_kh());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    ChonSanPham objChonSanPham = list.get(position);
-                    listener.onClickChonSanPham(objChonSanPham);
-                }
+                listener.onClickChonKhachHang(objKhachHang);
             }
         });
-
     }
 
     @Override
@@ -69,11 +61,11 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        protected TextView tvChonSanPham;
+        TextView tvKhachHang;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvChonSanPham = itemView.findViewById(R.id.tv_chonSanPham);
+            tvKhachHang = itemView.findViewById(R.id.tv_chonKhachHang);
         }
     }
 }

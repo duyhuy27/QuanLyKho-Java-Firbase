@@ -1,14 +1,5 @@
 package team1XuongMobile.fpoly.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,35 +27,37 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
-
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNhaCungCapListener;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPhamListener;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuNhapFragment;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuXuatFragment;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
-
-import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
-import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.ManHinhChinhFragment;
-import team1XuongMobile.fpoly.myapplication.nhacungcap.NhaCungCapFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVienFragment;
-
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoanFragment;
-
+import team1XuongMobile.fpoly.myapplication.Model.KhachHang;
+import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenFragment;
+import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenModel;
+import team1XuongMobile.fpoly.myapplication.nhacungcap.NhaCungCapFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuNhapFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.PhieuXuatFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.TaoHDXFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonDonViVanChuyenListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonKhachHangListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonNhaCungCapListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonSanPhamListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonSanPhamXListener;
 import team1XuongMobile.fpoly.myapplication.sanpham.SanPhamFragment;
-
 import team1XuongMobile.fpoly.myapplication.thongke.ThongKeFragment;
+import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
+import team1XuongMobile.fpoly.myapplication.view.fragment.HoSoFragment;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChonNhaCungCapListener, ChonSanPhamListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChonNhaCungCapListener, ChonSanPhamListener, ChonSanPhamXListener, ChonKhachHangListener, ChonDonViVanChuyenListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private TaoHDNFragment fragment;
+    private TaoHDNFragment fragmentN;
+    private TaoHDXFragment fragmentX;
 
     TextView ten_nguoidung;
     String tenstring, vaitrostring;
@@ -82,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragment = new TaoHDNFragment();
-
+        fragmentN = new TaoHDNFragment();
+        fragmentX = new TaoHDXFragment();
 
     }
 
@@ -178,10 +180,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClickChonNhaCungCap(ChonNCC objChonNCC) {
         Bundle bundleNhaCungCap = new Bundle();
         bundleNhaCungCap.putString("idNhaCungCap", objChonNCC.getId_nha_cc());
-        fragment.setArguments(bundleNhaCungCap);
+        fragmentN.setArguments(bundleNhaCungCap);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.layout_content, fragment)
-                .addToBackStack(null)
+                .replace(R.id.layout_content, fragmentN)
                 .commit();
     }
 
@@ -189,12 +190,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClickChonSanPham(ChonSanPham objChonSanPham) {
         Bundle bundleSanPham = new Bundle();
         bundleSanPham.putString("idSanPham", objChonSanPham.getIdSanPham());
-        fragment.setArguments(bundleSanPham);
+        bundleSanPham.putBoolean("trangThaiChonSp", true);
+        fragmentN.setArguments(bundleSanPham);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.layout_content, fragment)
+                .replace(R.id.layout_content, fragmentN)
                 .addToBackStack(null)
                 .commit();
-        fragment.loadDataFirebaseChonSanPham(objChonSanPham.getIdSanPham());
+    }
+
+    @Override
+    public void onClickChonSanPhamX(ChonSanPham objChonSanPham) {
+        Bundle bundleSanPhamX = new Bundle();
+        bundleSanPhamX.putString("idSanPhamX", objChonSanPham.getIdSanPham());
+        bundleSanPhamX.putBoolean("trangThaiChonSpX", true);
+        fragmentX.setArguments(bundleSanPhamX);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, fragmentX)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onClickChonKhachHang(KhachHang objKhachHang) {
+        Bundle bundleChonKhachHang = new Bundle();
+        bundleChonKhachHang.putString("idKhachHang", objKhachHang.getId_kh());
+        fragmentX.setArguments(bundleChonKhachHang);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, fragmentX)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onClickChonDonViVanChuyen(VanChuyenModel objVanChuyenModel) {
+        Bundle bundleChonDonViVanChuyen = new Bundle();
+        bundleChonDonViVanChuyen.putString("idDonViVanChuyen", objVanChuyenModel.getId_don_vi_vc());
+        fragmentX.setArguments(bundleChonDonViVanChuyen);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_content, fragmentX)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void laydulieudangnhap() {
@@ -227,5 +262,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
 }

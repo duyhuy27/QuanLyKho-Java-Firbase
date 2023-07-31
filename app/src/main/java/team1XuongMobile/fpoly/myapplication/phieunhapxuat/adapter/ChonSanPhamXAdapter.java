@@ -1,11 +1,9 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,15 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonSanPhamListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonSanPhamXListener;
 
-public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.ViewHolder> {
+public class ChonSanPhamXAdapter extends RecyclerView.Adapter<ChonSanPhamXAdapter.ViewHolder> {
     private final Context context;
     private ArrayList<ChonSanPham> list;
-    private ChonSanPhamListener listener;
+    private ChonSanPhamXListener listener;
 
-    public ChonSanPhamAdapter(Context context, ChonSanPhamListener listener) {
+    public ChonSanPhamXAdapter(Context context, ChonSanPhamXListener listener) {
         this.context = context;
         this.listener = listener;
     }
@@ -53,7 +51,7 @@ public class ChonSanPhamAdapter extends RecyclerView.Adapter<ChonSanPhamAdapter.
                 int position = holder.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     ChonSanPham objChonSanPham = list.get(position);
-                    listener.onClickChonSanPham(objChonSanPham);
+                    listener.onClickChonSanPhamX(objChonSanPham);
                 }
             }
         });

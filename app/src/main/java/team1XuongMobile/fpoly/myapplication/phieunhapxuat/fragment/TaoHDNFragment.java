@@ -1,12 +1,16 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,16 +41,14 @@ import java.util.Locale;
 import team1XuongMobile.fpoly.myapplication.R;
 
 public class TaoHDNFragment extends Fragment {
-    private TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN,
-            tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
-    private String idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "",
-            giaNhap = "", thueNhap = "", tenNhaCungCap = "", tongSoLuong,
-            tongTien, tongTienHang, ngayNhap;
+    private TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN, tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
+    private String kh = "", uid = "", idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "", giaNhap = "", thueNhap = "", tenNhaCungCap = "", tongSoLuong, tongTien, tongTienHang, ngayNhap;
     private LinearLayout linerChonSp, linearTrangThaiChonSp;
     private RelativeLayout layoutChonNgay;
     private EditText edSoLuong;
-    protected ImageView imgTangSl, imgGiamSl;
-    private boolean check = true, trangThai = false;
+    private ImageView imgTangSl, imgGiamSl;
+    private boolean check;
+    private final boolean trangThai = false;
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
     private int soLuongSp = 0;
     private AppCompatButton btnTaoDonNhap;
@@ -59,6 +61,30 @@ public class TaoHDNFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        layDuLieuDangNhap();
+        // Ánh xạ các view
+        bindViews(view);
+        // Các sự kiện click
+        setupUI();
+
+        nhanDuLieuChonNCC();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        xuLySuKienNhanNutBack(view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nhanDuLieuChonSanPham();
+    }
+
+    private void bindViews(View view) {
         tvTongSoLuongHDN = view.findViewById(R.id.tv_tongSoLuongHDN);
         tvSoTienHangHDN = view.findViewById(R.id.tv_soTienHangHDN);
         tvThueHDN = view.findViewById(R.id.tv_thueHDN);
@@ -76,17 +102,9 @@ public class TaoHDNFragment extends Fragment {
         tvTamTinh = view.findViewById(R.id.tv_tamTinh);
         layoutChonNgay = view.findViewById(R.id.layoutChonNgay);
         btnTaoDonNhap = view.findViewById(R.id.button_taoDonNhap);
+    }
 
-        if (check) {
-            linearTrangThaiChonSp.setVisibility(View.GONE);
-            linerChonSp.setVisibility(View.VISIBLE);
-        } else {
-            linearTrangThaiChonSp.setVisibility(View.VISIBLE);
-            linerChonSp.setVisibility(View.GONE);
-        }
-
-        edSoLuong.setText(String.valueOf(soLuongSp + 1));
-        tvTongSoLuongHDN.setText(String.valueOf(soLuongSp));
+    private void setupUI() {
         imgTangSl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,11 +144,7 @@ public class TaoHDNFragment extends Fragment {
         tvChonSanPham.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nhanDuLieuChonSanPham();
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, new ChonSanPhamFragment())
-                        .addToBackStack(null)
-                        .commit();
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ChonSanPhamFragment()).commit();
             }
         });
         layoutChonNgay.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +192,7 @@ public class TaoHDNFragment extends Fragment {
                 hashMap.put("trangThai", trangThai);
                 hashMap.put("ngayNhap", String.valueOf(ngayNhap));
                 hashMap.put("timestamp", timestamp);
+                hashMap.put("kh", String.valueOf(kh));
 
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_nhap");
                 reference.child("" + timestamp).setValue(hashMap)
@@ -188,10 +203,7 @@ public class TaoHDNFragment extends Fragment {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("idPhieuNhap", String.valueOf(timestamp));
                                 fragment.setArguments(bundle);
-                                requireActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_content, fragment)
-                                        .addToBackStack(null)
-                                        .commit();
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -201,14 +213,29 @@ public class TaoHDNFragment extends Fragment {
                         });
             }
         });
-        nhanDuLieuChonNCC();
-        return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        nhanDuLieuChonSanPham();
+    private void xuLySuKienNhanNutBack(View view) {
+        // Sử lý sự kiện bấm nút back trên bàn phím
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // Kiểm tra xem Fragment có là Fragment cuối cùng trong Back Stack hay không
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                        // Nếu không phải Fragment cuối cùng, quay lại Fragment trước đó
+                        requireActivity().getSupportFragmentManager().popBackStack();
+                        return true;
+                    } else {
+                        // Nếu là Fragment cuối cùng, quay lại màn hình chính (MainActivity)
+                        requireActivity().onBackPressed();
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void nhanDuLieuChonNCC() {
@@ -219,17 +246,34 @@ public class TaoHDNFragment extends Fragment {
             }
         }
         loadDataFirebaseNhaCungCap();
-        check = true;
     }
 
     private void nhanDuLieuChonSanPham() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            if (bundle.containsKey("idSanPham")) {
+            if (bundle.containsKey("idSanPham") && bundle.containsKey("trangThaiChonSp")) {
                 idSanPham = bundle.getString("idSanPham");
+                loadDataFirebaseChonSanPham(idSanPham);
+                check = bundle.getBoolean("trangThaiChonSp");
+                if (check) {
+                    linearTrangThaiChonSp.setVisibility(View.VISIBLE);
+                    linerChonSp.setVisibility(View.GONE);
+                }
             }
         }
-        check = false;
+    }
+
+    private void sauKhiNhanDuLieuSanPham(String giaNhap, String thueNhap) {
+        soLuongSp = 1;
+        edSoLuong.setText(String.valueOf(soLuongSp));
+        tvTongSoLuongHDN.setText(String.valueOf(soLuongSp));
+
+        giaNhapBanDau = Double.parseDouble(giaNhap);
+        giaNhapMoi = giaNhapBanDau * soLuongSp;
+
+        thue = Integer.parseInt(thueNhap);
+        tamTinh = giaNhapMoi + thue;
+        tvTamTinh.setText(String.valueOf(tamTinh));
     }
 
     private void loadDataFirebaseNhaCungCap() {
@@ -251,6 +295,7 @@ public class TaoHDNFragment extends Fragment {
     public void loadDataFirebaseChonSanPham(String id) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SanPham");
         reference.child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 tenSpNhap = String.valueOf(snapshot.child("tenSp").getValue());
@@ -264,6 +309,26 @@ public class TaoHDNFragment extends Fragment {
                 tvSoTienSpHDN.setText(giaNhap);
                 tvSoTienHangHDN.setText(giaNhap);
 
+                sauKhiNhanDuLieuSanPham(giaNhap, thueNhap);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void layDuLieuDangNhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh = String.valueOf(snapshot.child("kh").getValue());
             }
 
             @Override
