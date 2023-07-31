@@ -25,6 +25,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentHoSoBinding;
 import team1XuongMobile.fpoly.myapplication.profile.DoiMatKhauFragment;
 import team1XuongMobile.fpoly.myapplication.profile.SuaHoSoFragment;
+import team1XuongMobile.fpoly.myapplication.profile.XoaTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.view.FormDangNhapActivity;
 
 
@@ -119,6 +120,14 @@ public class HoSoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().beginTransaction().replace(R.id.layout_content, new SuaHoSoFragment()).addToBackStack(null).commit();
+            }
+        });
+
+        binding.xoaTk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.layout_content, new XoaTaiKhoanFragment()).addToBackStack(null).commit();
+
             }
         });
 
