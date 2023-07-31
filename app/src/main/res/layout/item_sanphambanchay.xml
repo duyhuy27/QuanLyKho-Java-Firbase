@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_10sdp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/custome_listview"
+        android:backgroundTint="#F5F5F5"
+        android:padding="@dimen/_10sdp">
+
+        <ImageView
+            android:id="@+id/imgveiw_itemsanphambanchay_anhsp"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:src="@drawable/chat_aii" />
+
+        <TextView
+            android:id="@+id/tv_itemsanphambanchay_tensp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toEndOf="@+id/imgveiw_itemsanphambanchay_anhsp"
+            android:text="Tên sản phẩm"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemsanphambanchay_tensp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/imgveiw_itemsanphambanchay_anhsp"
+            android:text="Giá:"
+            android:textColor="#FFF14336"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_itemsanphambanchay_giasp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemsanphambanchay_tensp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_toEndOf="@+id/t1"
+            android:text="20.000.000"
+            android:textColor="#FFF14336"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_itemsanphambanchay_nhaphanphoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemsanphambanchay_giasp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/imgveiw_itemsanphambanchay_anhsp"
+            android:text="Nhà phân phối"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/imgbtn_itemsanphambanchay_chucnang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_menu_berger" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
