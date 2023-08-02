@@ -3,6 +3,9 @@ package team1XuongMobile.fpoly.myapplication.Adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +52,32 @@ public class KhachHangAdapter extends RecyclerView.Adapter<KhachHangAdapter.View
         holder.tv_sdt_kh.setText(khachHang.getSdt_kh());
         holder.tv_diachi_kh.setText(khachHang.getDiachi_kh());
 
+        holder.goi_kh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("số điện thoại : "+khachHang.getSdt_kh() );
+                builder.setTitle("Bạn có muốn gọi đến " + khachHang.getTen_kh());
+                builder.setCancelable(false);
+                builder.setPositiveButton("gọi", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        Uri uri = Uri.parse("tel:" + khachHang.getSdt_kh());
+                        intent.setData(uri);
+                        v.getContext().startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
         holder.chitiet_kh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +139,7 @@ public class KhachHangAdapter extends RecyclerView.Adapter<KhachHangAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_ten_kh, tv_sdt_kh , tv_diachi_kh;
-        ImageView chitiet_kh;
+        ImageView chitiet_kh, goi_kh;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,7 +148,7 @@ public class KhachHangAdapter extends RecyclerView.Adapter<KhachHangAdapter.View
             tv_diachi_kh = itemView.findViewById(R.id.tv_diachi_item_khachhang);
 
             chitiet_kh = itemView.findViewById(R.id.imgv_chitiet_item_khachhang);
-
+            goi_kh = itemView.findViewById(R.id.a2);
         }
 
         public interface KhachHangInterface {
