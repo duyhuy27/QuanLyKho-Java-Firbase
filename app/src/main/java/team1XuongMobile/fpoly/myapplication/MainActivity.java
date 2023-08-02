@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             replaceFragment(new HoSoFragment());
             drawerLayout.close();
         } else if (id == R.id.ThongKe_navi) {
-            setTitle("Thống Kê");
+            setTitle("Báo cáo");
             replaceFragment(new ThongKeFragment());
             drawerLayout.close();
         } else if (id == R.id.DangXuat_navi) {

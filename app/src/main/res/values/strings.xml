@@ -19,5 +19,6 @@
     <string name="x_c_th_c_m_otp">Xác thực mã OTP</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="doanh_thu_b_ng_t_ng_gi_tr_phi_u_xu_t_t_o_th_nh_c_ng"><b>Doanh thu</b> bằng tổng giá trị phiếu xuất tạo thành công</string>
     developer
 </resources>

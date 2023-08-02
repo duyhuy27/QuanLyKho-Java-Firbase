@@ -168,42 +168,37 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
 
     private void loadTatCaSanPham() {
         sanPhamModelsArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
-
-        binding.progressbar.setVisibility(View.VISIBLE);
-        ref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(firebaseAuth.getCurrentUser().getUid());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                sanPhamModelsArrayList.clear();
+                String kh = "" + snapshot.child("kh").getValue(String.class);
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
-                    sanPhamModelsArrayList.add(sanPhamModels);
-                }
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SanPham");
+                Query query = ref.orderByChild("kh").equalTo(kh);
 
+                binding.progressbar.setVisibility(View.VISIBLE);
+                query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                sanPhamModelsArrayList.clear();
 
-                sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
-                binding.rcvSanPham.setAdapter(sanPhamAdapter);
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    SanPhamModels sanPhamModels = ds.getValue(SanPhamModels.class);
+                                    sanPhamModelsArrayList.add(sanPhamModels);
+                                }
 
-                binding.progressbar.setVisibility(View.GONE);
+                                sanPhamAdapter = new SanPhamAdapter(sanPhamModelsArrayList, getContext(), listeners);
+                                binding.rcvSanPham.setAdapter(sanPhamAdapter);
 
+                                binding.progressbar.setVisibility(View.GONE);
+                            }
 
-//                if (sanPhamModelsArrayList.isEmpty()) {
-//                    binding.linerAddSp.setVisibility(View.VISIBLE);
-//                    binding.tvAddSp.setPaintFlags(binding.tvAddSp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-//
-//                    binding.tvAddSp.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ThemSPFragment()).addToBackStack(null).commit();
-//                        }
-//                    });
-//
-//                    binding.rcvSanPham.setVisibility(View.GONE);
-//                } else {
-//                    binding.linerAddSp.setVisibility(View.GONE);
-//                    binding.rcvSanPham.setVisibility(View.VISIBLE);
-//                }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
             }
 
             @Override
@@ -211,6 +206,7 @@ public class DanhSachSanPhamTheoMucFragment extends Fragment implements SanPhamA
 
             }
         });
+
 
     }
 
