@@ -14,11 +14,11 @@ public class TabLayout_ThongKeAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new DoanhThu_ThongKeFragment();
-            case 1:
                 return new TongQuanFragment();
-            default:
+            case 1:
                 return new DoanhThu_ThongKeFragment();
+            default:
+                return new TongQuanFragment();
         }
 
     }

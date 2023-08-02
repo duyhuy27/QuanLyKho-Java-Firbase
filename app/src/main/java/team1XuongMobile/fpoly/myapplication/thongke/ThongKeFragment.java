@@ -42,10 +42,10 @@ public class ThongKeFragment extends Fragment {
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 switch (position) {
                     case 0:
-                        tab.setText("DOANH THU");
+                        tab.setText("TỔNG QUAN");
                         break;
                     case 1:
-                        tab.setText("TỔNG QUAN");
+                        tab.setText("BÁO CÁO");
                         break;
                 }
             }

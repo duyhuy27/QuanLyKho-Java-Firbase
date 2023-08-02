@@ -54,7 +54,7 @@
         <item
             android:id="@+id/ThongKe_navi"
             android:icon="@drawable/icon_thong_ke"
-            android:title="Thống Kê" />
+            android:title="Báo cáo" />
     </group>
     <item android:title="
 

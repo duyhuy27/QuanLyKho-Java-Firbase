@@ -39,6 +39,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -256,6 +257,7 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
 
         luuDuLieuSpLenFirebase();
     }
+
     String khString = "";
 
     public void laydulieudangnhap() {
@@ -265,7 +267,7 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khString = ""+snapshot.child("kh").getValue();
+                khString = "" + snapshot.child("kh").getValue();
 
             }
 
@@ -416,9 +418,19 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
         idNccList = new ArrayList<>();
         tenNccList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
-        ref.orderByChild("trangThai").equalTo("true").
-                addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(firebaseAuth.getCurrentUser().getUid());
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String kh = "" + snapshot.child("kh").getValue(String.class);
+
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
+
+                // Order by "kh" to get data specific to the "kh" value of the user
+                Query query = ref.orderByChild("kh").equalTo(kh);
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -428,10 +440,16 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             String id = "" + ds.child("id_nha_cc").getValue();
                             String ten = "" + ds.child("ten_nha_cc").getValue();
+                            String status = "" + ds.child("trangThai").getValue();
 
-                            idNccList.add(id);
-                            tenNccList.add(ten);
+                            // Filter based on both "kh" and "status"
+                            if (status.equals("true")) {
+                                idNccList.add(id);
+                                tenNccList.add(ten);
+                            }
                         }
+
+                        // At this point, idNccList and tenNccList will contain data specific to the "kh" and "status" values of the user.
                     }
 
                     @Override
@@ -439,35 +457,62 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
 
                     }
                 });
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
+
 
     private void loadDuLieuLSP() {
         tenLspList = new ArrayList<>();
         idLspList = new ArrayList<>();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(firebaseAuth.getCurrentUser().getUid());
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.orderByChild("TrangThai").equalTo(true)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        tenLspList.clear();
-                        idLspList.clear();
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String kh = "" + snapshot.child("kh").getValue(String.class);
 
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            String id = "" + ds.child("id_loai_sp").getValue();
-                            String ten = "" + ds.child("ten_loai_sp").getValue();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
 
-                            idLspList.add(id);
-                            tenLspList.add(ten);
-                        }
-                    }
+                Query query = ref.orderByChild("kh").equalTo(kh);
+                query
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                tenLspList.clear();
+                                idLspList.clear();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    String id = "" + ds.child("id_loai_sp").getValue();
+                                    String ten = "" + ds.child("ten_loai_sp").getValue();
+                                    String status = "" + ds.child("TrangThai").getValue();
 
-                    }
-                });
+                                    if (status.equals("true")) {
+                                        idLspList.add(id);
+                                        tenLspList.add(ten);
+                                    }
+                                     
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 

@@ -1,244 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context=".thongke.TongQuanFragment">
 
-    <RelativeLayout
-        android:id="@+id/a1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/img1"
-            android:layout_width="@dimen/_110sdp"
-            android:layout_height="@dimen/_70sdp"
-            android:src="@drawable/logo" />
-
-        <ImageView
-            android:id="@+id/imgview_tongquatfragment_ngaythongke"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_toEndOf="@+id/img1"
-            android:src="@drawable/icon_lich_tongquat" />
-
-        <TextView
-            android:id="@+id/tv_tongquatfragment_ngaythongke"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_toEndOf="@+id/imgview_tongquatfragment_ngaythongke"
-            android:text="20/20/2020"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/a2"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/a1"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/custome_listview"
-        android:backgroundTint="#FFFFFFFF"
-        android:paddingLeft="@dimen/_5sdp">
+        android:overScrollMode="never">
 
-        <TextView
-            android:id="@+id/t1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:text="Số lượng phiếu nhập:"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_tongquatfragment_soluongphieunhap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_3sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toEndOf="@id/t1"
-            android:text="3"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/t2"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_60sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toEndOf="@+id/t1"
-            android:gravity="center_horizontal"
-            android:text="Lợi Nhuận"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_tongquatfragment_loinhuan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t2"
-            android:layout_marginStart="@dimen/_45sdp"
-            android:layout_toEndOf="@+id/t1"
-            android:gravity="center_horizontal"
-            android:text="20.000.0000"
-            android:textColor="#35C2C1"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_tongquatfragment_sotienphieunhap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t1"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:text="20.000.000"
-            android:textColor="#27B446"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t1"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toEndOf="@+id/tv_tongquatfragment_sotienphieunhap"
-            android:text="vnd"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/t3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_tongquatfragment_sotienphieunhap"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:text="Số lượng phiếu xuất:"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_tongquatfragment_soluongphieuxuat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_tongquatfragment_sotienphieunhap"
-            android:layout_marginStart="@dimen/_3sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toEndOf="@id/t3"
-            android:text="3"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
 
 
-        <TextView
-            android:id="@+id/tv_tongquatfragment_sotienphieuxuat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t3"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:text="20.000.000"
-            android:textColor="#FFF14336"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/relative_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t3"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toEndOf="@+id/tv_tongquatfragment_sotienphieuxuat"
-            android:text="vnd"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/img_logo"
+                    android:layout_width="@dimen/_76sdp"
+                    android:layout_height="@dimen/_76sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/icon_lich_tongquat"
+                    android:drawableEnd="@drawable/ic_drop"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:maxLines="1"
+                    android:text="Hôm nay, dd/mm/yyyy"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp" />
+
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relative_date"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_14sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:contentPadding="@dimen/_14sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_sl_phieu_nhap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="0000 phiếu nhập"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_loinhuan_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:drawableEnd="@drawable/hide"
+                        android:drawablePadding="@dimen/_6sdp"
+                        android:maxLines="1"
+                        android:text="Lợi nhuận"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_loinhuan_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_loinhuan_tv"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="**** **** ****"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_money_nhap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_sl_phieu_nhap"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="@color/xanh_lam"
+                        android:textSize="@dimen/_16sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_sl_phieu_nhap"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:layout_toEndOf="@id/tv_money_nhap"
+                        android:maxLines="1"
+                        android:text="vnd"
+                        android:textColor="@color/den_xam" />
+
+                    <TextView
+                        android:id="@+id/tv_sll_phieu_xuat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_money_nhap"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:drawableStart="@drawable/box_24"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:maxLines="1"
+                        android:text="0000 phiếu xuất"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_money_phieu_xuat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_money_nhap"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:layout_toEndOf="@id/tv_sll_phieu_xuat"
+                        android:text="- 0 vnd"
+                        android:textColor="#FF3D00"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold" />
 
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/a3"
-        android:layout_below="@+id/a2"
-        android:layout_margin="@dimen/_10sdp"
-        android:background="@drawable/custome_listview"
-        android:backgroundTint="#FFFFFFFF"
-        android:paddingLeft="@dimen/_5sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/img2"
-            android:src="@drawable/icon_sanphamtonkho"
-            android:layout_centerVertical="true"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"/>
-        <TextView
-            android:id="@+id/tv_tongquatfragment_tonkho"
-            android:text="4"
-            android:textSize="@dimen/_20sdp"
-            android:layout_toEndOf="@id/img2"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:textColor="#FFFF00"
+                </RelativeLayout>
 
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="sản phẩm tồn kho"
-            android:layout_toEndOf="@+id/tv_tongquatfragment_tonkho"
-            android:textSize="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_below="@+id/tv_tongquatfragment_tonkho"
-            android:layout_toEndOf="@id/img2"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:textSize="@dimen/_18sdp"
-            android:textStyle="bold"
-            android:text="20.000.000"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:textColor="#35C2C1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/a4"
-        android:layout_below="@+id/a3"
-        android:layout_margin="@dimen/_10sdp"
-        android:background="@drawable/custome_listview"
-        android:backgroundTint="#FFFFFFFF"
-        android:paddingLeft="@dimen/_5sdp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_130sdp">
-        <TextView
-            android:id="@+id/t5"
-            android:text="Sản phầm bán chạy"
-            android:textSize="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_tongquatfragment_sanphambanchay"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_below="@+id/t5"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_hang_ton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_first"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_14sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:contentPadding="@dimen/_10sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_hang_ton"
+                        android:layout_width="@dimen/_46sdp"
+                        android:layout_height="@dimen/_46sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_hang_ton" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:layout_toEndOf="@id/img_hang_ton"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_sl_hang_ton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:maxEms="4"
+                                android:text="0000"
+                                android:textColor="#FBBB00"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:layout_toEndOf="@id/tv_sl_hang_ton"
+                                android:text="sản phẩm tồn kho"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp"/>
+                        </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_tien_ton_kho"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="0 vnd"
+                            android:textColor="@color/xanh_lam"
+                            android:textSize="@dimen/_16sdp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_hang_ton"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_14sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:contentPadding="@dimen/_10sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sản phẩm bán chạy"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_san_pham_ban_chay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        tools:listitem="@layout/item_san_pham"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>
