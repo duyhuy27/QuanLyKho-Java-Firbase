@@ -54,12 +54,10 @@
                     android:id="@+id/button_reload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_refresh_24"
-                    android:background="@android:color/transparent"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_toEndOf="@id/tv_dateEnd"
-                    android:layout_marginStart="@dimen/_10sdp"/>
-
-
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/baseline_refresh_24" />
 
 
             </RelativeLayout>
@@ -99,9 +97,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_toEndOf="@id/tv_textDT"
                             android:maxLines="1"
-                            android:textColor="@color/black"
+                            android:textColor="@color/xanh_lam"
                             android:textSize="@dimen/_16sdp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -121,6 +118,13 @@
                         android:text="@string/doanh_thu_b_ng_t_ng_gi_tr_phi_u_xu_t_t_o_th_nh_c_ng"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13sdp" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
 
@@ -403,13 +407,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
                                 android:layout_toEndOf="@id/tv_dat_hang"
-                                android:textSize="@dimen/_12sdp"
+                                android:background="@drawable/background_lab_test"
+                                android:padding="@dimen/_2sdp"
                                 android:text="Thử nghiệm"
                                 android:textColor="@color/white"
-                                android:layout_marginStart="@dimen/_8sdp"
-                                android:background="@drawable/background_lab_test"
-                                android:padding="@dimen/_2sdp"/>
+                                android:textSize="@dimen/_12sdp" />
 
 
                         </RelativeLayout>

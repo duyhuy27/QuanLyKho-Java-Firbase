@@ -182,10 +182,13 @@ public class DoanhThu_ThongKeFragment extends Fragment {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_xuat");
             Query query = reference.orderByChild("timestamp").startAt(startDate.getTime()).endAt(endDate.getTime() + 86399999);
 
+            binding.progressBar.setVisibility(View.VISIBLE);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     ArrayList<BarEntry> barEntries = new ArrayList<>();
+                    float totalTongTien = 0; // Variable to store the total sales
+
 
                     // Process the retrieved data and aggregate by date
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -195,6 +198,7 @@ public class DoanhThu_ThongKeFragment extends Fragment {
                         try {
                             // Convert the money data (String) to float
                             tongTien = Float.parseFloat(tongTienStr);
+                            totalTongTien += tongTien;
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
@@ -214,6 +218,8 @@ public class DoanhThu_ThongKeFragment extends Fragment {
                         }
                     }
 
+                    binding.tvDoanhThu.setText(String.format(Locale.getDefault(), "%.2f vnd", totalTongTien));
+
                     // Create a BarDataSet with the BarEntry list
                     BarDataSet dataSet = new BarDataSet(barEntries, "Doanh số");
 
@@ -223,6 +229,8 @@ public class DoanhThu_ThongKeFragment extends Fragment {
 
                     // Create a BarData object using the BarDataSet
                     BarData barData = new BarData(dataSet);
+
+                    binding.progressBar.setVisibility(View.GONE);
 
                     // Set data to the BarChart and invalidate to refresh the view
                     binding.barchar.setData(barData);
