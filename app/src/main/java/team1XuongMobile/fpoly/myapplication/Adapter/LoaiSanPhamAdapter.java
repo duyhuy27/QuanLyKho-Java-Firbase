@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.Adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -91,6 +92,7 @@ public class LoaiSanPhamAdapter extends RecyclerView.Adapter<LoaiSanPhamAdapter.
                     public void onClick(View v) {
                         alertDialog.dismiss();
                         loaiSanPhamInterface.deleteLoaiSPClick(loaiSanPham.getId_loai_sp());
+
                     }
                 });
 

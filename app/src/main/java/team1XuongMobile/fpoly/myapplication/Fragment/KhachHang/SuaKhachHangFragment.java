@@ -1,6 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.KhachHang;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -75,6 +77,7 @@ public class SuaKhachHangFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                anbanphim();
             }
         });
 
@@ -155,32 +158,76 @@ public class SuaKhachHangFragment extends Fragment {
         progressDialog.setTitle("Dang luu...");
         progressDialog.show();
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-
-        hashMap.put("ten_kh", "" +sua_ten_khString);
-        hashMap.put("sdt_kh", "" +sua_sdt_khString);
-        hashMap.put("email_kh", "" +sua_email_khString);
-        hashMap.put("diachi_kh", "" +sua_diachi_khString);
-
-        hashMap.put("uid", firebaseUser.getUid());
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
-        ref.child(id_kh)
-                .updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean checkemail = false , checksdt = false;
+                for (DataSnapshot child : snapshot.getChildren()) {
+
+                    String emai_lKhS = child.child("email_kh").getValue(String.class);
+                    String sdt_lKhS = child.child("sdt_kh").getValue(String.class);
+                    String id_khS = child.child("id_kh").getValue(String.class);
+
+                    //Thêm điều kiện này để bỏ qua child có id_kh trùng với id_kh đang sửa
+                    if (id_khS.equals(id_kh)) {
+                        continue;
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
+
+                    if (emai_lKhS.equals(sua_email_khString)) {
+                        checkemail = true;
+                        break;
                     }
-                });
+                    if (sdt_lKhS.equals(sua_sdt_khString)) {
+                        checksdt = true;
+                        break;
+                    }
+
+                }
+                if (checksdt){
+                    //Nếu là true, thông báo cho người dùng biết và không thêm vào cơ sở dữ liệu
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
+                } else if (checkemail) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                } else {
+                    HashMap<String, Object> hashMap = new HashMap<>();
+
+                    hashMap.put("ten_kh", "" +sua_ten_khString);
+                    hashMap.put("sdt_kh", "" +sua_sdt_khString);
+                    hashMap.put("email_kh", "" +sua_email_khString);
+                    hashMap.put("diachi_kh", "" +sua_diachi_khString);
+
+                    hashMap.put("uid", firebaseUser.getUid());
+                    ref.child(id_kh)
+                            .updateChildren(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+                                    clearEdt();
+                                    anbanphim();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
+                                    anbanphim();
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -191,5 +238,17 @@ public class SuaKhachHangFragment extends Fragment {
     //check định dạng sdt
     private boolean isValidPhoneNumber(CharSequence phoneNumber) {
         return !TextUtils.isEmpty(phoneNumber) && android.util.Patterns.PHONE.matcher(phoneNumber).matches();
+    }
+    private void anbanphim(){
+        //Lấy đối tượng InputMethodManager từ hệ thống
+        InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//Ẩn bàn phím ảo khi nhấn vào nút
+        imm.hideSoftInputFromWindow(hoantat.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+    private void clearEdt(){
+        ed_sua_ten_kh.clearFocus();
+        ed_sua_sdt_kh.clearFocus();
+        ed_sua_email_kh.clearFocus();
+        ed_sua_diachi_kh.clearFocus();
     }
 }

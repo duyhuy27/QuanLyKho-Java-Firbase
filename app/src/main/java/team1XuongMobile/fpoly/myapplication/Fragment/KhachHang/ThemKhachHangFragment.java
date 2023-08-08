@@ -1,6 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.KhachHang;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -73,6 +75,7 @@ public class ThemKhachHangFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                anbanphim();
             }
         });
 
@@ -122,36 +125,76 @@ public class ThemKhachHangFragment extends Fragment {
         progressDialog.setTitle("Dang luu...");
         progressDialog.show();
         long timestamp = System.currentTimeMillis();
-        HashMap<String, Object> hashMap = new HashMap<>();
-
-        hashMap.put("id_kh", "" +timestamp);
-        hashMap.put("ten_kh", "" +ten_kh);
-        hashMap.put("sdt_kh", "" +sdt_kh);
-        hashMap.put("email_kh", "" +email_kh);
-        hashMap.put("diachi_kh", "" +diachi_kh);
-        hashMap.put("uid", firebaseUser.getUid());
-        hashMap.put("timestamp",timestamp);
-
-        hashMap.put("kh",khString);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
-        ref.child(""+timestamp)
-                .setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Thêm Thành Công", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Thêm Thất Bại", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean checkemail = false , checksdt = false;
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    //Lấy giá trị của thuộc tính "ten_loai_sp" của mỗi con
+                    String emai_lKhS = child.child("email_kh").getValue(String.class);
+                    String sdt_lKhS = child.child("sdt_kh").getValue(String.class);
 
+                    //So sánh với tên loại sản phẩm bạn muốn thêm
+                    if (emai_lKhS.equals(email_kh)) {
+                        //Nếu bằng nhau, đặt biến trùng lặp là true và thoát khỏi vòng lặp
+                        checkemail = true;
+                        break;
+                    }
+                    if (sdt_lKhS.equals(sdt_kh)) {
+                        //Nếu bằng nhau, đặt biến trùng lặp là true và thoát khỏi vòng lặp
+                        checksdt = true;
+                        break;
+                    }
+
+                }
+                if (checksdt){
+                    //Nếu là true, thông báo cho người dùng biết và không thêm vào cơ sở dữ liệu
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
+                } else if (checkemail) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                } else {
+                    HashMap<String, Object> hashMap = new HashMap<>();
+
+                    hashMap.put("id_kh", "" +timestamp);
+                    hashMap.put("ten_kh", "" +ten_kh);
+                    hashMap.put("sdt_kh", "" +sdt_kh);
+                    hashMap.put("email_kh", "" +email_kh);
+                    hashMap.put("diachi_kh", "" +diachi_kh);
+                    hashMap.put("uid", firebaseUser.getUid());
+                    hashMap.put("timestamp",timestamp);
+
+                    hashMap.put("kh",khString);
+                    ref.child(""+ timestamp)
+                            .setValue(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
+                                    clearEdt();
+                                    Toast.makeText(getContext(), "Thêm Thành Công", Toast.LENGTH_SHORT).show();
+                                    anbanphim();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Thêm Thất Bại", Toast.LENGTH_SHORT).show();
+                                    anbanphim();
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     //check định dạng email
@@ -178,5 +221,24 @@ public class ThemKhachHangFragment extends Fragment {
 
             }
         });
+    }
+    private void anbanphim(){
+        //Lấy đối tượng InputMethodManager từ hệ thống
+        InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//Ẩn bàn phím ảo khi nhấn vào nút
+        imm.hideSoftInputFromWindow(hoantat.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+    private void clearEdt(){
+        ed_ten_kh.setText("");
+        ed_ten_kh.clearFocus();
+
+        ed_sdt_kh.setText("");
+        ed_sdt_kh.clearFocus();
+
+        ed_email_kh.setText("");
+        ed_email_kh.clearFocus();
+
+        ed_diachi_kh.setText("");
+        ed_diachi_kh.clearFocus();
     }
 }

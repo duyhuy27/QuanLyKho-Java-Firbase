@@ -1,6 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPham;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ public class SuaLoaiSanPhamFragment extends Fragment {
     TextInputEditText edt_loaisp;
     String sua_ten_lspString = "" , idlsp = "",idlspString ="";
     boolean trangthai , sua_trangthai;
+
 
     public static final String KEY_ID_LOAI_SAN_PHAM = "id_lsp_bd";
 
@@ -134,6 +137,45 @@ public class SuaLoaiSanPhamFragment extends Fragment {
                 });
     }
 
+//    private void LuuDuLieuLoaiSpLenFireBase() {
+//        firebaseUser = firebaseAuth.getCurrentUser();
+//        sua_ten_lspString = edt_loaisp.getText().toString().trim();
+//        if (swt_trangthai.isChecked()){
+//            sua_trangthai = true;
+//        }else {
+//            sua_trangthai = false;
+//        }
+//        progressDialog = new ProgressDialog(getContext());
+//        progressDialog.setTitle("Dang luu...");
+//        progressDialog.show();
+//
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//
+//        hashMap.put("ten_loai_sp", "" + sua_ten_lspString);
+//        hashMap.put("TrangThai", Boolean.parseBoolean(String.valueOf(sua_trangthai)));
+//        hashMap.put("uid", firebaseUser.getUid());
+//
+//
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
+//        ref.child(idlsp)
+//                .updateChildren(hashMap)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//    }
+
     private void LuuDuLieuLoaiSpLenFireBase() {
         firebaseUser = firebaseAuth.getCurrentUser();
         sua_ten_lspString = edt_loaisp.getText().toString().trim();
@@ -146,29 +188,71 @@ public class SuaLoaiSanPhamFragment extends Fragment {
         progressDialog.setTitle("Dang luu...");
         progressDialog.show();
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-
-        hashMap.put("ten_loai_sp", "" + sua_ten_lspString);
-        hashMap.put("TrangThai", Boolean.parseBoolean(String.valueOf(sua_trangthai)));
-        hashMap.put("uid", firebaseUser.getUid());
-
-
+        //Tạo một biến để lưu node "loai_sp" trong Firebase
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
-        ref.child(idlsp)
-                .updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean isDuplicate = false;
+                //Duyệt qua tất cả các con của node "loai_sp"
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    //Lấy giá trị của thuộc tính "ten_loai_sp" của mỗi con
+                    String tenLoaiSP = child.child("ten_loai_sp").getValue(String.class);
+                    //So sánh với tên loại sản phẩm bạn muốn thêm
+                    if (tenLoaiSP.equals(sua_ten_lspString)) {
+                        //Nếu bằng nhau, đặt biến trùng lặp là true và thoát khỏi vòng lặp
+                         isDuplicate = true;
+                        break;
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+                //Kiểm tra biến trùng lặp
+                if (isDuplicate) {
+                    //Nếu là true, thông báo cho người dùng biết và không thêm vào cơ sở dữ liệu
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Tên loại sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
+                    anbanphim();
+                } else {
+                    //Nếu là false, thêm vào cơ sở dữ liệu bình thường
+                    //Tạo một hashMap để lưu các thuộc tính của loại sản phẩm
+                    HashMap<String, Object> hashMap = new HashMap<>();
+
+                    hashMap.put("ten_loai_sp", "" + sua_ten_lspString);
+                    hashMap.put("TrangThai", Boolean.parseBoolean(String.valueOf(sua_trangthai)));
+                    hashMap.put("uid", firebaseUser.getUid());
+
+                    //Thêm vào node "loai_sp" với key là timestamp
+                    ref.child(idlsp)
+                            .updateChildren(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
+                                    edt_loaisp.clearFocus();
+                                    Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+                                    anbanphim();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    private void anbanphim(){
+        //Lấy đối tượng InputMethodManager từ hệ thống
+        InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//Ẩn bàn phím ảo khi nhấn vào nút
+        imm.hideSoftInputFromWindow(hoantat.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 }

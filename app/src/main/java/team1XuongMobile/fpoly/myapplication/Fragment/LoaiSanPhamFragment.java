@@ -1,6 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -51,6 +52,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
     public static final String KEY_ID_LOAI_SAN_PHAM = "id_lsp_bd";
     FirebaseAuth firebaseAuth;
     String khString="";
+    private ProgressDialog progressDialog;
 
 
     public LoaiSanPhamFragment() {
@@ -180,6 +182,10 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
 
     @Override
     public void deleteLoaiSPClick(String id) {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Bạn có muốn xóa hay không?");
@@ -191,6 +197,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
                     ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
                                     Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
                                 }
                             })
