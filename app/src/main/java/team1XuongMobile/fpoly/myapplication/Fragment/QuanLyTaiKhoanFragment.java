@@ -37,6 +37,7 @@ import team1XuongMobile.fpoly.myapplication.Adapter.QuanLyTaiKhoanAdapter;
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.SuaNVFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.CachChucTaiKhoanFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ChiTietTaiKhoanFragment;
+import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.DatLaiMatKhauFragment;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.Model.QuanLyTaiKhoan;
 import team1XuongMobile.fpoly.myapplication.R;
@@ -162,6 +163,17 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
         chiTietTaiKhoanFragment.setArguments(bundlechitietTK);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietTaiKhoanFragment).addToBackStack(null).commit();
     }
+
+    @Override
+    public void DatLaiMatKhauTKClick(String id) {
+        Bundle datlaimatkhauTK = new Bundle();
+        datlaimatkhauTK.putString(KEY_ID_TAI_KHOAN, id);
+        DatLaiMatKhauFragment datLaiMatKhauFragment = new DatLaiMatKhauFragment();
+        datLaiMatKhauFragment.setArguments(datlaimatkhauTK);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, datLaiMatKhauFragment).addToBackStack(null).commit();
+
+    }
+
 
     public void laydulieudangnhap() {
         firebaseUser = firebaseAuth.getCurrentUser();

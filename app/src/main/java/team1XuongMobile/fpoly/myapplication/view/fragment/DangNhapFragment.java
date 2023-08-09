@@ -137,9 +137,8 @@ public class DangNhapFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-//                        checkVaiTro();
-                        startActivity(new Intent(getActivity(), MainActivity.class));
-                        getActivity().finish();
+                        checkVaiTro();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -160,7 +159,7 @@ public class DangNhapFragment extends Fragment {
         String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
 
-        DatabaseReference refQ = FirebaseDatabase.getInstance().getReference("Quan_Ly_Tai_Khoan");
+        DatabaseReference refQ = FirebaseDatabase.getInstance().getReference("Accounts");
 
         refQ.child("" + uid).
                 addListenerForSingleValueEvent(new ValueEventListener() {
@@ -172,9 +171,15 @@ public class DangNhapFragment extends Fragment {
                         if (role.equals("nhanVien")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
                             getActivity().finish();
+
                         } else if (role.equals("admin")) {
                             startActivity(new Intent(getActivity(), MainActivity.class));
                             getActivity().finish();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Tài Khoản Không Tồn Tại", Toast.LENGTH_SHORT).show();
+                            binding.progressbar.setVisibility(View.GONE);
+                            binding.buttonDangNhap.setVisibility(View.VISIBLE);
                         }
                     }
 

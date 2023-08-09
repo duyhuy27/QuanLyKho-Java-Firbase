@@ -99,12 +99,14 @@ public class CachChucTaiKhoanFragment extends Fragment {
 
     private void luuDuLieuTKLenFirebase() {
         vaitrostring = (String) suavaitro.getSelectedItem();
+        progressDialog.setTitle("Đang Thực Thi");
+        progressDialog.show();
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
 
         hashMap.put("vaiTro", "" + vaitrostring);
-        hashMap.put("trangThai", "Ngưng Hoạt Động" );
+        hashMap.put("trangThai", "Ngưng Hoạt Động");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
         ref.child("" + id)
@@ -112,6 +114,7 @@ public class CachChucTaiKhoanFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        progressDialog.dismiss();
 
                         Toast.makeText(getContext(), "Cách Chức Thành Công", Toast.LENGTH_SHORT).show();
                     }

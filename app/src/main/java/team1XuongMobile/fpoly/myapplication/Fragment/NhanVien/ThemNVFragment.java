@@ -153,7 +153,7 @@ public class ThemNVFragment extends Fragment {
         } else if (tamnghi.isChecked()) {
             trangthai = "Tạm Nghỉ";
         }
-        progressDialog.setTitle("Dang luu...");
+        progressDialog.setTitle("Dang lưu...");
         progressDialog.show();
         long timestamp = System.currentTimeMillis();
         HashMap<String, Object> hashMap = new HashMap<>();

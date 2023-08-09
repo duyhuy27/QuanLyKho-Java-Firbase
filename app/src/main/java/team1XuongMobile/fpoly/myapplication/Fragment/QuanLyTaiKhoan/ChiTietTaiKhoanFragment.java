@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,8 +27,9 @@ import team1XuongMobile.fpoly.myapplication.R;
 public class ChiTietTaiKhoanFragment extends Fragment {
     TextView ten, email, sdt, vaitro, trangthai;
     AppCompatButton quaylai;
-    String tentkstring = "", emailtkstring = "", sdttkstring = "", vaitrotkstring = "", trangthaitkstring = "";
+    String tentkstring = "", emailtkstring = "", sdttkstring = "", vaitrotkstring = "", trangthaitkstring = "", matkhaustring = "", sdtstring = "";
     FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     String id = "";
 
 
@@ -92,7 +94,7 @@ public class ChiTietTaiKhoanFragment extends Fragment {
 
                         ten.setText(tentkstring);
                         email.setText(emailtkstring);
-                        sdt.setText(sdttkstring);
+                        sdt.setText("**********");
                         vaitro.setText(vaitrotkstring);
                         if (trangthaitkstring.equals("Đang Hoạt Động") == true) {
                             trangthai.setTextColor(Color.GREEN);
@@ -111,4 +113,6 @@ public class ChiTietTaiKhoanFragment extends Fragment {
                     }
                 });
     }
+
+
 }
