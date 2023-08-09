@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.KhachHang.ChiTietKhachHangFragment;
 import team1XuongMobile.fpoly.myapplication.Fragment.KhachHang.FilterSearchKhachHang;
+import team1XuongMobile.fpoly.myapplication.Fragment.KhachHang.LichSuChiTietKhachHangVFragment;
 import team1XuongMobile.fpoly.myapplication.Model.KhachHang;
 import team1XuongMobile.fpoly.myapplication.R;
 
@@ -115,7 +118,6 @@ public class KhachHangAdapter extends RecyclerView.Adapter<KhachHangAdapter.View
                     public void onClick(View v) {
                         alertDialog.dismiss();
                         khachHangInterface.chiTietKhachHangClick(khachHang.getId_kh());
-
                     }
                 });
 

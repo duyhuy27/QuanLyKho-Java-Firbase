@@ -1,6 +1,8 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -14,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -51,7 +54,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
     EditText inputsearchKhachHang;
     FirebaseAuth firebaseAuth;
     String khString="";
-
+    private ProgressDialog progressDialog;
     public static final String KEY_ID_KHACH_HANG = "id_kh_bd";
 
     public KhachHangFragment() {
@@ -173,6 +176,10 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
 
     @Override
     public void deleteKhachHangClick(String id) {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Bạn có muốn xóa hay không?");
@@ -184,6 +191,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
                     ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
                                     Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
                                 }
                             })

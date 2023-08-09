@@ -1,66 +1,125 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.KhachHang;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuXuat;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LichSuChiTietKhachHangVFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LichSuChiTietKhachHangVFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TextView tv_kco_gd;
+    private RecyclerView recyclerView;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private ArrayList<PhieuXuat> list;
+    private LichSuCtKhachHangAdapter lichSuCtKhachHangAdapter;
+    public static final String KEY_ID_KHACH_HANG = "id_kh_bd";
+    String id_khls;
 
     public LichSuChiTietKhachHangVFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LichSuChiTietKhachHangVFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LichSuChiTietKhachHangVFragment newInstance(String param1, String param2) {
-        LichSuChiTietKhachHangVFragment fragment = new LichSuChiTietKhachHangVFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lich_su_chi_tiet_khach_hang_v, container, false);
+        View view = inflater.inflate(R.layout.fragment_lich_su_chi_tiet_khach_hang_v, container, false);
+        recyclerView = view.findViewById(R.id.rcv_lichsu_khachhang);
+        tv_kco_gd = view.findViewById(R.id.tv_kcodongd_lskh);
+        tv_kco_gd.setVisibility(View.GONE);
+        loadFirebasePhieuXuat();
+        return view;
     }
+
+    //    private void loadFirebasePhieuXuat() {
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseUser = firebaseAuth.getCurrentUser();
+//
+//        list = new ArrayList<>();
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phieu_xuat");
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                list.clear();
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    PhieuXuat objPhieuXuat = dataSnapshot.getValue(PhieuXuat.class);
+//                    list.add(objPhieuXuat);
+//                }
+//                lichSuCtKhachHangAdapter= new LichSuCtKhachHangAdapter(getContext(),list);
+//                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                recyclerView.setAdapter(lichSuCtKhachHangAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+    private void loadFirebasePhieuXuat() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        list = new ArrayList<>();
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LuuIdKh", Context.MODE_PRIVATE);
+        id_khls = sharedPreferences.getString("idkh", null);
+        Log.e("idlskh","id nhận dc :"+id_khls);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phieu_xuat");
+        databaseReference.orderByChild("id_kh").equalTo(id_khls).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    PhieuXuat objPhieuXuat = dataSnapshot.getValue(PhieuXuat.class);
+                    list.add(objPhieuXuat);
+                }
+                if (list.size()==0){
+                    tv_kco_gd.setVisibility(View.VISIBLE);
+                }else {
+                    lichSuCtKhachHangAdapter = new LichSuCtKhachHangAdapter(getContext(), list);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(lichSuCtKhachHangAdapter);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

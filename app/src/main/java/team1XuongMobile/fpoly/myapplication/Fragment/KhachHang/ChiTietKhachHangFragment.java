@@ -1,7 +1,9 @@
 package team1XuongMobile.fpoly.myapplication.Fragment.KhachHang;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -101,6 +103,7 @@ public class ChiTietKhachHangFragment extends Fragment {
         });
 
         loadDataNVChuyenSang();
+
         setDataKhachHangLenView();
 
         new TabLayoutMediator(tabLayout,viewPager,(tab, position) ->{
@@ -122,6 +125,7 @@ public class ChiTietKhachHangFragment extends Fragment {
         if (bundle != null) {
             id_kh = bundle.getString(KEY_ID_KHACH_HANG);
             Log.e("zzzzzz", "id nhan duoc: " + id_kh);
+            Truyendl();
         }
     }
 
@@ -150,7 +154,11 @@ public class ChiTietKhachHangFragment extends Fragment {
 
                     }
                 });
-
-
+    }
+    private void Truyendl(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LuuIdKh", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("idkh",id_kh);
+        editor.apply();
     }
 }
