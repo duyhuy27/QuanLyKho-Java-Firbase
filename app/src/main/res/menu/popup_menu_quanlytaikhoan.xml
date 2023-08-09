@@ -9,4 +9,8 @@
         android:id="@+id/popup_menuQTLK_cachchuc"
         android:iconTint="@color/black"
         android:title="Cách Chức" />
+    <item
+        android:id="@+id/popup_menuQTLK_datlaimatkhau"
+        android:iconTint="@color/black"
+        android:title="Đặt Lại Mật Khẩu" />
 </menu>

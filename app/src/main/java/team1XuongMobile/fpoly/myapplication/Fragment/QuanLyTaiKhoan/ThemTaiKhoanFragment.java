@@ -158,10 +158,11 @@ public class ThemTaiKhoanFragment extends Fragment {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", "" + timestamp);
         hashMap.put("idNV", "" + idNVString);
-        hashMap.put("trangThai", "Đang Hoạt Động" );
+        hashMap.put("trangThai", "Đang Hoạt Động");
         hashMap.put("uid", uidtk);
         hashMap.put("username", "" + tennhanvienstring);
         hashMap.put("email", "" + emailstring);
+        hashMap.put("password", "" + sdtstring);
         hashMap.put("sdt", "" + sdtstring);
         hashMap.put("timestamp", timestamp);
         hashMap.put("vaiTro", "" + quyentruycapstring);

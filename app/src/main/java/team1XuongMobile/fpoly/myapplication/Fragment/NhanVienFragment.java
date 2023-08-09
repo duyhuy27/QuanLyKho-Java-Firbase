@@ -1,6 +1,7 @@
 package team1XuongMobile.fpoly.myapplication.Fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -45,6 +46,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvienInterface {
     RecyclerView recyclerView;
+    private ProgressDialog progressDialog;
     NhanVienAdapter nhanVienAdapter;
     ArrayList<NhanVien> nhanVienArrayList;
     private NhanVienAdapter.nhanvienInterface listener;
@@ -165,6 +167,8 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
 
     @Override
     public void deleteNVClick(String id) {
+        progressDialog.setTitle("Đang Thực Thi");
+        progressDialog.show();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Bạn có muốn xóa hay không?");
@@ -176,6 +180,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
                     ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
                                     Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
                                 }
                             })
