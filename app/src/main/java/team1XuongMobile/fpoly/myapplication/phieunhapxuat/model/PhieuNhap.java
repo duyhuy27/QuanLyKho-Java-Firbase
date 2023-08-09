@@ -16,10 +16,14 @@ public class PhieuNhap {
     private String uid;
     private String kh;
 
+    private String formattedDate;
+
+
+
     public PhieuNhap() {
     }
 
-    public PhieuNhap(String idSanPham, String id_nha_cc, String id_phieu_nhap, String ngayNhap, String so_luong, String tenSp, String ten_nha_cc, String thue, long timestamp, String tong_tien, String tong_tien_hang, boolean trangThai, String uid, String kh) {
+    public PhieuNhap(String idSanPham, String id_nha_cc, String id_phieu_nhap, String ngayNhap, String so_luong, String tenSp, String ten_nha_cc, String thue, long timestamp, String tong_tien, String tong_tien_hang, boolean trangThai, String uid, String kh, String formattedDate) {
         this.idSanPham = idSanPham;
         this.id_nha_cc = id_nha_cc;
         this.id_phieu_nhap = id_phieu_nhap;
@@ -34,6 +38,15 @@ public class PhieuNhap {
         this.trangThai = trangThai;
         this.uid = uid;
         this.kh = kh;
+        this.formattedDate = formattedDate;
+    }
+
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
     }
 
     public String getIdSanPham() {

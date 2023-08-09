@@ -303,7 +303,6 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
 
                         // Generate a unique product ID
 
-
                         // Save the product to the database
                         HashMap<String, Object> productData = new HashMap<>();
                         productData.put("idSanPham", "" + productId);
