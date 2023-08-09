@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="horizontal"
-    tools:context=".thongke.DoanhThu_ThongKeFragment">
+    tools:context=".thongke.baocao.DoanhThu_ThongKeFragment">
 
 
     <androidx.core.widget.NestedScrollView
@@ -250,7 +250,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_bao_cao_thanh_toan"
+                android:id="@+id/card_bao_cao_lai_lo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/card_bao_cao_loi_nhuan"
@@ -285,7 +285,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:maxLines="1"
-                            android:text="Báo cáo thanh toán và công nợ"
+                            android:text="Báo cáo lãi lỗ"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp"
                             android:textStyle="bold" />
@@ -295,7 +295,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:maxLines="2"
-                            android:text="Tổng hợp các hóa đơn thanh đã thanh toán hoặc hóa đơn ghi nựo"
+                            android:text="Hiển thị doanh thu, chi phí và lãi lỗ của cửa hàng trong kỳ"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -307,7 +307,7 @@
                 android:id="@+id/card_bao_cao_don_hang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/card_bao_cao_thanh_toan"
+                android:layout_below="@id/card_bao_cao_lai_lo"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 app:cardBackgroundColor="@color/white"
@@ -339,7 +339,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:maxLines="1"
-                            android:text="Báo cáo thống kê đơn hàng"
+                            android:text="Sổ quỹ"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp"
                             android:textStyle="bold" />
@@ -349,7 +349,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:maxLines="2"
-                            android:text="Thống kê các dữ liệu tổng hợp về đơn hàng"
+                            android:text="Quản lý luồng tiền ra vào của kho"
                             android:textColor="@color/black" />
                     </LinearLayout>
 

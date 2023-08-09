@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.thongke;
+package team1XuongMobile.fpoly.myapplication.thongke.baocao;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -35,7 +35,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.FragmentDoanhThuThongKeBinding;
+import team1XuongMobile.fpoly.myapplication.thongke.baocao.fragment.BaoCaoDoanhThuFragment;
+import team1XuongMobile.fpoly.myapplication.thongke.baocao.fragment.BaoCaoLaiLoFragment;
+import team1XuongMobile.fpoly.myapplication.thongke.baocao.fragment.BaoCaoLoiNhuanFragment;
 
 
 public class DoanhThu_ThongKeFragment extends Fragment {
@@ -97,6 +101,29 @@ public class DoanhThu_ThongKeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 loadDataByDateRange(startDateStr, endDateStr);
+            }
+        });
+
+        binding.cardBaoCaoDoanhThu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new BaoCaoDoanhThuFragment()).addToBackStack(null).commit();
+            }
+        });
+
+        binding.cardBaoCaoLoiNhuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new BaoCaoLoiNhuanFragment()).addToBackStack(null).commit();
+
+            }
+        });
+
+        binding.cardBaoCaoLaiLo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new BaoCaoLaiLoFragment()).addToBackStack(null).commit();
+
             }
         });
     }
@@ -262,79 +289,79 @@ public class DoanhThu_ThongKeFragment extends Fragment {
         }
     }
 
-    private void processDataByDateRange() {
-        String startDateStr = binding.tvDateStart.getText().toString().trim();
-        String endDateStr = binding.tvDateEnd.getText().toString().trim();
-
-        // Parse the date strings to Date objects
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        try {
-            Date startDate = simpleDateFormat.parse(startDateStr);
-            Date endDate = simpleDateFormat.parse(endDateStr);
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(startDate);
-
-            // Create a list to hold the aggregated data for each day
-            ArrayList<BarEntry> barEntries = new ArrayList<>();
-            ArrayList<String> datesList = new ArrayList<>(); // List to store date labels
-
-            // Loop through each day within the date range
-            while (!calendar.getTime().after(endDate)) {
-                Date currentDate = calendar.getTime();
-
-                // Query Firebase for the current day's data
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_xuat");
-                Query query = reference.orderByChild("timestamp").startAt(currentDate.getTime()).endAt(currentDate.getTime() + 86399999);
-
-                query.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        float totalTongTien = 0;
-
-                        // Process the retrieved data and calculate total tongTien for the day
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String tongTienStr = snapshot.child("tong_tien_hang").getValue(String.class);
-                            try {
-                                float tongTien = Float.parseFloat(tongTienStr);
-                                totalTongTien += tongTien;
-                            } catch (NumberFormatException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        // Add the aggregated data to the list
-                        barEntries.add(new BarEntry(barEntries.size(), totalTongTien));
-                        datesList.add(simpleDateFormat.format(currentDate)); // Format the current date and add to the list
-
-                        // Create a BarDataSet with the BarEntry list
-                        BarDataSet dataSet = new BarDataSet(barEntries, "Doanh số");
-
-                        // Set custom colors or other styling for the bars if needed
-                        dataSet.setColor(Color.BLUE);
-
-                        // Create a BarData object using the BarDataSet
-                        BarData barData = new BarData(dataSet);
-
-                        // Set data to the BarChart and invalidate to refresh the view
-                        binding.barchar.setData(barData);
-                        binding.barchar.notifyDataSetChanged();
-                        binding.barchar.invalidate();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle database error, if any
-                    }
-                });
-
-                // Move to the next day
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Invalid date format!", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private void processDataByDateRange() {
+//        String startDateStr = binding.tvDateStart.getText().toString().trim();
+//        String endDateStr = binding.tvDateEnd.getText().toString().trim();
+//
+//        // Parse the date strings to Date objects
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//        try {
+//            Date startDate = simpleDateFormat.parse(startDateStr);
+//            Date endDate = simpleDateFormat.parse(endDateStr);
+//
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(startDate);
+//
+//            // Create a list to hold the aggregated data for each day
+//            ArrayList<BarEntry> barEntries = new ArrayList<>();
+//            ArrayList<String> datesList = new ArrayList<>(); // List to store date labels
+//
+//            // Loop through each day within the date range
+//            while (!calendar.getTime().after(endDate)) {
+//                Date currentDate = calendar.getTime();
+//
+//                // Query Firebase for the current day's data
+//                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_xuat");
+//                Query query = reference.orderByChild("timestamp").startAt(currentDate.getTime()).endAt(currentDate.getTime() + 86399999);
+//
+//                query.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        float totalTongTien = 0;
+//
+//                        // Process the retrieved data and calculate total tongTien for the day
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            String tongTienStr = snapshot.child("tong_tien_hang").getValue(String.class);
+//                            try {
+//                                float tongTien = Float.parseFloat(tongTienStr);
+//                                totalTongTien += tongTien;
+//                            } catch (NumberFormatException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        // Add the aggregated data to the list
+//                        barEntries.add(new BarEntry(barEntries.size(), totalTongTien));
+//                        datesList.add(simpleDateFormat.format(currentDate)); // Format the current date and add to the list
+//
+//                        // Create a BarDataSet with the BarEntry list
+//                        BarDataSet dataSet = new BarDataSet(barEntries, "Doanh số");
+//
+//                        // Set custom colors or other styling for the bars if needed
+//                        dataSet.setColor(Color.BLUE);
+//
+//                        // Create a BarData object using the BarDataSet
+//                        BarData barData = new BarData(dataSet);
+//
+//                        // Set data to the BarChart and invalidate to refresh the view
+//                        binding.barchar.setData(barData);
+//                        binding.barchar.notifyDataSetChanged();
+//                        binding.barchar.invalidate();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        // Handle database error, if any
+//                    }
+//                });
+//
+//                // Move to the next day
+//                calendar.add(Calendar.DAY_OF_MONTH, 1);
+//            }
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getContext(), "Invalid date format!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 }

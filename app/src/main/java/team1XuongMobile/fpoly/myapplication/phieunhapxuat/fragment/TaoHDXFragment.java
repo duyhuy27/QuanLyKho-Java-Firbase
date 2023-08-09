@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -386,6 +387,10 @@ public class TaoHDXFragment extends Fragment {
         tongTienHang = tvTamTinhX.getText().toString().trim();
         long timestamp = System.currentTimeMillis();
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String formattedDate = dateFormat.format(new Date());
+
+
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id_phieu_xuat", String.valueOf(timestamp));
         hashMap.put("ngay_xuat", String.valueOf(ngayX));
@@ -402,6 +407,7 @@ public class TaoHDXFragment extends Fragment {
         hashMap.put("timestamp", timestamp);
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("kh", String.valueOf(kh));
+        hashMap.put("formattedDate", formattedDate);
         hashMap.put("thue_xuat", String.valueOf(thueXuat));
         hashMap.put("trangThai", trangThaiHoaDonXuat);
 

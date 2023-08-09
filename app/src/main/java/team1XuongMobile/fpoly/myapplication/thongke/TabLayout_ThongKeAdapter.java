@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import team1XuongMobile.fpoly.myapplication.thongke.baocao.DoanhThu_ThongKeFragment;
+import team1XuongMobile.fpoly.myapplication.thongke.baocao.TongQuanFragment;
+
 public class TabLayout_ThongKeAdapter extends FragmentStateAdapter {
     public TabLayout_ThongKeAdapter(@NonNull Fragment fragment) {
         super(fragment);

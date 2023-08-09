@@ -150,12 +150,25 @@
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/background_edit_text_03"
                     android:drawableEnd="@drawable/ic_next"
                     android:drawablePadding="@dimen/_10sdp"
                     android:padding="@dimen/_10sdp"
                     android:text="Tạo/Quét mã vạch QR code" />
+
+                <TextView
+                    android:id="@+id/tv_tao_phieu_ton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/background_edit_text_03"
+                    android:drawableEnd="@drawable/ic_next"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:text="Tạo phiếu kiểm kho" />
 
 
             </LinearLayout>

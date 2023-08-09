@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".thongke.TongQuanFragment">
+    tools:context=".thongke.baocao.TongQuanFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:layout_centerVertical="true"
                     android:drawableStart="@drawable/icon_lich_tongquat"
                     android:drawableEnd="@drawable/ic_drop"
-                    android:drawablePadding="@dimen/_10sdp"
+                    android:drawablePadding="@dimen/_8sdp"
                     android:maxLines="1"
                     android:text="Hôm nay, dd/mm/yyyy"
                     android:textColor="@color/black"
@@ -63,6 +63,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <ProgressBar
+                        android:id="@+id/progress_circular_nhap_xuat"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"/>
+
                     <TextView
                         android:id="@+id/tv_sl_phieu_nhap"
                         android:layout_width="wrap_content"
@@ -77,13 +84,23 @@
                         android:id="@+id/tv_loinhuan_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:drawableEnd="@drawable/hide"
                         android:drawablePadding="@dimen/_6sdp"
                         android:maxLines="1"
+                        android:layout_toStartOf="@id/hide_show_money_loi_nhuan"
                         android:text="Lợi nhuận"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
+
+                    <ImageButton
+                        android:id="@+id/hide_show_money_loi_nhuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hide"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@android:color/transparent"/>
+
 
                     <TextView
                         android:id="@+id/tv_loinhuan_money"
@@ -167,6 +184,13 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <ProgressBar
+                        android:id="@+id/progress_circular_hang_ton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"/>
 
                     <ImageView
                         android:id="@+id/img_hang_ton"

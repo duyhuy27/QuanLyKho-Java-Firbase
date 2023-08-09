@@ -14,13 +14,19 @@ import android.view.ViewGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
+
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuNhap;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuXuat;
 
 
 public class ThongKeFragment extends Fragment {
     TabLayout tabLayoutThongke;
     ViewPager2 viewPagerThongke;
     TabLayout_ThongKeAdapter tabLayout_thongKeAdapter;
+
+
 
 
     @Override
