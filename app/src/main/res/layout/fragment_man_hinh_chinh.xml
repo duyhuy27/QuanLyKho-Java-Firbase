@@ -41,7 +41,7 @@
             android:layout_below="@+id/tv_ten_nguoi_dung_manhinhchinh"
             android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Bạn có khúc mắc?"
+            android:text="Bạn có thắc mắc?"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
 
