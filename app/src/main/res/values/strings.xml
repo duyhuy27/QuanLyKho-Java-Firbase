@@ -4,7 +4,7 @@
     quan_navigation
 
     <string name="ch_o_m_ng_n_ng_nh_p_b_t_u">Chào mừng! \nĐăng ký để bắt đầu</string>
-    <string name="ch_o_m_ng_n_ng_nh_p_b_t_u_02">Chào mựng trở lại! \nThật vui khi gặp lại bạn!</string>
+    <string name="ch_o_m_ng_n_ng_nh_p_b_t_u_02">Chào mừng trở lại! \nThật vui khi gặp lại bạn!</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="s_i_n_tho_i">Số điện thoại</string>

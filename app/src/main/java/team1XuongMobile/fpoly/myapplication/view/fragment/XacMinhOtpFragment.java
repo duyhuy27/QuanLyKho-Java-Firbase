@@ -35,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -228,7 +230,7 @@ public class XacMinhOtpFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                            firebaseAuth.createUserWithEmailAndPassword(email, md5(password))
                                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                         @Override
                                         public void onSuccess(AuthResult authResult) {
@@ -262,7 +264,7 @@ public class XacMinhOtpFragment extends Fragment {
         hashMap.put("id", "" + timestamp);
         hashMap.put("uid", uid);
         hashMap.put("email", email);
-        hashMap.put("password", password);
+        hashMap.put("password", md5(password));
         hashMap.put("sdt", sdt);
         hashMap.put("timestamp", timestamp);
         hashMap.put("username", username);
@@ -378,6 +380,30 @@ public class XacMinhOtpFragment extends Fragment {
                 break;
         }
         return editText;
+    }
+    public static String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 

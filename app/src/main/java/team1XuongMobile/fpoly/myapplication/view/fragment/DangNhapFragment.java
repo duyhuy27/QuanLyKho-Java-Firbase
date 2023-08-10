@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import team1XuongMobile.fpoly.myapplication.Fragment.QuanLyTaiKhoan.ThemTaiKhoanFragment;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 import team1XuongMobile.fpoly.myapplication.MainActivity;
@@ -133,7 +135,7 @@ public class DangNhapFragment extends Fragment {
         binding.progressbar.setVisibility(View.VISIBLE);
         binding.buttonDangNhap.setVisibility(View.GONE);
 
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+        firebaseAuth.signInWithEmailAndPassword(email, md5(password))
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -189,27 +191,31 @@ public class DangNhapFragment extends Fragment {
                     }
                 });
 
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-//        ref.child(firebaseUser.getUid())
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        role  = "" + snapshot.child("vaiTro").getValue();
-//
-//                        if (role.equals("nhanVien")) {
-//                            startActivity(new Intent(getActivity(), MainActivity.class));
-//                            getActivity().finish();
-//                        } else if (role.equals("admin")) {
-//                            startActivity(new Intent(getActivity(), MainActivity.class));
-//                            getActivity().finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
+
+    }
+    public static String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

@@ -39,6 +39,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -108,7 +110,7 @@ public class ThemTaiKhoanFragment extends Fragment {
                 } else if (trangthaiString.equalsIgnoreCase("Tạm Nghỉ")) {
                     Toast.makeText(getContext(), "Nhân Viên Không Thể Bổ Nhiệm Khi Đang Nghỉ", Toast.LENGTH_SHORT).show();
                 } else {
-                    firebaseAuth.createUserWithEmailAndPassword(emailstring, sdtstring)
+                    firebaseAuth.createUserWithEmailAndPassword(emailstring, md5(sdtstring))
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -162,7 +164,7 @@ public class ThemTaiKhoanFragment extends Fragment {
         hashMap.put("uid", uidtk);
         hashMap.put("username", "" + tennhanvienstring);
         hashMap.put("email", "" + emailstring);
-        hashMap.put("password", "" + sdtstring);
+        hashMap.put("password", "" + md5(sdtstring));
         hashMap.put("sdt", "" + sdtstring);
         hashMap.put("timestamp", timestamp);
         hashMap.put("vaiTro", "" + quyentruycapstring);
@@ -254,5 +256,30 @@ public class ThemTaiKhoanFragment extends Fragment {
 
             }
         });
+    }
+
+    public static String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

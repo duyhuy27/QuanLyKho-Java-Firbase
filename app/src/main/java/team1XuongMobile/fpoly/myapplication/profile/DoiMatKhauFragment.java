@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,7 +151,7 @@ public class DoiMatKhauFragment extends Fragment {
             Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
 
         } else {
-            updatePassword(oldPassword, newPassword);
+            updatePassword(md5(oldPassword), md5(newPassword));
         }
 
     }
@@ -159,18 +161,18 @@ public class DoiMatKhauFragment extends Fragment {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        AuthCredential authCredential = EmailAuthProvider.getCredential(firebaseUser.getEmail(), oldPassword);
+        AuthCredential authCredential = EmailAuthProvider.getCredential(firebaseUser.getEmail(), md5(oldPassword));
         firebaseUser.reauthenticate(authCredential)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
 
-                        firebaseUser.updatePassword(newPassword)
+                        firebaseUser.updatePassword(md5(newPassword))
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         HashMap<String, Object> hashMap = new HashMap<>();
-                                        hashMap.put("password", newPassword);
+                                        hashMap.put("password", md5(newPassword));
 
                                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Accounts");
                                         databaseReference.child(firebaseAuth.getUid()).updateChildren(hashMap)
@@ -210,5 +212,30 @@ public class DoiMatKhauFragment extends Fragment {
                     }
                 });
 
+    }
+
+    public static String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
