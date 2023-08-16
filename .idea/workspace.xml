@@ -10,20 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67ea97b8-9fb5-448f-a689-970ae21f4674" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoan/ThemTaiKhoanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoan/ThemTaiKhoanFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/profile/DoiMatKhauFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/profile/DoiMatKhauFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/view/fragment/DangNhapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/view/fragment/DangNhapFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/view/fragment/XacMinhOtpFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/view/fragment/XacMinhOtpFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_man_hinh_chinh.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_man_hinh_chinh.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Acer Nitro 5\.android\avd\Pixel_2_API_30_15.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/nguyenhuy/.android/avd/Pixel_6_API_29.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -45,15 +39,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/QuanLyKhoTeam1_XuongMobileLv1&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "/Users/nguyenhuy/Desktop/QuanLyKhoTeam1",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="FormDangNhapActivity" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
       <module name="QuanLyKhoTeam1.app.main" />
