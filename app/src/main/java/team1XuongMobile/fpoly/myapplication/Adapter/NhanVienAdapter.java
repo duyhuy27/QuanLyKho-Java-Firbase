@@ -205,9 +205,7 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
         return nhanVienArrayList.size();
     }
 
-    public void laydulieudangnhap() {
 
-    }
 
 
 }

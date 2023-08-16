@@ -25,14 +25,20 @@ import java.util.ArrayList;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.PhieuNhapAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuNhap;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.ChiTietPNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.LichSuPNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.SuaPhieuNhapFragment;
 
-public class PhieuNhapFragment extends Fragment {
+public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.PhieuNhapInterface {
     private FloatingActionButton fab_themPhieuNhap;
     private RecyclerView rcvPhieuNhap;
     private PhieuNhapAdapter adapter;
+    private PhieuNhapAdapter.PhieuNhapInterface listener;
+    public static final String KEY_ID_PHIEU_NHAP = "idPN";
     private ArrayList<PhieuNhap> list;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,11 +48,7 @@ public class PhieuNhapFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-        adapter = new PhieuNhapAdapter(requireContext());
-        list = new ArrayList<>();
-        rcvPhieuNhap.setLayoutManager(layoutManager);
+        listener = this;
 
         fab_themPhieuNhap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +68,7 @@ public class PhieuNhapFragment extends Fragment {
     }
 
     private void loadFirebasePhieuNhap() {
+        list = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
         reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -81,8 +84,9 @@ public class PhieuNhapFragment extends Fragment {
                             PhieuNhap objPhieuNhap = dataSnapshot.getValue(PhieuNhap.class);
                             list.add(objPhieuNhap);
                         }
-                        adapter.setData(list);
+                        adapter = new PhieuNhapAdapter(getContext(), listener, list);
                         rcvPhieuNhap.setAdapter(adapter);
+                        rcvPhieuNhap.setLayoutManager(new LinearLayoutManager(getContext()));
                     }
 
                     @Override
@@ -97,5 +101,35 @@ public class PhieuNhapFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void ChitietPN(String idPN) {
+        Bundle bundlechitietPN = new Bundle();
+        bundlechitietPN.putString(KEY_ID_PHIEU_NHAP, idPN);
+        ChiTietPNFragment chiTietPNFragment = new ChiTietPNFragment();
+        chiTietPNFragment.setArguments(bundlechitietPN);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, chiTietPNFragment).addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void SuaPN(String idPN) {
+        Bundle bundleSuaPN = new Bundle();
+        bundleSuaPN.putString(KEY_ID_PHIEU_NHAP, idPN);
+        SuaPhieuNhapFragment suaPhieuNhapFragment = new SuaPhieuNhapFragment();
+        suaPhieuNhapFragment.setArguments(bundleSuaPN);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, suaPhieuNhapFragment).addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void LichsuPN(String idPN) {
+        Bundle bundlelsPN = new Bundle();
+        bundlelsPN.putString(KEY_ID_PHIEU_NHAP, idPN);
+        LichSuPNFragment lichSuPNFragment = new LichSuPNFragment();
+        lichSuPNFragment.setArguments(bundlelsPN);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, lichSuPNFragment).addToBackStack(null).commit();
+
     }
 }

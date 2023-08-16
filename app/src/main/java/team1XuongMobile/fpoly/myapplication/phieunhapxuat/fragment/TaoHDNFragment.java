@@ -42,8 +42,10 @@ import java.util.Locale;
 import team1XuongMobile.fpoly.myapplication.R;
 
 public class TaoHDNFragment extends Fragment {
-    private TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN, tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
-    private String kh = "", uid = "", idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "", giaNhap = "", thueNhap = "", tenNhaCungCap = "", tongSoLuong, tongTien, tongTienHang, ngayNhap;
+    public TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN, tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
+    private String kh = "", uid = "", idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "",
+            giaNhap = "", thueNhap = "", tenNhaCungCap = "", tenNhanVienTao = "",
+            tongSoLuong, tongTien, tongTienHang, ngayNhap;
     private LinearLayout linerChonSp, linearTrangThaiChonSp;
     private RelativeLayout layoutChonNgay;
     private EditText edSoLuong;
@@ -55,6 +57,7 @@ public class TaoHDNFragment extends Fragment {
     private AppCompatButton btnTaoDonNhap;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    String id_phieunhap = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -172,6 +175,7 @@ public class TaoHDNFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 firebaseUser = firebaseAuth.getCurrentUser();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_nhap");
 
                 tongSoLuong = tvTongSoLuongHDN.getText().toString().trim();
                 tongTienHang = tvTamTinh.getText().toString().trim();
@@ -179,17 +183,19 @@ public class TaoHDNFragment extends Fragment {
                 ngayNhap = tvChonNgayNhap.getText().toString().trim();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                 String formattedDate = dateFormat.format(new Date());
+                id_phieunhap = reference.push().getKey();
 
                 long timestamp = System.currentTimeMillis();
 
                 HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("id_phieu_nhap", String.valueOf(timestamp));
+                hashMap.put("id_phieu_nhap", "" + id_phieunhap);
                 hashMap.put("id_nha_cc", String.valueOf(idNCC));
                 hashMap.put("ten_nha_cc", String.valueOf(tenNhaCungCap));
                 hashMap.put("tenSp", String.valueOf(tenSpNhap));
                 hashMap.put("idSanPham", String.valueOf(idSanPham));
                 hashMap.put("so_luong", String.valueOf(tongSoLuong));
                 hashMap.put("tong_tien", String.valueOf(tongTien));
+                hashMap.put("ten_nhan_vien", "" + tenNhanVienTao);
                 hashMap.put("thue", String.valueOf(thueNhap));
                 hashMap.put("tong_tien_hang", String.valueOf(tongTienHang));
                 hashMap.put("uid", firebaseUser.getUid());
@@ -199,16 +205,38 @@ public class TaoHDNFragment extends Fragment {
                 hashMap.put("timestamp", timestamp);
                 hashMap.put("kh", String.valueOf(kh));
 
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("phieu_nhap");
-                reference.child("" + timestamp).setValue(hashMap)
+
+                reference.child("" + id_phieunhap).setValue(hashMap)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                ChiTietHDNFragment fragment = new ChiTietHDNFragment();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("idPhieuNhap", String.valueOf(timestamp));
-                                fragment.setArguments(bundle);
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
+                                DatabaseReference notifilenhap = FirebaseDatabase.getInstance().getReference("notifile_phieunhap");
+                                HashMap<String, Object> hashMapnotifile = new HashMap<>();
+                                hashMapnotifile.put("id_phieu_nhap", "" + id_phieunhap);
+                                hashMapnotifile.put("id_thongbao_phieunhap", "" + timestamp);
+                                hashMapnotifile.put("ten_nhan_vien", "" + tenNhanVienTao);
+                                hashMapnotifile.put("ngay_them_sua", String.valueOf(ngayNhap));
+                                hashMapnotifile.put("loai_thong_bao", "them");
+                                hashMapnotifile.put("kh", String.valueOf(kh));
+
+                                notifilenhap.child("" + timestamp).setValue(hashMapnotifile)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                ChiTietHDNFragment fragment = new ChiTietHDNFragment();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("idPhieuNhap", id_phieunhap);
+                                                fragment.setArguments(bundle);
+                                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(requireActivity(), "Tạo thông báo đơn nhập thất bại!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -216,6 +244,8 @@ public class TaoHDNFragment extends Fragment {
                                 Toast.makeText(requireActivity(), "Tạo hoá đơn nhập thất bại!", Toast.LENGTH_SHORT).show();
                             }
                         });
+
+
             }
         });
     }
@@ -310,11 +340,13 @@ public class TaoHDNFragment extends Fragment {
                 giaNhap = String.valueOf(snapshot.child("giaNhap").getValue());
                 thueNhap = String.valueOf(snapshot.child("thueDauVao").getValue());
 
+
                 tvThueHDN.setText(thueNhap + "%");
                 tvTenSpHDN.setText(tenSpNhap);
                 tvMaSpHDN.setText(maSpNhap);
                 tvSoTienSpHDN.setText(giaNhap);
                 tvSoTienHangHDN.setText(giaNhap);
+
 
                 sauKhiNhanDuLieuSanPham(giaNhap, thueNhap);
             }
@@ -336,6 +368,8 @@ public class TaoHDNFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 kh = String.valueOf(snapshot.child("kh").getValue());
+                tenNhanVienTao = "" + snapshot.child("username").getValue();
+
             }
 
             @Override

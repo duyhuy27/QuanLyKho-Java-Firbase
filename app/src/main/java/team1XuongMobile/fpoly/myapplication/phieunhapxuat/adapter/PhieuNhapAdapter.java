@@ -1,14 +1,28 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -17,40 +31,90 @@ import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuNhap;
 
 public class PhieuNhapAdapter extends RecyclerView.Adapter<PhieuNhapAdapter.ViewHolder> {
     private final Context context;
-    private ArrayList<PhieuNhap> list;
+    private PhieuNhapInterface listener;
+    public ArrayList<PhieuNhap> phieuNhapArrayList, list;
+    String uid, kh, tennhanvientao = "";
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
-    public PhieuNhapAdapter(Context context) {
+    public PhieuNhapAdapter(Context context, PhieuNhapInterface listener, ArrayList<PhieuNhap> phieuNhapArrayList) {
         this.context = context;
-    }
-
-    public void setData(ArrayList<PhieuNhap> list) {
-        this.list = list;
-        notifyItemInserted(0);
+        this.listener = listener;
+        this.phieuNhapArrayList = phieuNhapArrayList;
+        this.list = phieuNhapArrayList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_phieu_nhap, parent, false);
+        firebaseAuth = FirebaseAuth.getInstance();
         return new ViewHolder(view);
+    }
+
+    public interface PhieuNhapInterface {
+        void ChitietPN(String idPN);
+
+        void SuaPN(String idPN);
+
+        void LichsuPN(String idPN);
+
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PhieuNhap objPhieuNhap = list.get(position);
+        layDuLieuDangNhap();
+        PhieuNhap objPhieuNhap = phieuNhapArrayList.get(position);
         if (objPhieuNhap == null) {
             return;
         }
         holder.tvMaHoaDon.setText(objPhieuNhap.getId_phieu_nhap());
+        holder.tvNhanVienTao.setText(objPhieuNhap.getTennhanvien());
         holder.tvLoaiHoaDon.setText("Nhập");
         holder.tvNgay.setText(objPhieuNhap.getNgayNhap());
         holder.tvTongGia.setText(objPhieuNhap.getTong_tien_hang());
+        holder.imgLuaChon.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View v) {
+                @SuppressLint("RestrictedApi") MenuBuilder menuBuilder = new MenuBuilder(context);
+                MenuInflater inflater = new MenuInflater(context);
+                inflater.inflate(R.menu.menu_phieunhap, menuBuilder);
+                @SuppressLint("RestrictedApi") MenuPopupHelper optionPN = new MenuPopupHelper(context, menuBuilder, v);
+                menuBuilder.setCallback(new MenuBuilder.Callback() {
+                    @Override
+                    public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
+                        if (item.getItemId() == R.id.popup_menuPN_chitiet) {
+                            listener.ChitietPN(objPhieuNhap.getId_phieu_nhap());
+                            return true;
+                        } else if (item.getItemId() == R.id.popup_menuPN_sua) {
+                            listener.SuaPN(objPhieuNhap.getId_phieu_nhap());
+                            return true;
+                        } else if (item.getItemId() == R.id.popup_menuPN_lichsu) {
+                            listener.LichsuPN(objPhieuNhap.getId_phieu_nhap());
+                            return true;
+                        } else {
+                            return false;
+                        }
+
+                    }
+
+                    @Override
+                    public void onMenuModeChange(@NonNull MenuBuilder menu) {
+
+                    }
+                });
+                optionPN.show();
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        if (list != null) {
-            return list.size();
+        if (phieuNhapArrayList != null) {
+            return phieuNhapArrayList.size();
         }
         return 0;
     }
@@ -69,5 +133,25 @@ public class PhieuNhapAdapter extends RecyclerView.Adapter<PhieuNhapAdapter.View
             tvTrangThai = itemView.findViewById(R.id.tvTrangThaiPhieuNhap);
             imgLuaChon = itemView.findViewById(R.id.imgLuaChon);
         }
+    }
+
+    private void layDuLieuDangNhap() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh = String.valueOf(snapshot.child("kh").getValue());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
