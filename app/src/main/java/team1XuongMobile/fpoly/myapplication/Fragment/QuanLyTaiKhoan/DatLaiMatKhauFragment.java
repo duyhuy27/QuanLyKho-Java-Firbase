@@ -133,7 +133,7 @@ public class DatLaiMatKhauFragment extends Fragment {
                     public void onSuccess(Void unused) {
 
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Vào Email Để Đổi Lại Mật Khẩu", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Đăng Nhập Email Để Đổi Lại Mật Khẩu", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
