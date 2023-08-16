@@ -151,7 +151,8 @@ public class DoiMatKhauFragment extends Fragment {
             Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
 
         } else {
-            updatePassword(md5(oldPassword), md5(newPassword));
+            updatePassword(oldPassword, newPassword);
+
         }
 
     }
@@ -162,6 +163,7 @@ public class DoiMatKhauFragment extends Fragment {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         AuthCredential authCredential = EmailAuthProvider.getCredential(firebaseUser.getEmail(), md5(oldPassword));
+
         firebaseUser.reauthenticate(authCredential)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -187,6 +189,7 @@ public class DoiMatKhauFragment extends Fragment {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e) {
                                                         progressDialog.dismiss();
+                                                        Log.d(TAG, "onFailure: "+e.getMessage());
                                                         Toast.makeText(getContext(), "Lỗi ! Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
 
                                                     }

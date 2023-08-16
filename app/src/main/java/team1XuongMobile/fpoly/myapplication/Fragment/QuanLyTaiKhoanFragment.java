@@ -53,7 +53,7 @@ public class QuanLyTaiKhoanFragment extends Fragment implements QuanLyTaiKhoanAd
     ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList;
 
     public static final String KEY_ID_TAI_KHOAN = "id";
-    public static final String KEY_ID_NHAN_VIEN = "idNV";
+
 
     QuanLyTaiKhoanAdapter.TaikhoanInterface taikhoanInterface;
 

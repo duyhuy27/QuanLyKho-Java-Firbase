@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="@dimen/_10sdp"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="14dp"
+    android:layout_marginBottom="@dimen/_8sdp"
+    android:backgroundTint="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_lichsupn_itemtennhanvien"
+            android:text="Tên nhân viên"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/t1"
+            android:text="đã"
+            android:layout_toEndOf="@+id/tv_lichsupn_itemtennhanvien"
+            android:paddingLeft="@dimen/_3sdp"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_lichsupn_itemloaithongbao"
+            android:text="aa"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/t1"
+            android:paddingLeft="@dimen/_3sdp"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/t2"
+            android:text="phiếu nhận "
+            android:layout_toEndOf="@+id/tv_lichsupn_itemloaithongbao"
+            android:paddingLeft="@dimen/_3sdp"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/t3"
+            android:text="vào ngày"
+            android:layout_below="@+id/tv_lichsupn_itemtennhanvien"
+            android:paddingLeft="@dimen/_13sdp"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_lichsupn_itemngay"
+            android:text="2023-10-10"
+            android:textStyle="bold"
+            android:layout_below="@+id/tv_lichsupn_itemtennhanvien"
+            android:layout_toEndOf="@+id/t3"
+            android:paddingLeft="@dimen/_3sdp"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -43,9 +43,7 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
     FilterSearchTaiKhoan filterSearchTaiKhoan;
     TaikhoanInterface taikhoanInterface;
     FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
 
-    String matkhaustring = "", sdtstring = "", khstring = "";
 
 
     public QuanLyTaiKhoanAdapter(Context context, ArrayList<QuanLyTaiKhoan> quanLyTaiKhoanArrayList, TaikhoanInterface taikhoanInterface) {
@@ -150,6 +148,5 @@ public class QuanLyTaiKhoanAdapter extends RecyclerView.Adapter<QuanLyTaiKhoanAd
     }
 
 
-//
 
 }
