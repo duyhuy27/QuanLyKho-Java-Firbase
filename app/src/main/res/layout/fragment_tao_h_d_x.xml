@@ -141,8 +141,9 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center"
-                        android:inputType="textMultiLine"
-                        android:background="@drawable/background_edit_text_05" />
+                        android:inputType="numberSigned"
+                        android:background="@drawable/background_edit_text_05"
+                        android:imeOptions="actionDone"/>
 
                     <ImageView
                         android:id="@+id/imgTangSlX"

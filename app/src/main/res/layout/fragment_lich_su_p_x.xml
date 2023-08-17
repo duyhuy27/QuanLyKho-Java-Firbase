@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".phieunhapxuat.fragment.LichSuPXFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:background="#E8E8E8"
+    android:id="@+id/chitietpx">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="lịch sử phiễu xuất"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_ls_px"
+            android:layout_below="@+id/a1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</FrameLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

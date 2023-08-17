@@ -1,14 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".phieunhapxuat.fragment.ChiTietPXFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:background="#E8E8E8"
+    android:id="@+id/chitietpx">
+    <RelativeLayout
+        android:background="@drawable/wave_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:background="@drawable/custome_listview"
+            android:backgroundTint="@color/white">
+            <TextView
 
-</FrameLayout>
+                android:id="@+id/a1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Chi Tiết phiễu xuất"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/a1"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/mahd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mã hóa đơn : "
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_id_px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/mahd"
+                    android:text="0123891239"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tensp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_chitietpx_id_px"
+                    android:text="Sản phẩm : "
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_tensp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_chitietpx_id_px"
+                    android:layout_toEndOf="@id/tensp"
+                    android:text="điện thoại"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/giapx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_chitietpx_tensp"
+                    android:text="giá : "
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_giasp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_chitietpx_tensp"
+                    android:layout_toEndOf="@id/giapx"
+                    android:text="3000"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/thue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/giapx"
+                    android:text="thuế : "
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_thue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/giapx"
+                    android:layout_toEndOf="@+id/thue"
+                    android:text="0"
+                    android:textSize="@dimen/_13sdp" />
+                <TextView
+                    android:id="@+id/pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/giapx"
+                    android:layout_toEndOf="@+id/tv_chitietpx_thue"
+                    android:text="%"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/sl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/thue"
+                    android:text="số lượng :"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_slsp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_chitietpx_thue"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/sl"
+                    android:text="0"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/dvvc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sl"
+                    android:text="đơn vị vận chuyển :"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_dvvc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sl"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/dvvc"
+                    android:text="be"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/kh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dvvc"
+                    android:text="khách hàng :"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_kh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dvvc"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/kh"
+                    android:text="nguyen van a"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/nvtao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/kh"
+                    android:text="nhân viên tạo :"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_nvtao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/kh"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/nvtao"
+                    android:text="nguyen van b"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/ngay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nvtao"
+                    android:text="ngày xuất :"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_ngayxuat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nvtao"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/ngay"
+                    android:text="20/11/2022"
+                    android:textSize="@dimen/_13sdp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/a3"
+                android:layout_below="@+id/a2"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/ghichu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ghi chú"
+                    android:textSize="@dimen/_16sdp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/_5sdp"/>
+                <TextView
+                    android:id="@+id/tv_chitietpx_ghichupx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ghichu"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="zxczxczxczzzzzzzzzzzzz"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/a4"
+                android:layout_below="@+id/a3"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/custome_listview"
+                android:backgroundTint="#E8E8E8"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_trangthaipx"
+                    android:text="đã thanh toán"
+                    android:textSize="@dimen/_14sdp"
+                    android:drawableEnd="@drawable/baseline_radio_button_checked_24"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tongtien"
+                    android:layout_below="@+id/tv_chitietpx_trangthaipx"
+                    android:text="Tổng tiền : "
+                    android:textSize="@dimen/_16sdp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_chitietpx_tongtien"
+                    android:layout_below="@+id/tv_chitietpx_trangthaipx"
+                    android:layout_toEndOf="@id/tongtien"
+                    android:text="20000 "
+                    android:textSize="@dimen/_16sdp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_chitietpx_back"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/a4"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:textSize="@dimen/_18sdp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/background_button"
+                android:text="Quay Lại" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

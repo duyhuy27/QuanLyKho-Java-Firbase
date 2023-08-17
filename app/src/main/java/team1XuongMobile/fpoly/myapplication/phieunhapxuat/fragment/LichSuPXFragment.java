@@ -2,65 +2,99 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.LichSuPXAdapter;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.NotifyXuat;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LichSuPXFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LichSuPXFragment extends Fragment {
+    String key_idpx = "";
+    public static final String KEY_ID_PHIEU_XUAT = "id_px_bd";
+    RecyclerView recyclerView;
+    LichSuPXAdapter lichSuPXAdapter;
+    ArrayList<NotifyXuat> lichSuPxArrayList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     public LichSuPXFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LichSuPXFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LichSuPXFragment newInstance(String param1, String param2) {
-        LichSuPXFragment fragment = new LichSuPXFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lich_su_p_x, container, false);
+        View view = inflater.inflate(R.layout.fragment_lich_su_p_x, container, false);
+        recyclerView = view.findViewById(R.id.rcv_ls_px);
+        firebaseAuth = FirebaseAuth.getInstance();
+        loadDataPXChuyenSang();
+        loadDuLieuNotifileFirebase();
+        return view;
+    }
+    private void loadDataPXChuyenSang() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            key_idpx = bundle.getString(KEY_ID_PHIEU_XUAT);
+            Log.e("zzzzzz", "id nhan duoc: " + key_idpx);
+        }
+    }
+    private void loadDuLieuNotifileFirebase() {
+
+        firebaseUser = firebaseAuth.getCurrentUser();
+        lichSuPxArrayList = new ArrayList<>();
+        if (firebaseUser == null) {
+            return;
+        }
+        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("phieu_xuat");
+        useref1.child(key_idpx).child("notify_xuat")
+
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        lichSuPxArrayList.clear();
+                        for (DataSnapshot dsls : snapshot.getChildren()) {
+                            NotifyXuat themntfPhieuXuat = dsls.getValue(NotifyXuat.class);
+                            lichSuPxArrayList.add(themntfPhieuXuat);
+
+                        }
+                        lichSuPXAdapter = new LichSuPXAdapter(getContext(),lichSuPxArrayList);
+                        recyclerView.setAdapter(lichSuPXAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
     }
 }

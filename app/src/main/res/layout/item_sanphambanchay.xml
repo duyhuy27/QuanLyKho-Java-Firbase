@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/t1"
+            android:id="@+id/thue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_itemsanphambanchay_tensp"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_itemsanphambanchay_tensp"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_toEndOf="@+id/t1"
+            android:layout_toEndOf="@+id/thue"
             android:text="20.000.000"
             android:textColor="#FFF14336"
             android:textSize="@dimen/_17sdp"
