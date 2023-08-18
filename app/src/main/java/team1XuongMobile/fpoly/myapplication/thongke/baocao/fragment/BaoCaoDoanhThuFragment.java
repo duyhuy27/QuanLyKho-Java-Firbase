@@ -43,6 +43,10 @@ public class BaoCaoDoanhThuFragment extends Fragment {
 
     public static final String TAG = "BaoCaoDoanhThuFragment";
 
+    private int selectedYear;
+    private int selectedMonth;
+    private int selectedDay;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +87,109 @@ public class BaoCaoDoanhThuFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new HuongDanBaoCaoDoanhThuFragment()).addToBackStack(null).commit();
             }
         });
+
+        // Inside onCreate or onViewCreated
+        binding.tvPickMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int currentYear = calendar.get(Calendar.YEAR);
+                int currentMonth = calendar.get(Calendar.MONTH);
+                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        requireContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                selectedYear = year;
+                                selectedMonth = month;
+                                selectedDay = dayOfMonth;
+
+                                // Update the TextView with the selected month
+                                binding.tvPickMonth.setText(
+                                        String.format(Locale.US, "%d-%02d", selectedYear, selectedMonth + 1)
+                                );
+                            }
+                        },
+                        currentYear, currentMonth, currentDay
+                );
+
+                datePickerDialog.show();
+            }
+        });
+
+        binding.buttonReloadMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateStatisticsMonth();
+            }
+        });
+
     }
+
+    private void generateStatisticsMonth() {
+        String selectedMonthStr = binding.tvPickMonth.getText().toString();
+
+        if (selectedMonthStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please select a month", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String startDateStr = selectedYear + "-" + (selectedMonth + 1) + "-01"; // First day of the selected month
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(selectedYear, selectedMonth, 1);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        String endDateStr = selectedYear + "-" + (selectedMonth + 1) + "-" + lastDay; // Last day of the selected month
+
+        binding.progressCircular.setVisibility(View.VISIBLE); // Show ProgressBar
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        try {
+            Date startDate = dateFormat.parse(startDateStr);
+            Date endDate = dateFormat.parse(endDateStr);
+
+            Calendar calendarStart = Calendar.getInstance();
+            calendarStart.setTime(startDate);
+            calendarStart.set(Calendar.HOUR_OF_DAY, 0);
+            calendarStart.set(Calendar.MINUTE, 0);
+            calendarStart.set(Calendar.SECOND, 0);
+            long startTimeMillis = calendarStart.getTimeInMillis();
+
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarEnd.setTime(endDate);
+            calendarEnd.set(Calendar.HOUR_OF_DAY, 23);
+            calendarEnd.set(Calendar.MINUTE, 59);
+            calendarEnd.set(Calendar.SECOND, 59);
+            long endTimeMillis = calendarEnd.getTimeInMillis();
+
+            Query query = FirebaseDatabase.getInstance().getReference()
+                    .child("phieu_xuat")
+                    .orderByChild("timestamp")
+                    .startAt(startTimeMillis)
+                    .endAt(endTimeMillis);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<DateRangeStats> dateRangeStatsList = calculateDateRangeStatistics(dataSnapshot, startDateStr, endDateStr);
+                    updateRecyclerView(dateRangeStatsList);
+                    binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle onCancelled if needed
+                    binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
+                }
+            });
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void showDatePickerDialog(final boolean isStartDate) {
         Calendar calendar = Calendar.getInstance();
@@ -111,7 +217,6 @@ public class BaoCaoDoanhThuFragment extends Fragment {
         StatsAdapter statsAdapter = new StatsAdapter(dayStatsList);
         binding.rcvDonHang.setAdapter(statsAdapter);
     }
-
 
 
     private void generateStatistics() {
