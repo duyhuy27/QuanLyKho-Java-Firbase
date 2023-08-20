@@ -6,15 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,18 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.collection.LLRBNode;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
-import team1XuongMobile.fpoly.myapplication.Adapter.QuanLyTaiKhoanAdapter;
-import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
 
 
@@ -64,13 +54,13 @@ public class ChitietNVFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chitiet_n_v, container, false);
-        ten = view.findViewById(R.id.tv_chitietnhanvien_tennhanvien);
-        email = view.findViewById(R.id.tv_chitietnhanvien_emailnhanvien);
-        sdt = view.findViewById(R.id.tv_chitietnhanvien_sdtnhanvien);
-        vaitro = view.findViewById(R.id.tv_chitietnhanvien_vaitronhanvien);
-        ngay_vaolam = view.findViewById(R.id.tv_chitietnhanvien_ngay_vaolam);
-        thamnien = view.findViewById(R.id.tv_chitietnhanvien_thamnien);
-        trangthai = view.findViewById(R.id.tv_chitietnhanvien_trangthainhanvien);
+        ten = view.findViewById(R.id.tv_chitietpx_id_px);
+        email = view.findViewById(R.id.tv_chitietpx_tensp);
+        sdt = view.findViewById(R.id.giapx);
+        vaitro = view.findViewById(R.id.tongtien);
+        ngay_vaolam = view.findViewById(R.id.tv_chitietpx_thue);
+        thamnien = view.findViewById(R.id.tv_chitietpx_slsp);
+        trangthai = view.findViewById(R.id.tv_chitietpx_trangthaipx);
         quaylai = view.findViewById(R.id.btn_chitietnhanvien_back);
         firebaseAuth = FirebaseAuth.getInstance();
         quaylai.setOnClickListener(new View.OnClickListener() {
