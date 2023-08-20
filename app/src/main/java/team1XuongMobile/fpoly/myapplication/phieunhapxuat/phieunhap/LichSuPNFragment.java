@@ -74,17 +74,16 @@ public class LichSuPNFragment extends Fragment {
         if (firebaseUser == null) {
             return;
         }
-        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("notifile_phieunhap");
-        useref1.orderByChild("id_phieu_nhap").equalTo(idPN)
+        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("phieu_nhap");
+        useref1.child(idPN).child("notifile_phieunhap")
 
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         lichSuPhieuNhanArrayList.clear();
-                        for (DataSnapshot dsls : snapshot.getChildren()) {
-                            LichSuPhieuNhan themlichSuPhieuNhan = dsls.getValue(LichSuPhieuNhan.class);
-                            lichSuPhieuNhanArrayList.add(themlichSuPhieuNhan);
-                            Log.d("quanquan", "list" + lichSuPhieuNhanArrayList);
+                        for (DataSnapshot dspn : snapshot.getChildren()) {
+                            LichSuPhieuNhan lichSuPhieuNhan = dspn.getValue(LichSuPhieuNhan.class);
+                            lichSuPhieuNhanArrayList.add(lichSuPhieuNhan);
                         }
                         lichSuAdapter = new LichSuAdapter(getContext(), lichSuPhieuNhanArrayList);
                         recyclerView.setAdapter(lichSuAdapter);

@@ -10,6 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67ea97b8-9fb5-448f-a689-970ae21f4674" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDNFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDNFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/LichSuPhieuNhan.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/LichSuPhieuNhan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" afterDir="false" />
+
       <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/LichSuPXAdapter.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/ChiTietPXFragment.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/LichSuPXFragment.java" afterDir="false" />
