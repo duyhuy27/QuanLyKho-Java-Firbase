@@ -22,11 +22,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPham.SuaLoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.PhieuXuatAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuXuat;
 
-public class PhieuXuatFragment extends Fragment {
+public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.ViewHolder.PhieuXuatInterface {
     private RecyclerView rcvPhieuXuat;
     private FloatingActionButton fabPhieuXuat;
     private PhieuXuatAdapter adapter;
@@ -34,6 +35,8 @@ public class PhieuXuatFragment extends Fragment {
     private FirebaseUser firebaseUser;
     private ArrayList<PhieuXuat> list;
     private LinearLayoutManager layoutManager;
+    PhieuXuatAdapter.ViewHolder.PhieuXuatInterface phieuXuatInterface;
+    public static final String KEY_ID_PHIEU_XUAT = "id_px_bd";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class PhieuXuatFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        phieuXuatInterface = this;
+
         // Ánh xạ view
         bindViews(view);
         // Khởi tạo dối tượng mới
@@ -97,6 +103,7 @@ public class PhieuXuatFragment extends Fragment {
                             list.add(objPhieuXuat);
                         }
                         adapter.setData(list);
+                        adapter = new PhieuXuatAdapter(getContext(),list,phieuXuatInterface);
                         rcvPhieuXuat.setAdapter(adapter);
                     }
 
@@ -119,5 +126,30 @@ public class PhieuXuatFragment extends Fragment {
                 .replace(R.id.layout_content, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void updatePXClick(String id) {
+
+    }
+
+    @Override
+    public void LichSuPXClick(String id) {
+        Bundle bundlechitietpx = new Bundle();
+        bundlechitietpx.putString(KEY_ID_PHIEU_XUAT, id);
+        LichSuPXFragment lichSuPXFragment = new LichSuPXFragment();
+        lichSuPXFragment.setArguments(bundlechitietpx);
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_phieu_xuat, lichSuPXFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void chiTietPXClick(String id) {
+        Bundle bundlechitietpx = new Bundle();
+        bundlechitietpx.putString(KEY_ID_PHIEU_XUAT, id);
+        ChiTietPXFragment chiTietPXFragment = new ChiTietPXFragment();
+        chiTietPXFragment.setArguments(bundlechitietpx);
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_phieu_xuat, chiTietPXFragment).addToBackStack(null).commit();
     }
 }
