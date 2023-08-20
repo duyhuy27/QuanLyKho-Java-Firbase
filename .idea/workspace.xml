@@ -10,28 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67ea97b8-9fb5-448f-a689-970ae21f4674" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/LichSuPhieuNhan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/ChiTietPNFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/SuaPhieuNhapFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chi_tiet_pn.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_lich_su_pn.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_sua_phieu_nhap.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_lich_su_pn.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_phieunhap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Adapter/NhanVienAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Adapter/NhanVienAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Adapter/QuanLyTaiKhoanAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Adapter/QuanLyTaiKhoanAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoan/DatLaiMatKhauFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoan/DatLaiMatKhauFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoanFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/PhieuNhapAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/PhieuNhapAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/PhieuNhapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/PhieuNhapFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDNFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDNFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/PhieuNhap.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/PhieuNhap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/profile/DoiMatKhauFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/profile/DoiMatKhauFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/LichSuPhieuNhan.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/LichSuPhieuNhan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

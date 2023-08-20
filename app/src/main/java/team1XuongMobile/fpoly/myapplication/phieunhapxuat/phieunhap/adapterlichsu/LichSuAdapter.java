@@ -62,11 +62,10 @@ public class LichSuAdapter extends RecyclerView.Adapter<LichSuAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LichSuPhieuNhan lichSuPhieuNhan = lichSuPhieuNhanArrayList.get(position);
-        holder.tenNhanVien.setText(lichSuPhieuNhan.getTennhanvien());
-        holder.ngay.setText(lichSuPhieuNhan.getNgaynhap());
-        holder.kieuthongbao.setText(lichSuPhieuNhan.getKieuthongbao());
-        Log.d("lichsuadapter", "id"+lichSuPhieuNhan.getIdThongbao_phieunhap()+"ten"+lichSuPhieuNhan.getTennhanvien()+
-                "ngay"+lichSuPhieuNhan.getNgaynhap()+"kieuthongbao"+lichSuPhieuNhan.getKieuthongbao());
+        holder.tenNhanVien.setText(lichSuPhieuNhan.getTen_nhan_vien());
+        holder.ngay.setText(lichSuPhieuNhan.getNgay_them_sua());
+        holder.kieuthongbao.setText(lichSuPhieuNhan.getLoai_thong_bao());
+
 
     }
 
