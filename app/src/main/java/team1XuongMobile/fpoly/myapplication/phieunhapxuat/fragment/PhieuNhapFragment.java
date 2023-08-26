@@ -1,15 +1,14 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,13 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.PhieuNhapAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuNhap;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.ChiTietPNFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.LichSuPNFragment;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.SuaPhieuNhapFragment;
 
 public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.PhieuNhapInterface {
     private FloatingActionButton fab_themPhieuNhap;
@@ -83,6 +82,7 @@ public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.Phie
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             PhieuNhap objPhieuNhap = dataSnapshot.getValue(PhieuNhap.class);
                             list.add(objPhieuNhap);
+                            Collections.reverse(list);
                         }
                         adapter = new PhieuNhapAdapter(getContext(), listener, list);
                         rcvPhieuNhap.setAdapter(adapter);
@@ -115,12 +115,6 @@ public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.Phie
 
     @Override
     public void SuaPN(String idPN) {
-        Bundle bundleSuaPN = new Bundle();
-        bundleSuaPN.putString(KEY_ID_PHIEU_NHAP, idPN);
-        SuaPhieuNhapFragment suaPhieuNhapFragment = new SuaPhieuNhapFragment();
-        suaPhieuNhapFragment.setArguments(bundleSuaPN);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, suaPhieuNhapFragment).addToBackStack(null).commit();
-
     }
 
     @Override
