@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -56,7 +57,9 @@ public class TaoHDXFragment extends Fragment {
     private LinearLayout linearChonSpX, linearTrangThaiSpX;
     private RelativeLayout relativeChonNgayXuat, relativeKhachHang, relativeDonViVanChuyen;
     private AppCompatButton btnTaoHoaDonX;
-    private String tongTienHang, uid, kh, idSanPhamX, tenSpXuat, giaXuat, maSpXuat, thueXuat, ngayXuat, idKhachHang, tenKhachHang, idDonViVanChuyen, tenDonViVanChuyen, tongSoLuongX, soTienHangX, ngayX, khachHangX, donViVanChuyenX, ghiChuX;
+    private String tongTienHang, uid, kh, idSanPhamX, tenSpXuat, giaXuat, maSpXuat, thueXuat,
+            ngayXuat, idKhachHang, tenKhachHang, idDonViVanChuyen, tenDonViVanChuyen, tongSoLuongX,
+            soTienHangX, ngayX, khachHangX, donViVanChuyenX, ghiChuX, tenNhanVienTao;
     private boolean trangThaiSpX = true;
     private final boolean trangThaiHoaDonXuat = false;
     private int soLuongSp = 0;
@@ -107,6 +110,15 @@ public class TaoHDXFragment extends Fragment {
                 tvDonViVanChuyenX.setText(s);
             }
         });
+        MutableLiveData<String> idSanPham = viewModel.getSelectedIDSanPham();
+        idSanPham.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                idSanPhamX = s;
+                Log.d("testIdSanPham", "idSanPham " + idSanPhamX);
+                loadDataFirebaseChonSanPham(idSanPhamX);
+            }
+        });
     }
 
     @Override
@@ -115,6 +127,9 @@ public class TaoHDXFragment extends Fragment {
         nhanDuLieuChonSanPhamX();
         nhanIdKhachHang();
         nhanIdDonViVanChuyen();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        ngayXuat = simpleDateFormat.format(new Date());
+        tvNgayX.setText(ngayXuat);
     }
 
     private void bindViews(View view) {
@@ -212,7 +227,7 @@ public class TaoHDXFragment extends Fragment {
         imgTangSlX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 clickTangSoLuongSanPhamXuat();
+                clickTangSoLuongSanPhamXuat();
             }
         });
         imgGiamSlX.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +239,7 @@ public class TaoHDXFragment extends Fragment {
         relativeChonNgayXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickChonNgayXuat();
+
             }
         });
         relativeKhachHang.setOnClickListener(new View.OnClickListener() {
@@ -264,6 +279,7 @@ public class TaoHDXFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 kh = String.valueOf(snapshot.child("kh").getValue());
+                tenNhanVienTao = "" + snapshot.child("username").getValue();
             }
 
             @Override
@@ -278,6 +294,7 @@ public class TaoHDXFragment extends Fragment {
         if (bundle != null) {
             if (bundle.containsKey("idSanPhamX") && bundle.containsKey("trangThaiChonSpX")) {
                 idSanPhamX = bundle.getString("idSanPhamX");
+                viewModel.setSelectedIDSanPham(idSanPhamX);
                 loadDataFirebaseChonSanPham(idSanPhamX);
                 trangThaiSpX = bundle.getBoolean("trangThaiChonSpX");
                 if (trangThaiSpX) {
@@ -500,7 +517,7 @@ public class TaoHDXFragment extends Fragment {
         hashMap.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyenX));
         hashMap.put("tenSp", String.valueOf(tenSpXuat));
         hashMap.put("giaSp", String.valueOf(giaXuat));
-        hashMap.put("idSanPham", String.valueOf(maSpXuat));
+        hashMap.put("idSanPham", String.valueOf(idSanPhamX));
         hashMap.put("so_luong", String.valueOf(tongSoLuongX));
         hashMap.put("tong_tien", String.valueOf(soTienHangX));
         hashMap.put("ghi_chu", String.valueOf(ghiChuX));
@@ -510,7 +527,9 @@ public class TaoHDXFragment extends Fragment {
         hashMap.put("kh", String.valueOf(kh));
         hashMap.put("formattedDate", formattedDate);
         hashMap.put("thue_xuat", String.valueOf(thueXuat));
+        hashMap.put("ten_nhan_vien", "" + tenNhanVienTao);
         hashMap.put("trangThai", trangThaiHoaDonXuat);
+        hashMap.put("ma_san_pham", String.valueOf(maSpXuat));
 
         HashMap<String, Object> hashMap1 = new HashMap<>();
         hashMap1.put("id_phieu_xuat", String.valueOf(timestamp));

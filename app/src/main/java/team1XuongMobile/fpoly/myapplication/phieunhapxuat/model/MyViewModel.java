@@ -7,8 +7,7 @@ public class MyViewModel extends ViewModel {
     private MutableLiveData<String> selectedNgayXuat = new MutableLiveData<>();
     private MutableLiveData<String> selectedKhachHang = new MutableLiveData<>();
     private MutableLiveData<String> selectedDonViVanChuyen = new MutableLiveData<>();
-    private MutableLiveData<String> selectedNhaCungCap = new MutableLiveData<>();
-    private MutableLiveData<String> selectedIDPhieuNhap = new MutableLiveData<>();
+    private MutableLiveData<String> selectedIDSanPham = new MutableLiveData<>();
 
     public MutableLiveData<String> getSelectedNgayXuat() {
         return selectedNgayXuat;
@@ -22,12 +21,8 @@ public class MyViewModel extends ViewModel {
         return selectedDonViVanChuyen;
     }
 
-    public MutableLiveData<String> getSelectedNhaCungCap() {
-        return selectedNhaCungCap;
-    }
-
-    public MutableLiveData<String> getSelectedIDPhieuNhap() {
-        return selectedIDPhieuNhap;
+    public MutableLiveData<String> getSelectedIDSanPham() {
+        return selectedIDSanPham;
     }
 
     public void setSelectedNgayXuat(String ngayXuat) {
@@ -42,11 +37,8 @@ public class MyViewModel extends ViewModel {
         selectedDonViVanChuyen.setValue(donViVanChuyen);
     }
 
-    public void setSelectedNhaCungCap(String nhaCungCap) {
-        selectedNhaCungCap.setValue(nhaCungCap);
-    }
 
-    public void setSelectedIDPhieuNhap(String idPhieuNhap) {
-        selectedIDPhieuNhap.setValue(idPhieuNhap);
+    public void setSelectedIDSanPham(String idSanPham) {
+        selectedIDSanPham.setValue(idSanPham);
     }
 }

@@ -22,6 +22,9 @@
         android:theme="@style/Theme.QuanLyKhoTeam1"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".phieunhapxuat.fragment.SuaPhieuXuatActivity"
+            android:exported="false" />
+        <activity
             android:name=".phieunhapxuat.fragment.SuaPhieuNhapActivity"
             android:exported="false" />
         <activity
