@@ -45,9 +45,8 @@ public class TaoHDNFragment extends Fragment {
     public TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN, tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
     private String kh = "", uid = "", idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "",
             giaNhap = "", thueNhap = "", tenNhaCungCap = "", tenNhanVienTao = "",
-            tongSoLuong, tongTien, tongTienHang, ngayNhap, formattedDate;
+            tongSoLuong, tongTien, tongTienHang, ngayNhap, id_phieunhap = "";
     private LinearLayout linerChonSp, linearTrangThaiChonSp;
-    private RelativeLayout layoutChonNgay;
     private EditText edSoLuong;
     private ImageView imgTangSl, imgGiamSl;
     private boolean check;
@@ -57,7 +56,6 @@ public class TaoHDNFragment extends Fragment {
     private AppCompatButton btnTaoDonNhap;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,7 +84,7 @@ public class TaoHDNFragment extends Fragment {
         super.onResume();
         nhanDuLieuChonSanPham();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        formattedDate = dateFormat.format(new Date());
+        String formattedDate = dateFormat.format(new Date());
         tvChonNgayNhap.setText(formattedDate);
     }
 
@@ -106,7 +104,6 @@ public class TaoHDNFragment extends Fragment {
         imgTangSl = view.findViewById(R.id.imgTangSl);
         imgGiamSl = view.findViewById(R.id.imgGiamSl);
         tvTamTinh = view.findViewById(R.id.tv_tamTinh);
-        layoutChonNgay = view.findViewById(R.id.layoutChonNgay);
         btnTaoDonNhap = view.findViewById(R.id.button_taoDonNhap);
     }
 
@@ -156,15 +153,6 @@ public class TaoHDNFragment extends Fragment {
                         .commit();
             }
         });
-        linearTrangThaiChonSp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_content, new ChonSanPhamFragment())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
         btnTaoDonNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,18 +164,13 @@ public class TaoHDNFragment extends Fragment {
                 tongTien = tvSoTienHangHDN.getText().toString().trim();
                 ngayNhap = tvChonNgayNhap.getText().toString().trim();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
-                formattedDate = dateFormat.format(new Date());
-                id_phieunhap = reference.push().getKey();
-
                 String formattedDate = dateFormat.format(new Date());
-
-
+                id_phieunhap = reference.push().getKey();
 
                 long timestamp = System.currentTimeMillis();
 
                 HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("id_phieu_nhap", String.valueOf(timestamp));
+                hashMap.put("id_phieu_nhap", "" + id_phieunhap);
                 hashMap.put("id_nha_cc", String.valueOf(idNCC));
                 hashMap.put("ten_nha_cc", String.valueOf(tenNhaCungCap));
                 hashMap.put("tenSp", String.valueOf(tenSpNhap));
@@ -206,20 +189,10 @@ public class TaoHDNFragment extends Fragment {
                 hashMap.put("giaNhap", String.valueOf(giaNhap));
                 hashMap.put("kh", String.valueOf(kh));
 
-                HashMap<String, Object> hashMapnotifile = new HashMap<>();
-                hashMapnotifile.put("id_phieu_nhap", String.valueOf(timestamp));
-                hashMapnotifile.put("id_thongbao_phieunhap", String.valueOf(timestamp));
-                hashMapnotifile.put("ten_nhan_vien", "" + tenNhanVienTao);
-                hashMapnotifile.put("ngay_them_sua", String.valueOf(ngayNhap));
-                hashMapnotifile.put("loai_thong_bao", "them");
-                hashMapnotifile.put("kh", String.valueOf(kh));
-
-                reference.child(String.valueOf(timestamp)).setValue(hashMap);
-                reference.child(String.valueOf(timestamp)).child("notifile_phieunhap").child(String.valueOf(timestamp)).setValue(hashMapnotifile)
+                reference.child("" + id_phieunhap).setValue(hashMap)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-
                                 DatabaseReference notifilenhap = FirebaseDatabase.getInstance().getReference("notifile_phieunhap");
                                 HashMap<String, Object> hashMapnotifile = new HashMap<>();
                                 hashMapnotifile.put("id_phieu_nhap", "" + id_phieunhap);
@@ -249,15 +222,6 @@ public class TaoHDNFragment extends Fragment {
                                                 Toast.makeText(requireActivity(), "Tạo thông báo đơn nhập thất bại!", Toast.LENGTH_SHORT).show();
                                             }
                                         });
-
-
-
-                                ChiTietHDNFragment fragment = new ChiTietHDNFragment();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("idPhieuNhap", "" + timestamp);
-                                fragment.setArguments(bundle);
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
-
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
