@@ -2,10 +2,17 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,7 +70,6 @@ public class TaoHDXFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tao_h_d_x, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         layDuLieuDangNhap();
         // Ánh xạ view
         bindViews(view);
@@ -70,6 +77,7 @@ public class TaoHDXFragment extends Fragment {
         initObjects();
         // Các sự kiện click
         setupUI();
+
         return view;
     }
 
@@ -77,6 +85,7 @@ public class TaoHDXFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
+
         MutableLiveData<String> ngayXat = viewModel.getSelectedNgayXuat();
         ngayXat.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -136,6 +145,58 @@ public class TaoHDXFragment extends Fragment {
         relativeDonViVanChuyen = view.findViewById(R.id.relativeDonViVanChuyen);
         // AppCompatButton
         btnTaoHoaDonX = view.findViewById(R.id.button_taoDonXuat);
+        edSoLuongX.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
+        edSoLuongX.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // Kiểm tra xem actionId có phải là IME_ACTION_DONE không
+
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Cập nhật lại thông tin theo số lượng nhập
+
+                    giaNhapBanDau = Double.parseDouble(giaXuat);
+                    giaNhapMoi = giaNhapBanDau * soLuongSp;
+//                    tvSoTienHangX.setText(String.valueOf(giaNhapMoi));
+
+                    BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+                    String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+                    tvSoTienHangX.setText(bd_giaNhapMoiString);
+
+                    tvTongSoLuongX.setText(String.valueOf(soLuongSp));
+
+                    thue = Integer.parseInt(thueXuat);
+                    tienThue = (giaNhapMoi * thue) / 100;
+                    tamTinh = giaNhapMoi + tienThue;
+
+                    BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+                    String bd_tamTinhString = bd_tamTinh.toPlainString();
+                    tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+
+                    // Ẩn bàn phím ảo
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                    edSoLuongX.setCursorVisible(false);
+                    // Trả về true để xử lý sự kiện
+                    return true;
+                }
+                // Trả về false để không xử lý sự kiện
+                return false;
+            }
+        });
+        edSoLuongX.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                edSoLuongX.setCursorVisible(true);
+                return false;
+            }
+        });
+
     }
 
     private void initObjects() {
@@ -151,7 +212,7 @@ public class TaoHDXFragment extends Fragment {
         imgTangSlX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickTangSoLuongSanPhamXuat();
+                 clickTangSoLuongSanPhamXuat();
             }
         });
         imgGiamSlX.setOnClickListener(new View.OnClickListener() {
@@ -265,6 +326,31 @@ public class TaoHDXFragment extends Fragment {
         thue = Integer.parseInt(thueXuat);
         tamTinh = giaNhapMoi + thue;
         tvTamTinhX.setText(String.valueOf(tamTinh));
+
+        // Thêm một TextWatcher cho edSoLuongX
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không làm gì
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Không làm gì
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Kiểm tra xem edtext có rỗng không
+                if (!s.toString().isEmpty()) {
+                    // Chuyển đổi chuỗi thành số nguyên và gán cho biến số lượng
+                    soLuongSp = Integer.parseInt(s.toString());
+                }
+            }
+        };
+
+        // Đặt TextWatcher cho edtext
+        edSoLuongX.addTextChangedListener(textWatcher);
     }
 
     private void clickTangSoLuongSanPhamXuat() {
@@ -274,14 +360,21 @@ public class TaoHDXFragment extends Fragment {
 
             giaNhapBanDau = Double.parseDouble(giaXuat);
             giaNhapMoi = giaNhapBanDau * soLuongSp;
-            tvSoTienHangX.setText(String.valueOf(giaNhapMoi));
+
+            BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+            String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+            tvSoTienHangX.setText(bd_giaNhapMoiString);
 
             tvTongSoLuongX.setText(String.valueOf(soLuongSp));
 
             thue = Integer.parseInt(thueXuat);
             tienThue = (giaNhapMoi * thue) / 100;
             tamTinh = giaNhapMoi + tienThue;
-            tvTamTinhX.setText(String.valueOf(tamTinh));
+
+            BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+            String bd_tamTinhString = bd_tamTinh.toPlainString();
+            tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+
         }
     }
 
@@ -291,11 +384,18 @@ public class TaoHDXFragment extends Fragment {
             edSoLuongX.setText(String.valueOf(soLuongSp));
             giaNhapBanDau = Integer.parseInt(giaXuat);
             giaNhapMoi = giaNhapBanDau * soLuongSp;
-            tvSoTienHangX.setText(String.valueOf(giaNhapMoi));
+
+            BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+            String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+            tvSoTienHangX.setText(bd_giaNhapMoiString);
+
             tvTongSoLuongX.setText(String.valueOf(soLuongSp));
             thue = Integer.parseInt(thueXuat);
             tamTinh = giaNhapMoi + thue;
-            tvTamTinhX.setText(String.valueOf(tamTinh));
+
+            BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+            String bd_tamTinhString = bd_tamTinh.toPlainString();
+            tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
         }
     }
 
@@ -399,6 +499,7 @@ public class TaoHDXFragment extends Fragment {
         hashMap.put("id_don_vi_vc", String.valueOf(idDonViVanChuyen));
         hashMap.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyenX));
         hashMap.put("tenSp", String.valueOf(tenSpXuat));
+        hashMap.put("giaSp", String.valueOf(giaXuat));
         hashMap.put("idSanPham", String.valueOf(maSpXuat));
         hashMap.put("so_luong", String.valueOf(tongSoLuongX));
         hashMap.put("tong_tien", String.valueOf(soTienHangX));
@@ -411,8 +512,23 @@ public class TaoHDXFragment extends Fragment {
         hashMap.put("thue_xuat", String.valueOf(thueXuat));
         hashMap.put("trangThai", trangThaiHoaDonXuat);
 
+        HashMap<String, Object> hashMap1 = new HashMap<>();
+        hashMap1.put("id_phieu_xuat", String.valueOf(timestamp));
+        hashMap1.put("ngay_xuat", String.valueOf(ngayX));
+        hashMap1.put("id_kh", String.valueOf(idKhachHang));
+        hashMap1.put("ten_kh", String.valueOf(khachHangX));
+        hashMap1.put("kh", String.valueOf(kh));
+        hashMap1.put("id_don_vi_vc", String.valueOf(idDonViVanChuyen));
+        hashMap1.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyenX));
+        hashMap1.put("tenSp", String.valueOf(tenSpXuat));
+        hashMap1.put("hinhthuc", "thêm");
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phieu_xuat");
-        reference.child(String.valueOf(timestamp)).setValue(hashMap)
+        reference.child(String.valueOf(timestamp)).setValue(hashMap);
+        // lưu tất cả các giá trị của hashMap vào nút phiếu xuất
+        reference.child(String.valueOf(timestamp)).child("notify_xuat").child(String.valueOf(timestamp))
+
+                .setValue(hashMap1)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -429,5 +545,6 @@ public class TaoHDXFragment extends Fragment {
                         Toast.makeText(requireContext(), "Fail", Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 }

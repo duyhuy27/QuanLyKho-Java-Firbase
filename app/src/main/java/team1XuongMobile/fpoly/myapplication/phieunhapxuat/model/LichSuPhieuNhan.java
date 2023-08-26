@@ -3,22 +3,21 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.model;
 public class LichSuPhieuNhan {
     String id_phieu_nhap;
     String idThongbao_phieunhap;
-    String tennhanvien;
-    String ngaynhap;
-    String kieuthongbao;
+    String ten_nhan_vien;
+    String ngay_them_sua;
+    String loai_thong_bao;
     String kh;
 
-
-    public LichSuPhieuNhan() {
-    }
-
-    public LichSuPhieuNhan(String id_phieu_nhap, String idThongbao_phieunhap, String tennhanvien, String ngaynhap, String kieuthongbao, String kh) {
+    public LichSuPhieuNhan(String id_phieu_nhap, String idThongbao_phieunhap, String ten_nhan_vien, String ngay_them_sua, String loai_thong_bao, String kh) {
         this.id_phieu_nhap = id_phieu_nhap;
         this.idThongbao_phieunhap = idThongbao_phieunhap;
-        this.tennhanvien = tennhanvien;
-        this.ngaynhap = ngaynhap;
-        this.kieuthongbao = kieuthongbao;
+        this.ten_nhan_vien = ten_nhan_vien;
+        this.ngay_them_sua = ngay_them_sua;
+        this.loai_thong_bao = loai_thong_bao;
         this.kh = kh;
+    }
+
+    public LichSuPhieuNhan() {
     }
 
     public String getId_phieu_nhap() {
@@ -37,28 +36,28 @@ public class LichSuPhieuNhan {
         this.idThongbao_phieunhap = idThongbao_phieunhap;
     }
 
-    public String getTennhanvien() {
-        return tennhanvien;
+    public String getTen_nhan_vien() {
+        return ten_nhan_vien;
     }
 
-    public void setTennhanvien(String tennhanvien) {
-        this.tennhanvien = tennhanvien;
+    public void setTen_nhan_vien(String ten_nhan_vien) {
+        this.ten_nhan_vien = ten_nhan_vien;
     }
 
-    public String getNgaynhap() {
-        return ngaynhap;
+    public String getNgay_them_sua() {
+        return ngay_them_sua;
     }
 
-    public void setNgaynhap(String ngaynhap) {
-        this.ngaynhap = ngaynhap;
+    public void setNgay_them_sua(String ngay_them_sua) {
+        this.ngay_them_sua = ngay_them_sua;
     }
 
-    public String getKieuthongbao() {
-        return kieuthongbao;
+    public String getLoai_thong_bao() {
+        return loai_thong_bao;
     }
 
-    public void setKieuthongbao(String kieuthongbao) {
-        this.kieuthongbao = kieuthongbao;
+    public void setLoai_thong_bao(String loai_thong_bao) {
+        this.loai_thong_bao = loai_thong_bao;
     }
 
     public String getKh() {

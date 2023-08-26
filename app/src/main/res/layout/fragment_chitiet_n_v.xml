@@ -43,52 +43,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_tennhanvien"
+                    android:id="@+id/tv_chitietpx_id_px"
                     android:text="Nguyễn Khắc Quân"
                     android:textSize="@dimen/_17sdp"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_emailnhanvien"
-                    android:layout_below="@+id/tv_chitietnhanvien_tennhanvien"
+                    android:id="@+id/tv_chitietpx_tensp"
+                    android:layout_below="@+id/tv_chitietpx_id_px"
                     android:text="quanjkl98@gmail.com"
                     android:textSize="@dimen/_15sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_sdtnhanvien"
-                    android:layout_below="@+id/tv_chitietnhanvien_emailnhanvien"
+                    android:id="@+id/giapx"
+                    android:layout_below="@+id/tv_chitietpx_tensp"
                     android:text="0349929671"
                     android:textSize="@dimen/_15sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/t1"
-                    android:layout_below="@+id/tv_chitietnhanvien_sdtnhanvien"
+                    android:id="@+id/thue"
+                    android:layout_below="@+id/giapx"
                     android:text="Ngày Vào Làm: "
                     android:textSize="@dimen/_15sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_ngay_vaolam"
-                    android:layout_below="@+id/tv_chitietnhanvien_sdtnhanvien"
-                    android:layout_toEndOf="@+id/t1"
+                    android:id="@+id/tv_chitietpx_thue"
+                    android:layout_below="@+id/giapx"
+                    android:layout_toEndOf="@+id/thue"
                     android:text="14/7/1998"
                     android:textSize="@dimen/_15sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/t2"
-                    android:layout_below="@+id/t1"
+                    android:id="@+id/sl"
+                    android:layout_below="@+id/thue"
                     android:text="Số Ngày Làm  :"
                     android:textSize="@dimen/_15sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_thamnien"
-                    android:layout_below="@+id/tv_chitietnhanvien_ngay_vaolam"
-                    android:layout_toEndOf="@id/t2"
+                    android:id="@+id/tv_chitietpx_slsp"
+                    android:layout_below="@+id/tv_chitietpx_thue"
+                    android:layout_toEndOf="@id/sl"
                     android:text="14"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:textSize="@dimen/_15sdp"
@@ -106,15 +106,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_vaitronhanvien"
+                    android:id="@+id/tongtien"
                     android:text=""
                     android:textSize="@dimen/_17sdp"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_chitietnhanvien_trangthainhanvien"
-                    android:layout_below="@+id/tv_chitietnhanvien_vaitronhanvien"
+                    android:id="@+id/tv_chitietpx_trangthaipx"
+                    android:layout_below="@+id/tongtien"
                     android:text="Đang Làm"
                     android:textSize="@dimen/_17sdp"
                     android:drawableEnd="@drawable/icon_radiobutton"

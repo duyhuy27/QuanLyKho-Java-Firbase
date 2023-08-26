@@ -1,4 +1,4 @@
-package team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap;
+package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.os.Bundle;
 
@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,26 +18,27 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
-import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 import team1XuongMobile.fpoly.myapplication.R;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.LichSuPhieuNhan;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.adapterlichsu.LichSuAdapter;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.LichSuPXAdapter;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.NotifyXuat;
 
 
-public class LichSuPNFragment extends Fragment {
+public class LichSuPXFragment extends Fragment {
+    String key_idpx = "";
+    public static final String KEY_ID_PHIEU_XUAT = "id_px_bd";
     RecyclerView recyclerView;
-    LichSuAdapter lichSuAdapter;
-    ArrayList<LichSuPhieuNhan> lichSuPhieuNhanArrayList;
-    String khstring = "", idPN = "";
-    public static final String KEY_ID_PHIEU_NHAP = "idPN";
+    LichSuPXAdapter lichSuPXAdapter;
+    ArrayList<NotifyXuat> lichSuPxArrayList;
+
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+    public LichSuPXFragment() {
+
+    }
 
 
     @Override
@@ -50,43 +50,41 @@ public class LichSuPNFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_lich_su_pn, container, false);
-        recyclerView = view.findViewById(R.id.recyc_lichsupn);
+        View view = inflater.inflate(R.layout.fragment_lich_su_p_x, container, false);
+        recyclerView = view.findViewById(R.id.rcv_ls_px);
         firebaseAuth = FirebaseAuth.getInstance();
-        loandatachuyensang();
+        loadDataPXChuyenSang();
         loadDuLieuNotifileFirebase();
         return view;
     }
-
-    public void loandatachuyensang() {
+    private void loadDataPXChuyenSang() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            idPN = bundle.getString(KEY_ID_PHIEU_NHAP);
-            Log.d("lichsu", "loandatachuyensang: " + idPN);
+            key_idpx = bundle.getString(KEY_ID_PHIEU_XUAT);
+            Log.e("zzzzzz", "id nhan duoc: " + key_idpx);
         }
     }
-
-
     private void loadDuLieuNotifileFirebase() {
 
         firebaseUser = firebaseAuth.getCurrentUser();
-        lichSuPhieuNhanArrayList = new ArrayList<>();
+        lichSuPxArrayList = new ArrayList<>();
         if (firebaseUser == null) {
             return;
         }
-        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("phieu_nhap");
-        useref1.child(idPN).child("notifile_phieunhap")
+        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("phieu_xuat");
+        useref1.child(key_idpx).child("notify_xuat")
 
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        lichSuPhieuNhanArrayList.clear();
-                        for (DataSnapshot dspn : snapshot.getChildren()) {
-                            LichSuPhieuNhan lichSuPhieuNhan = dspn.getValue(LichSuPhieuNhan.class);
-                            lichSuPhieuNhanArrayList.add(lichSuPhieuNhan);
+                        lichSuPxArrayList.clear();
+                        for (DataSnapshot dsls : snapshot.getChildren()) {
+                            NotifyXuat themntfPhieuXuat = dsls.getValue(NotifyXuat.class);
+                            lichSuPxArrayList.add(themntfPhieuXuat);
+
                         }
-                        lichSuAdapter = new LichSuAdapter(getContext(), lichSuPhieuNhanArrayList);
-                        recyclerView.setAdapter(lichSuAdapter);
+                        lichSuPXAdapter = new LichSuPXAdapter(getContext(),lichSuPxArrayList);
+                        recyclerView.setAdapter(lichSuPXAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
                     }
