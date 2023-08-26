@@ -3,6 +3,7 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.ChiTietHDNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.ChiTietHDXFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuXuat;
 
 public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.ViewHolder> {
@@ -54,6 +59,26 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
         holder.tvNgayXuat.setText(objPhieuXuat.getNgay_xuat());
         holder.tvTenKhachHang.setText(objPhieuXuat.getTen_kh());
         holder.tvTongGia.setText(objPhieuXuat.getTong_tien_hang());
+        if (objPhieuXuat.isTrangThai()) {
+            holder.tvTrangThaiX.setText("Đã thanh toán");
+            holder.tvTrangThaiX.setTextColor(ContextCompat.getColor(context, R.color.green));
+        } else {
+            holder.tvTrangThaiX.setText("Chưa thanh toán");
+            holder.tvTrangThaiX.setTextColor(ContextCompat.getColor(context, R.color.mau_do));
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("idPhieuXuat", objPhieuXuat.getId_phieu_xuat());
+                ChiTietHDXFragment fragment = new ChiTietHDXFragment();
+                fragment.setArguments(bundle);
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         holder.imgLuachon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +131,7 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMaHoaDonXuat, tvTenKhachHang, tvNhanVienTao, tvNgayXuat, tvTongGia;
+        TextView tvMaHoaDonXuat, tvTenKhachHang, tvNhanVienTao, tvNgayXuat, tvTongGia,tvTrangThaiX;
         ImageView imgLuachon;
 
         public ViewHolder(@NonNull View itemView) {
@@ -116,7 +141,7 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
             tvNhanVienTao = itemView.findViewById(R.id.tvNhanVienTaoX);
             tvNgayXuat = itemView.findViewById(R.id.tvNgayX);
             tvTongGia = itemView.findViewById(R.id.tvTongGiaX);
-
+            tvTrangThaiX = itemView.findViewById(R.id.tvTrangThaiX);
             imgLuachon = itemView.findViewById(R.id.imgLuaChonX);
         }
 
