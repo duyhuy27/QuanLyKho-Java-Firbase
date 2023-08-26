@@ -5,11 +5,6 @@
         android:iconTint="@color/black"
         android:title="Chi Tiết Hóa Đơn " />
     <item
-        android:id="@+id/popup_menuPN_sua"
-        android:iconTint="@color/black"
-        android:title="Sửa" />
-
-    <item
         android:id="@+id/popup_menuPN_lichsu"
         android:iconTint="@color/black"
         android:title="Lịch Sử" />
