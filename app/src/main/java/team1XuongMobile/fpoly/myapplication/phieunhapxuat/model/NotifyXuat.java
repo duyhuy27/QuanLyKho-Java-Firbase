@@ -2,26 +2,55 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.model;
 
 public class NotifyXuat {
     String id_phieu_xuat;
-    String kh;
-    String id_kh;
+    String ten_nhan_vien;
+
     String tenSp;
     String ten_kh;
     String ngay_xuat;
     String hinhthuc;
-    String id_don_vi_vc;
+    String ten_don_vi_van_chuyen;
+    String so_luong;
+    String tong_tien;
+    String tong_tien_hang;
 
     public NotifyXuat() {
     }
 
-    public NotifyXuat(String id_phieu_xuat, String kh, String id_kh, String tenSp, String ten_kh, String ngay_xuat, String hinhthuc, String id_don_vi_vc) {
+    public NotifyXuat(String id_phieu_xuat, String ten_nhan_vien, String tenSp, String ten_kh, String ngay_xuat, String hinhthuc, String ten_don_vi_van_chuyen, String so_luong, String tong_tien, String tong_tien_hang) {
         this.id_phieu_xuat = id_phieu_xuat;
-        this.kh = kh;
-        this.id_kh = id_kh;
+        this.ten_nhan_vien = ten_nhan_vien;
         this.tenSp = tenSp;
         this.ten_kh = ten_kh;
         this.ngay_xuat = ngay_xuat;
         this.hinhthuc = hinhthuc;
-        this.id_don_vi_vc = id_don_vi_vc;
+        this.ten_don_vi_van_chuyen = ten_don_vi_van_chuyen;
+        this.so_luong = so_luong;
+        this.tong_tien = tong_tien;
+        this.tong_tien_hang = tong_tien_hang;
+    }
+
+    public String getSo_luong() {
+        return so_luong;
+    }
+
+    public void setSo_luong(String so_luong) {
+        this.so_luong = so_luong;
+    }
+
+    public String getTong_tien() {
+        return tong_tien;
+    }
+
+    public void setTong_tien(String tong_tien) {
+        this.tong_tien = tong_tien;
+    }
+
+    public String getTong_tien_hang() {
+        return tong_tien_hang;
+    }
+
+    public void setTong_tien_hang(String tong_tien_hang) {
+        this.tong_tien_hang = tong_tien_hang;
     }
 
     public String getId_phieu_xuat() {
@@ -32,20 +61,12 @@ public class NotifyXuat {
         this.id_phieu_xuat = id_phieu_xuat;
     }
 
-    public String getKh() {
-        return kh;
+    public String getTen_nhan_vien() {
+        return ten_nhan_vien;
     }
 
-    public void setKh(String kh) {
-        this.kh = kh;
-    }
-
-    public String getId_kh() {
-        return id_kh;
-    }
-
-    public void setId_kh(String id_kh) {
-        this.id_kh = id_kh;
+    public void setTen_nhan_vien(String ten_nhan_vien) {
+        this.ten_nhan_vien = ten_nhan_vien;
     }
 
     public String getTenSp() {
@@ -80,11 +101,11 @@ public class NotifyXuat {
         this.hinhthuc = hinhthuc;
     }
 
-    public String getId_don_vi_vc() {
-        return id_don_vi_vc;
+    public String getTen_don_vi_van_chuyen() {
+        return ten_don_vi_van_chuyen;
     }
 
-    public void setId_don_vi_vc(String id_don_vi_vc) {
-        this.id_don_vi_vc = id_don_vi_vc;
+    public void setTen_don_vi_van_chuyen(String ten_don_vi_van_chuyen) {
+        this.ten_don_vi_van_chuyen = ten_don_vi_van_chuyen;
     }
 }
