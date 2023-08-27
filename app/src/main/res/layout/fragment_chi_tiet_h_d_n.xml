@@ -124,10 +124,28 @@
                     android:id="@+id/hdnTv05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sản phẩm (1)"
+                    android:text="Sản phẩm ("
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSoLuongHDN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/hdnTv05"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="1" />
+
+                <TextView
+                    android:id="@+id/hdnTv06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tvSoLuongHDN"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_14sdp"
+                    android:text=")" />
 
                 <ImageView
                     android:id="@+id/img_box"

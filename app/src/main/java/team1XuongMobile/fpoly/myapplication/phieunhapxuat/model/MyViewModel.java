@@ -7,6 +7,7 @@ public class MyViewModel extends ViewModel {
     private MutableLiveData<String> selectedNgayXuat = new MutableLiveData<>();
     private MutableLiveData<String> selectedKhachHang = new MutableLiveData<>();
     private MutableLiveData<String> selectedDonViVanChuyen = new MutableLiveData<>();
+    private MutableLiveData<String> selectedIDSanPham = new MutableLiveData<>();
 
     public MutableLiveData<String> getSelectedNgayXuat() {
         return selectedNgayXuat;
@@ -20,6 +21,10 @@ public class MyViewModel extends ViewModel {
         return selectedDonViVanChuyen;
     }
 
+    public MutableLiveData<String> getSelectedIDSanPham() {
+        return selectedIDSanPham;
+    }
+
     public void setSelectedNgayXuat(String ngayXuat) {
         selectedNgayXuat.setValue(ngayXuat);
     }
@@ -30,5 +35,10 @@ public class MyViewModel extends ViewModel {
 
     public void setSelectedDonViVanChuyen(String donViVanChuyen) {
         selectedDonViVanChuyen.setValue(donViVanChuyen);
+    }
+
+
+    public void setSelectedIDSanPham(String idSanPham) {
+        selectedIDSanPham.setValue(idSanPham);
     }
 }

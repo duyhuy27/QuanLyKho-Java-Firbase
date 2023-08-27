@@ -1,25 +1,41 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.ChiTietHDNFragment;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment.ChiTietHDXFragment;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.PhieuXuat;
 
 public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.ViewHolder> {
     private final Context context;
     private ArrayList<PhieuXuat> list;
+    private ViewHolder.PhieuXuatInterface phieuXuatInterface;
 
     public PhieuXuatAdapter(Context context) {
         this.context = context;
+    }
+
+    public PhieuXuatAdapter(Context context, ArrayList<PhieuXuat> list, ViewHolder.PhieuXuatInterface phieuXuatInterface) {
+        this.context = context;
+        this.list = list;
+        this.phieuXuatInterface = phieuXuatInterface;
     }
 
     public void setData(ArrayList<PhieuXuat> list) {
@@ -43,6 +59,67 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
         holder.tvNgayXuat.setText(objPhieuXuat.getNgay_xuat());
         holder.tvTenKhachHang.setText(objPhieuXuat.getTen_kh());
         holder.tvTongGia.setText(objPhieuXuat.getTong_tien_hang());
+        if (objPhieuXuat.isTrangThai()) {
+            holder.tvTrangThaiX.setText("Đã thanh toán");
+            holder.tvTrangThaiX.setTextColor(ContextCompat.getColor(context, R.color.green));
+        } else {
+            holder.tvTrangThaiX.setText("Chưa thanh toán");
+            holder.tvTrangThaiX.setTextColor(ContextCompat.getColor(context, R.color.mau_do));
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("idPhieuXuat", objPhieuXuat.getId_phieu_xuat());
+                ChiTietHDXFragment fragment = new ChiTietHDXFragment();
+                fragment.setArguments(bundle);
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        holder.imgLuachon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+
+                View view1 = inflater.inflate(R.layout.dialog_chuc_nang, null);
+                builder.setView(view1);
+
+                Button sua = view1.findViewById(R.id.button_sua);
+                Button lichsu = view1.findViewById(R.id.button_xoa);
+                Button xemchitiet = view1.findViewById(R.id.button_xem_chi_tiet);
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                sua.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        phieuXuatInterface.updatePXClick(objPhieuXuat.getId_phieu_xuat());
+                    }
+                });
+                lichsu.setText("lịch sử");
+                lichsu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        phieuXuatInterface.LichSuPXClick(objPhieuXuat.getId_phieu_xuat());
+                    }
+                });
+                xemchitiet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        phieuXuatInterface.chiTietPXClick(objPhieuXuat.getId_phieu_xuat());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -54,7 +131,8 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMaHoaDonXuat, tvTenKhachHang, tvNhanVienTao, tvNgayXuat, tvTongGia;
+        TextView tvMaHoaDonXuat, tvTenKhachHang, tvNhanVienTao, tvNgayXuat, tvTongGia,tvTrangThaiX;
+        ImageView imgLuachon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +141,18 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
             tvNhanVienTao = itemView.findViewById(R.id.tvNhanVienTaoX);
             tvNgayXuat = itemView.findViewById(R.id.tvNgayX);
             tvTongGia = itemView.findViewById(R.id.tvTongGiaX);
+            tvTrangThaiX = itemView.findViewById(R.id.tvTrangThaiX);
+            imgLuachon = itemView.findViewById(R.id.imgLuaChonX);
         }
+
+        public interface PhieuXuatInterface {
+            void updatePXClick(String id);
+
+            void LichSuPXClick(String id);
+
+            void chiTietPXClick(String id);
+        }
+
     }
+
 }

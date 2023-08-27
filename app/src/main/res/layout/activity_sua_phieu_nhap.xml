@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:orientation="vertical">
+    android:background="@color/gray">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,14 +14,14 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linearChonSpX"
+                android:id="@+id/linearChonSP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/_80sdp"
@@ -36,7 +34,7 @@
                     android:text="Đơn nhập hàng của bạn chưa có sản phẩm nào!" />
 
                 <TextView
-                    android:id="@+id/tv_chonSanPhamXuat"
+                    android:id="@+id/tv_chonSanPhamNhap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -48,14 +46,14 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearTrangThaiSpX"
+                android:id="@+id/linearChonSpThanhCong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="@dimen/_14sdp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +67,7 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <TextView
-                        android:id="@+id/tvTenSpX"
+                        android:id="@+id/tvTenSpHDN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tên sản phẩm"
@@ -90,7 +88,7 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <TextView
-                        android:id="@+id/tvMaSpX"
+                        android:id="@+id/tvMaSpHDN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -112,7 +110,7 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <TextView
-                        android:id="@+id/tvSoTienSpX"
+                        android:id="@+id/tvSoTienSpHDN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -128,25 +126,24 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imgGiamSlX"
+                        android:id="@+id/imgGiamSl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/baseline_remove_24" />
 
                     <EditText
-                        android:id="@+id/edSoLuongSpX"
+                        android:id="@+id/edSoLuongSp"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_22sdp"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center"
-                        android:inputType="numberSigned"
-                        android:background="@drawable/background_edit_text_05"
-                        android:imeOptions="actionDone"/>
+                        android:inputType="textMultiLine"
+                        android:background="@drawable/background_edit_text_05" />
 
                     <ImageView
-                        android:id="@+id/imgTangSlX"
+                        android:id="@+id/imgTangSl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -190,105 +187,39 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <TextView
-                    android:id="@+id/tv_tongSoLuongX"
+                    android:id="@+id/tv_tongSoLuongHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:id="@+id/tv_soTienHangX"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_tongSoLuongX"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:id="@+id/tv_thueX"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_soTienHangX"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeChonNgayXuat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@color/white"
-                android:padding="@dimen/_10sdp">
-
-                <TextView
-                    android:id="@+id/tv09"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chọn ngày xuất"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
+                    android:text="0" />
 
                 <TextView
-                    android:id="@+id/tvChonNgayX"
+                    android:id="@+id/tv_soTienHangHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv09"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_tongSoLuongHDN"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/baseline_keyboard_arrow_down_24" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeKhachHang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@color/white"
-                android:padding="@dimen/_10sdp">
-
-                <TextView
-                    android:id="@+id/tv10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Khách hàng"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
+                    android:text="0" />
 
                 <TextView
-                    android:id="@+id/tvKhachHangX"
+                    android:id="@+id/tv_thueHDN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv10"
+                    android:layout_below="@id/tv_soTienHangHDN"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/baseline_keyboard_arrow_down_24" />
+                    android:textSize="@dimen/_12sdp"
+                    android:text="0" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeDonViVanChuyen"
+                android:id="@+id/layoutChonNgay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -297,22 +228,22 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv11"
+                    android:id="@+id/tv09"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn vị vận chuyển"
+                    android:text="Chọn ngày nhập"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvDonViVanChuyenX"
+                    android:id="@+id/tvChonNgayNhap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv11"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_below="@id/tv09"
+                    android:layout_marginTop="@dimen/_5sdp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -321,27 +252,47 @@
                     android:src="@drawable/baseline_keyboard_arrow_down_24" />
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/edGhiChuX"
+            <RelativeLayout
+                android:id="@+id/relativeNhaCC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/background_edit_text_03"
-                android:backgroundTint="@color/white"
-                android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
-                android:hint="Thêm ghi chú"
-                android:padding="@dimen/_10sdp" />
+                android:background="@color/white"
+                android:padding="@dimen/_10sdp">
 
+                <TextView
+                    android:id="@+id/tv05cungcap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nhà cung cấp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNhaCungCap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_below="@id/tv05cungcap"
+                    android:layout_marginTop="@dimen/_5sdp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/baseline_keyboard_arrow_down_24" />
+            </RelativeLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/_15sdp"
         android:background="@color/white"
-        android:padding="@dimen/_10sdp">
+        android:padding="@dimen/_20sdp">
 
         <TextView
             android:id="@+id/hdnTv04"
@@ -352,23 +303,28 @@
             android:textSize="@dimen/_12sdp" />
 
         <TextView
-            android:id="@+id/tv_tamTinhX"
+            android:id="@+id/tv_tamTinh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="22.000"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_taoDonXuat"
+            android:id="@+id/button_luuPhieuNhap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hdnTv04"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/background_button"
-            android:text="Tạo Đơn Xuất"
+            android:text="Lưu"
             android:textColor="@color/white" />
     </RelativeLayout>
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/layout_content_suaPhieuNhap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

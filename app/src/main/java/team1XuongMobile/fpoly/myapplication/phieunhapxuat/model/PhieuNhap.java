@@ -9,22 +9,21 @@ public class PhieuNhap {
     private String tenSp;
     private String ten_nha_cc;
     private String thue;
-    private String tennhanvien;
+    private String ten_nhan_vien;
     private long timestamp;
     private String tong_tien;
     private String tong_tien_hang;
     private boolean trangThai;
     private String uid;
     private String kh;
-
     private String formattedDate;
-
-
+    private String ma_san_pham;
+    private String giaNhap;
 
     public PhieuNhap() {
     }
 
-    public PhieuNhap(String idSanPham, String id_nha_cc, String id_phieu_nhap, String ngayNhap, String so_luong, String tenSp, String ten_nha_cc, String thue, String tennhanvien, long timestamp, String tong_tien, String tong_tien_hang, boolean trangThai, String uid, String kh, String formattedDate) {
+    public PhieuNhap(String idSanPham, String id_nha_cc, String id_phieu_nhap, String ngayNhap, String so_luong, String tenSp, String ten_nha_cc, String thue, String ten_nhan_vien, long timestamp, String tong_tien, String tong_tien_hang, boolean trangThai, String uid, String kh, String formattedDate, String ma_san_pham, String giaNhap) {
         this.idSanPham = idSanPham;
         this.id_nha_cc = id_nha_cc;
         this.id_phieu_nhap = id_phieu_nhap;
@@ -33,7 +32,7 @@ public class PhieuNhap {
         this.tenSp = tenSp;
         this.ten_nha_cc = ten_nha_cc;
         this.thue = thue;
-        this.tennhanvien = tennhanvien;
+        this.ten_nhan_vien = ten_nhan_vien;
         this.timestamp = timestamp;
         this.tong_tien = tong_tien;
         this.tong_tien_hang = tong_tien_hang;
@@ -41,14 +40,8 @@ public class PhieuNhap {
         this.uid = uid;
         this.kh = kh;
         this.formattedDate = formattedDate;
-    }
-
-    public String getFormattedDate() {
-        return formattedDate;
-    }
-
-    public void setFormattedDate(String formattedDate) {
-        this.formattedDate = formattedDate;
+        this.ma_san_pham = ma_san_pham;
+        this.giaNhap = giaNhap;
     }
 
     public String getIdSanPham() {
@@ -115,6 +108,14 @@ public class PhieuNhap {
         this.thue = thue;
     }
 
+    public String getTen_nhan_vien() {
+        return ten_nhan_vien;
+    }
+
+    public void setTen_nhan_vien(String ten_nhan_vien) {
+        this.ten_nhan_vien = ten_nhan_vien;
+    }
+
     public long getTimestamp() {
         return timestamp;
     }
@@ -163,11 +164,27 @@ public class PhieuNhap {
         this.kh = kh;
     }
 
-    public String getTennhanvien() {
-        return tennhanvien;
+    public String getFormattedDate() {
+        return formattedDate;
     }
 
-    public void setTennhanvien(String tennhanvien) {
-        this.tennhanvien = tennhanvien;
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
+
+    public String getMa_san_pham() {
+        return ma_san_pham;
+    }
+
+    public void setMa_san_pham(String ma_san_pham) {
+        this.ma_san_pham = ma_san_pham;
+    }
+
+    public String getGiaNhap() {
+        return giaNhap;
+    }
+
+    public void setGiaNhap(String giaNhap) {
+        this.giaNhap = giaNhap;
     }
 }

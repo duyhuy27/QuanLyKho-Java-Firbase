@@ -45,9 +45,8 @@ public class TaoHDNFragment extends Fragment {
     public TextView tvChonSanPham, tvChonNgayNhap, tvNhaCungCap, tvTenSpHDN, tvMaSpHDN, tvSoTienSpHDN, tvTongSoLuongHDN, tvSoTienHangHDN, tvThueHDN, tvTamTinh;
     private String kh = "", uid = "", idNCC = "", idSanPham = "", tenSpNhap = "", maSpNhap = "",
             giaNhap = "", thueNhap = "", tenNhaCungCap = "", tenNhanVienTao = "",
-            tongSoLuong, tongTien, tongTienHang, ngayNhap;
+            tongSoLuong, tongTien, tongTienHang, ngayNhap, id_phieunhap = "";
     private LinearLayout linerChonSp, linearTrangThaiChonSp;
-    private RelativeLayout layoutChonNgay;
     private EditText edSoLuong;
     private ImageView imgTangSl, imgGiamSl;
     private boolean check;
@@ -57,7 +56,6 @@ public class TaoHDNFragment extends Fragment {
     private AppCompatButton btnTaoDonNhap;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
-    String id_phieunhap = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +76,6 @@ public class TaoHDNFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         xuLySuKienNhanNutBack(view);
     }
 
@@ -86,6 +83,9 @@ public class TaoHDNFragment extends Fragment {
     public void onResume() {
         super.onResume();
         nhanDuLieuChonSanPham();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String formattedDate = dateFormat.format(new Date());
+        tvChonNgayNhap.setText(formattedDate);
     }
 
     private void bindViews(View view) {
@@ -104,7 +104,6 @@ public class TaoHDNFragment extends Fragment {
         imgTangSl = view.findViewById(R.id.imgTangSl);
         imgGiamSl = view.findViewById(R.id.imgGiamSl);
         tvTamTinh = view.findViewById(R.id.tv_tamTinh);
-        layoutChonNgay = view.findViewById(R.id.layoutChonNgay);
         btnTaoDonNhap = view.findViewById(R.id.button_taoDonNhap);
     }
 
@@ -148,27 +147,10 @@ public class TaoHDNFragment extends Fragment {
         tvChonSanPham.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new ChonSanPhamFragment()).commit();
-            }
-        });
-        layoutChonNgay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        tvChonNgayNhap.setText(simpleDateFormat.format(calendar.getTime()));
-                    }
-                }, year, month, day);
-                datePickerDialog.show();
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, new ChonSanPhamFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         btnTaoDonNhap.setOnClickListener(new View.OnClickListener() {
@@ -203,8 +185,9 @@ public class TaoHDNFragment extends Fragment {
                 hashMap.put("ngayNhap", String.valueOf(ngayNhap));
                 hashMap.put("formattedDate", formattedDate);
                 hashMap.put("timestamp", timestamp);
+                hashMap.put("ma_san_pham", String.valueOf(maSpNhap));
+                hashMap.put("giaNhap", String.valueOf(giaNhap));
                 hashMap.put("kh", String.valueOf(kh));
-
 
                 reference.child("" + id_phieunhap).setValue(hashMap)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -227,8 +210,11 @@ public class TaoHDNFragment extends Fragment {
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("idPhieuNhap", id_phieunhap);
                                                 fragment.setArguments(bundle);
-                                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
-
+                                                requireActivity().getSupportFragmentManager()
+                                                        .beginTransaction()
+                                                        .replace(R.id.layout_content, fragment)
+                                                        .addToBackStack(null)
+                                                        .commit();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
