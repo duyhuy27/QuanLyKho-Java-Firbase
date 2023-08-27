@@ -3,6 +3,7 @@ package team1XuongMobile.fpoly.myapplication.Fragment.NhanVien;
 import android.widget.Filter;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import team1XuongMobile.fpoly.myapplication.Adapter.NhanVienAdapter;
 import team1XuongMobile.fpoly.myapplication.Model.NhanVien;

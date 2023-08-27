@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,15 +28,26 @@ import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.LichSuPhieuNhan;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.FilterSearchLichSu;
 
-public class LichSuAdapter extends RecyclerView.Adapter<LichSuAdapter.ViewHolder> {
+public class LichSuAdapter extends RecyclerView.Adapter<LichSuAdapter.ViewHolder> implements Filterable {
     Context context;
-    ArrayList<LichSuPhieuNhan> lichSuPhieuNhanArrayList;
+    public ArrayList<LichSuPhieuNhan> lichSuPhieuNhanArrayList, list;
+    FilterSearchLichSu filterSearchLichSu;
 
 
     public LichSuAdapter(Context context, ArrayList<LichSuPhieuNhan> lichSuPhieuNhanArrayList) {
         this.context = context;
         this.lichSuPhieuNhanArrayList = lichSuPhieuNhanArrayList;
+        this.list = lichSuPhieuNhanArrayList;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filterSearchLichSu == null) {
+            filterSearchLichSu = new FilterSearchLichSu(list, this);
+        }
+        return filterSearchLichSu;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

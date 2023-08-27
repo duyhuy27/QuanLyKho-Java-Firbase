@@ -17,8 +17,6 @@ public class FormDangNhapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityFormDangNhapBinding binding = ActivityFormDangNhapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
         replaceFragment();
 
 
