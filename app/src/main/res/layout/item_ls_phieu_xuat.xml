@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/px"
-            android:text="phiễu xuất"
+            android:text="phiếu xuất"
             android:layout_toEndOf="@+id/tv_hinhthuc"
             android:paddingLeft="@dimen/_3sdp"
             android:textSize="@dimen/_14sdp"

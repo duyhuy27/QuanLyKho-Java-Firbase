@@ -9,24 +9,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f9117cc-50b0-4483-88aa-b8454f9e53ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/FilterSearchLichSu.java" afterDir="false" />
+    <list default="true" id="767ae9b9-3d13-4242-a1bb-6de58d0a9c93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/NhanVien/FilterSearchNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/NhanVien/FilterSearchNhanVien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/PhieuNhapAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/PhieuNhapAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/SuaPhieuNhapActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/SuaPhieuNhapActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDNFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDNFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/LichSuPNFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/phieunhap/adapterlichsu/LichSuAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/view/FormDangNhapActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/view/FormDangNhapActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_phieunhap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_phieunhap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/LichSuPXAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/LichSuPXAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/PhieuXuatAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/adapter/PhieuXuatAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/SuaPhieuXuatActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/SuaPhieuXuatActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDXFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/fragment/TaoHDXFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/NotifyXuat.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/phieunhapxuat/model/NotifyXuat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_ls_phieu_xuat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_ls_phieu_xuat.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Acer Nitro 5\.android\avd\Pixel_2_API_30_15.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\ADMIN\.android\avd\Pixel_6_Pro_API_29.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -43,7 +40,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="developer" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

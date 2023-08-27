@@ -15,13 +15,18 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.DonViVanChuyenSuaPhieuXuatListener;
@@ -41,11 +46,15 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
             soTienHang, thue, khachHang, donViVanChuyen, tamTinh, soLuong;
     private double giaTien, thueSanPham, tamTinhSanPham, soTienHangSanPham, tienThue;
     private int soLuongSanPham, tongSoLuongSanPham;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    String kh = "", tenNhanVienSua = "", uid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_phieu_xuat);
+        firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idPhieuXuat = bundle.getString("idPhieuXuat");
@@ -72,7 +81,7 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
         relativeDonViVanChuyen = findViewById(R.id.relativeDonViVanChuyen);
         // LinearLayout
         linearTrangThaiSpX = findViewById(R.id.linearTrangThaiSpX);
-
+        layDuLieuDangNhap();
         loadFirebasePhieuXuat();
     }
 
@@ -129,6 +138,23 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
         hashMap.put("ten_kh", String.valueOf(khachHang));
         hashMap.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyen));
         hashMap.put("tong_tien_hang", String.valueOf(tamTinhSanPham));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String formattedDate = dateFormat.format(new Date());
+
+        HashMap<String, Object> hashMapntf_px = new HashMap<>();
+        hashMapntf_px.put("tenSp", String.valueOf(tenSanPham));
+        hashMapntf_px.put("ma_san_pham", String.valueOf(maSanPham));
+        hashMapntf_px.put("so_luong", String.valueOf(soLuongSanPham));
+        hashMapntf_px.put("tong_tien", String.valueOf(soTienHangSanPham));
+        hashMapntf_px.put("ten_kh", String.valueOf(khachHang));
+        hashMapntf_px.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyen));
+        hashMapntf_px.put("tong_tien_hang", String.valueOf(tamTinhSanPham));
+        hashMapntf_px.put("ngay_xuat", formattedDate);
+        hashMapntf_px.put("hinhthuc", "sửa");
+        hashMapntf_px.put("ten_nhan_vien", tenNhanVienSua);
+
+
         reference.child(idPhieuXuat).updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -142,6 +168,7 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
                                 .replace(R.id.layout_content_suaPhieuXuat, fragment)
                                 .addToBackStack(null)
                                 .commit();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -150,6 +177,16 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
                         Toast.makeText(SuaPhieuXuatActivity.this, "Sửa thất bại!", Toast.LENGTH_SHORT).show();
                     }
                 });
+        long timestamp = System.currentTimeMillis();
+        reference.child(String.valueOf(idPhieuXuat)).child("notify_xuat").child(String.valueOf(timestamp))
+                .setValue(hashMapntf_px)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                });
+
     }
 
     private void clickChonSanPham() {
@@ -264,5 +301,26 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
     public void onFragmentResultDonViVanChuyen(String tenDonViVanChuyen) {
         donViVanChuyen = tenDonViVanChuyen;
         tvDonViVanChuyenX.setText(donViVanChuyen);
+    }
+    private void layDuLieuDangNhap() {
+
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh = String.valueOf(snapshot.child("kh").getValue());
+                tenNhanVienSua = "" + snapshot.child("username").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

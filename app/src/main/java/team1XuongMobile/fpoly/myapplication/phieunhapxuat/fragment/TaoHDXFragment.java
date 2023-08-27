@@ -533,11 +533,12 @@ public class TaoHDXFragment extends Fragment {
 
         HashMap<String, Object> hashMap1 = new HashMap<>();
         hashMap1.put("id_phieu_xuat", String.valueOf(timestamp));
+        hashMap1.put("so_luong", String.valueOf(tongSoLuongX));
         hashMap1.put("ngay_xuat", String.valueOf(ngayX));
-        hashMap1.put("id_kh", String.valueOf(idKhachHang));
         hashMap1.put("ten_kh", String.valueOf(khachHangX));
-        hashMap1.put("kh", String.valueOf(kh));
-        hashMap1.put("id_don_vi_vc", String.valueOf(idDonViVanChuyen));
+        hashMap1.put("ten_nhan_vien", "" + tenNhanVienTao);
+        hashMap1.put("tong_tien", String.valueOf(soTienHangX));
+        hashMap1.put("tong_tien_hang", String.valueOf(tongTienHang));
         hashMap1.put("ten_don_vi_van_chuyen", String.valueOf(donViVanChuyenX));
         hashMap1.put("tenSp", String.valueOf(tenSpXuat));
         hashMap1.put("hinhthuc", "thêm");

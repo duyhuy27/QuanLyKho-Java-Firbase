@@ -1,10 +1,13 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,43 +86,56 @@ public class PhieuXuatAdapter extends RecyclerView.Adapter<PhieuXuatAdapter.View
         });
 
         holder.imgLuachon.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+//
+//                View view1 = inflater.inflate(R.layout.dialog_chuc_nang, null);
+//                builder.setView(view1);
+//
+//                Button sua = view1.findViewById(R.id.button_sua);
+//                Button lichsu = view1.findViewById(R.id.button_xoa);
+//                Button xemchitiet = view1.findViewById(R.id.button_xem_chi_tiet);
+//
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//
+//                sua.setVisibility(View.GONE);
+//                xemchitiet.setVisibility(View.GONE);
+//                lichsu.setText("lịch sử");
+//                lichsu.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        alertDialog.dismiss();
+//                        phieuXuatInterface.LichSuPXClick(objPhieuXuat.getId_phieu_xuat());
+//                    }
+//                });
 
-                View view1 = inflater.inflate(R.layout.dialog_chuc_nang, null);
-                builder.setView(view1);
-
-                Button sua = view1.findViewById(R.id.button_sua);
-                Button lichsu = view1.findViewById(R.id.button_xoa);
-                Button xemchitiet = view1.findViewById(R.id.button_xem_chi_tiet);
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-                sua.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("RestrictedApi") MenuBuilder menuBuilder = new MenuBuilder(context);
+                MenuInflater inflater = new MenuInflater(context);
+                inflater.inflate(R.menu.menu_phieunhap, menuBuilder);
+                @SuppressLint("RestrictedApi") MenuPopupHelper optionPN = new MenuPopupHelper(context, menuBuilder, v);
+                menuBuilder.setCallback(new MenuBuilder.Callback() {
                     @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                        phieuXuatInterface.updatePXClick(objPhieuXuat.getId_phieu_xuat());
+                    public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
+
+                        if (item.getItemId() == R.id.popup_menuPN_lichsu) {
+                            phieuXuatInterface.LichSuPXClick(objPhieuXuat.getId_phieu_xuat());
+                            return true;
+                        } else {
+                            return false;
+                        }
+
+                    }
+
+                    @Override
+                    public void onMenuModeChange(@NonNull MenuBuilder menu) {
+
                     }
                 });
-                lichsu.setText("lịch sử");
-                lichsu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                        phieuXuatInterface.LichSuPXClick(objPhieuXuat.getId_phieu_xuat());
-                    }
-                });
-                xemchitiet.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                        phieuXuatInterface.chiTietPXClick(objPhieuXuat.getId_phieu_xuat());
-                    }
-                });
+                optionPN.show();
             }
         });
     }

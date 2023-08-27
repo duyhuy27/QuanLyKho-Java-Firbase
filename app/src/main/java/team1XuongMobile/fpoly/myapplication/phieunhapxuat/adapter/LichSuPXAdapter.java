@@ -42,30 +42,10 @@ public class LichSuPXAdapter extends RecyclerView.Adapter<LichSuPXAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NotifyXuat notifyXuat = list.get(position);
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Accounts");
-        ref.orderByChild("kh").equalTo(notifyXuat.getKh()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy ra tên của các phieu_xuat trùng kh
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        String nvtaoString = "" + child.child("username").getValue();
-                        holder.tenNhanVien.setText(nvtaoString);
-
-                        // Làm gì đó với tên
-                    }
-                } else {
-                    // Không có phieu_xuat nào trùng kh
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi
-            }
-        });
         holder.ngay.setText(notifyXuat.getNgay_xuat());
         holder.kieuthongbao.setText(notifyXuat.getHinhthuc());
+        holder.tenNhanVien.setText(notifyXuat.getTen_nhan_vien());
+
     }
 
     @Override
