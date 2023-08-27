@@ -89,6 +89,13 @@ public class DangKyFragment extends Fragment {
             }
         });
 
+        binding.tvDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame_layout, new DangNhapFragment()).addToBackStack(null).commit();
+            }
+        });
+
     }
 
     private void validateData() {

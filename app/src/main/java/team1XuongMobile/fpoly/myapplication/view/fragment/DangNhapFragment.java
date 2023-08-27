@@ -112,6 +112,13 @@ public class DangNhapFragment extends Fragment {
             }
         });
 
+        binding.tvDangKy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame_layout, new DangKyFragment()).addToBackStack(null).commit();
+            }
+        });
+
     }
 
     private void validateData() {
