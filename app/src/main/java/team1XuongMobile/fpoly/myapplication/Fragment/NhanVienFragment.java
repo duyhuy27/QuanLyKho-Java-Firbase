@@ -167,6 +167,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
 
     @Override
     public void deleteNVClick(String id) {
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Đang Thực Thi");
         progressDialog.show();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
@@ -197,6 +198,8 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                progressDialog.dismiss();
+
                 dialog.dismiss();
             }
         });
