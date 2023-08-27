@@ -67,12 +67,41 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/relative_pick_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relative_pick_date"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv_pick_Month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:drawableStart="@drawable/icon_lich_tongquat"
+                    android:drawablePadding="@dimen/_6sdp"
+                    android:text="Chọn Tháng"
+                    android:textSize="@dimen/_14sdp" />
+
+                <ImageButton
+                    android:id="@+id/button_reload_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_toEndOf="@id/tv_pick_Month"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/baseline_refresh_24" />
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/tv_bat_dau_thong_ke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/th_ng_k_theo_kho_ng_ng_y_ch_n"
-                android:layout_below="@+id/relative_pick_date"
+                android:layout_below="@+id/relative_pick_month"
                 android:layout_marginTop="@dimen/_14sdp"
                 android:layout_centerHorizontal="true"
                 android:textSize="@dimen/_12sdp"

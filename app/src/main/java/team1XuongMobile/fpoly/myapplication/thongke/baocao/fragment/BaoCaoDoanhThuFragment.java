@@ -128,69 +128,6 @@ public class BaoCaoDoanhThuFragment extends Fragment {
 
     }
 
-    private void generateStatisticsMonth() {
-        String selectedMonthStr = binding.tvPickMonth.getText().toString();
-
-        if (selectedMonthStr.isEmpty()) {
-            Toast.makeText(getContext(), "Please select a month", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String startDateStr = selectedYear + "-" + (selectedMonth + 1) + "-01"; // First day of the selected month
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(selectedYear, selectedMonth, 1);
-        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        String endDateStr = selectedYear + "-" + (selectedMonth + 1) + "-" + lastDay; // Last day of the selected month
-
-        binding.progressCircular.setVisibility(View.VISIBLE); // Show ProgressBar
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        try {
-            Date startDate = dateFormat.parse(startDateStr);
-            Date endDate = dateFormat.parse(endDateStr);
-
-            Calendar calendarStart = Calendar.getInstance();
-            calendarStart.setTime(startDate);
-            calendarStart.set(Calendar.HOUR_OF_DAY, 0);
-            calendarStart.set(Calendar.MINUTE, 0);
-            calendarStart.set(Calendar.SECOND, 0);
-            long startTimeMillis = calendarStart.getTimeInMillis();
-
-            Calendar calendarEnd = Calendar.getInstance();
-            calendarEnd.setTime(endDate);
-            calendarEnd.set(Calendar.HOUR_OF_DAY, 23);
-            calendarEnd.set(Calendar.MINUTE, 59);
-            calendarEnd.set(Calendar.SECOND, 59);
-            long endTimeMillis = calendarEnd.getTimeInMillis();
-
-            Query query = FirebaseDatabase.getInstance().getReference()
-                    .child("phieu_xuat")
-                    .orderByChild("timestamp")
-                    .startAt(startTimeMillis)
-                    .endAt(endTimeMillis);
-
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    List<DateRangeStats> dateRangeStatsList = calculateDateRangeStatistics(dataSnapshot, startDateStr, endDateStr);
-                    updateRecyclerView(dateRangeStatsList);
-                    binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle onCancelled if needed
-                    binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
-                }
-            });
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
     private void showDatePickerDialog(final boolean isStartDate) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -324,6 +261,68 @@ public class BaoCaoDoanhThuFragment extends Fragment {
 
         List<DateRangeStats> dateRangeStatsList = new ArrayList<>(statsMap.values());
         return dateRangeStatsList;
+    }
+
+    private void generateStatisticsMonth() {
+        String selectedMonthStr = binding.tvPickMonth.getText().toString();
+
+        if (selectedMonthStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please select a month", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String startDateStr = selectedYear + "-" + (selectedMonth + 1) + "-01"; // First day of the selected month
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(selectedYear, selectedMonth, 1);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        String endDateStr = selectedYear + "-" + (selectedMonth + 1) + "-" + lastDay; // Last day of the selected month
+
+        binding.progressCircular.setVisibility(View.VISIBLE); // Show ProgressBar
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        try {
+            Date startDate = dateFormat.parse(startDateStr);
+            Date endDate = dateFormat.parse(endDateStr);
+
+            Calendar calendarStart = Calendar.getInstance();
+            calendarStart.setTime(startDate);
+            calendarStart.set(Calendar.HOUR_OF_DAY, 0);
+            calendarStart.set(Calendar.MINUTE, 0);
+            calendarStart.set(Calendar.SECOND, 0);
+            long startTimeMillis = calendarStart.getTimeInMillis();
+
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarEnd.setTime(endDate);
+            calendarEnd.set(Calendar.HOUR_OF_DAY, 23);
+            calendarEnd.set(Calendar.MINUTE, 59);
+            calendarEnd.set(Calendar.SECOND, 59);
+            long endTimeMillis = calendarEnd.getTimeInMillis();
+
+            Query query = FirebaseDatabase.getInstance().getReference()
+                    .child("phieu_xuat")
+                    .orderByChild("timestamp")
+                    .startAt(startTimeMillis)
+                    .endAt(endTimeMillis);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<DateRangeStats> dateRangeStatsList = calculateDateRangeStatistics(dataSnapshot, startDateStr, endDateStr);
+                    updateRecyclerView(dateRangeStatsList);
+                    binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle onCancelled if needed
+                    binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
+                }
+            });
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

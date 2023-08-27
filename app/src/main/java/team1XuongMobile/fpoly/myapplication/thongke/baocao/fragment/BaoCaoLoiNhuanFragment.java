@@ -45,6 +45,10 @@ public class BaoCaoLoiNhuanFragment extends Fragment {
 
     public static final String TAG = "BaoCaoLoiNhuanFragment";
 
+    private int selectedYear;
+    private int selectedMonth;
+    private int selectedDay;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,30 +90,121 @@ public class BaoCaoLoiNhuanFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, new HuongDanBaoCaoLoiNhuanFragment()).addToBackStack(null).commit();
             }
         });
+
+        binding.tvPickMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int currentYear = calendar.get(Calendar.YEAR);
+                int currentMonth = calendar.get(Calendar.MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        requireContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                selectedYear = year;
+                                selectedMonth = month;
+
+                                // Update the TextView with the selected month
+                                binding.tvPickMonth.setText(
+                                        String.format(Locale.US, "%d-%02d", selectedYear, selectedMonth + 1)
+                                );
+                            }
+                        },
+                        currentYear, currentMonth, 1 // Initialize with the first day of the month
+                );
+
+                datePickerDialog.show();
+            }
+        });
+
+        binding.buttonReloadMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateStatisticsMonth();
+            }
+        });
+
     }
 
-    private void showDatePickerDialog(final boolean isStartDate) {
+    private void generateStatisticsMonth() {
+        String selectedMonthStr = binding.tvPickMonth.getText().toString();
+
+        if (selectedMonthStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please select a month", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String startDateStr = selectedYear + "-" + (selectedMonth + 1) + "-01"; // First day of the selected month
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.set(selectedYear, selectedMonth, 1);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        String endDateStr = selectedYear + "-" + (selectedMonth + 1) + "-" + lastDay; // Last day of the selected month
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                        if (isStartDate) {
-                            binding.tvDateStart.setText(selectedDate);
-                        } else {
-                            binding.tvDateEnd.setText(selectedDate);
+        binding.progressCircular.setVisibility(View.VISIBLE); // Show ProgressBar
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        try {
+            Date startDate = dateFormat.parse(startDateStr);
+            Date endDate = dateFormat.parse(endDateStr);
+
+            Calendar calendarStart = Calendar.getInstance();
+            calendarStart.setTime(startDate);
+            calendarStart.set(Calendar.HOUR_OF_DAY, 0);
+            calendarStart.set(Calendar.MINUTE, 0);
+            calendarStart.set(Calendar.SECOND, 0);
+            long startTimeMillis = calendarStart.getTimeInMillis();
+
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarEnd.setTime(endDate);
+            calendarEnd.set(Calendar.HOUR_OF_DAY, 23);
+            calendarEnd.set(Calendar.MINUTE, 59);
+            calendarEnd.set(Calendar.SECOND, 59);
+            long endTimeMillis = calendarEnd.getTimeInMillis();
+
+            Query inputQuery = FirebaseDatabase.getInstance().getReference()
+                    .child("phieu_nhap")
+                    .orderByChild("timestamp")
+                    .startAt(startTimeMillis)
+                    .endAt(endTimeMillis);
+
+            Query outputQuery = FirebaseDatabase.getInstance().getReference()
+                    .child("phieu_xuat")
+                    .orderByChild("timestamp")
+                    .startAt(startTimeMillis)
+                    .endAt(endTimeMillis);
+
+            inputQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot inputSnapshot) {
+                    outputQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot outputSnapshot) {
+                            List<DateRangeProfit> dateRangeStatsList = calculateProfitStatisticsMonth(inputSnapshot, outputSnapshot);
+                            updateRecyclerView(dateRangeStatsList);
+                            binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
                         }
-                    }
-                }, year, month, day);
 
-        datePickerDialog.show();
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle onCancelled if needed
+                            binding.progressCircular.setVisibility(View.GONE); // Hide ProgressBar
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle onCancelled if needed
+                }
+            });
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
+        }
     }
-
 
     private void updateRecyclerView(List<DateRangeProfit> dateRangeStatsList) {
         adapter = new ProfitsAdapter(dateRangeStatsList);
@@ -246,6 +341,53 @@ public class BaoCaoLoiNhuanFragment extends Fragment {
         return dateRangeProfitList;
     }
 
+    private List<DateRangeProfit> calculateProfitStatisticsMonth(DataSnapshot inputSnapshot, DataSnapshot outputSnapshot) {
+        List<DateRangeProfit> dateRangeProfitList = new ArrayList<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+        // Calculate the first and last day of the selected month
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(selectedYear, selectedMonth, 1);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        Date startDate = calendar.getTime();
+        calendar.set(Calendar.DAY_OF_MONTH, lastDay);
+        Date endDate = calendar.getTime();
+
+        calendar.setTime(startDate);
+
+        double totalProfit = 0;
+        double totalSales = 0;
+
+        while (!calendar.getTime().after(endDate)) {
+            String date = dateFormat.format(calendar.getTime());
+
+            double inputAmount = calculateTotalInputAmount(inputSnapshot, date);
+            double outputAmount = calculateTotalOutputAmount(outputSnapshot, date);
+            double profit = outputAmount - inputAmount;
+
+            totalProfit += profit;
+            totalSales += outputAmount;
+
+            dateRangeProfitList.add(new DateRangeProfit(date, profit));
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1); // Move to the next day
+        }
+
+        double totalProfitMargin = (totalProfit / totalSales) * 100;
+
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedTotalValue = currencyFormatter.format(totalProfit);
+        String formattedTotalProfitMargin = String.format("%.2f%%", totalProfitMargin);
+
+        binding.tvTiXuatLoiNhuan.setText("Tỷ suất LN: " + formattedTotalProfitMargin);
+        binding.tvTotalLoiNhuan.setText(formattedTotalValue);
+
+        return dateRangeProfitList;
+    }
+
+
     private double calculateTotalInputAmount(DataSnapshot inputSnapshot, String date) {
         double totalInputAmount = 0;
 
@@ -270,6 +412,28 @@ public class BaoCaoLoiNhuanFragment extends Fragment {
         }
 
         return totalOutputAmount;
+    }
+
+    private void showDatePickerDialog(final boolean isStartDate) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        if (isStartDate) {
+                            binding.tvDateStart.setText(selectedDate);
+                        } else {
+                            binding.tvDateEnd.setText(selectedDate);
+                        }
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
     }
 
 }
