@@ -151,7 +151,23 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/baseline_add_24" />
+
+
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_thieu_hang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thiếu hàng"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textColor="@color/mau_do"
+                    android:visibility="gone"
+                    android:drawableStart="@drawable/warning"
+                    android:drawablePadding="@dimen/_5sdp"/>
             </LinearLayout>
 
             <RelativeLayout
