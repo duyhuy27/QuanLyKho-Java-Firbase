@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,8 @@ public class KhachHangSuaPhieuXuatFragment extends Fragment implements ChonKhach
     private RecyclerView rcvChonKhachHang;
     private LinearLayoutManager layoutManager;
     private KhachHangSuaPhieuXuatListener listener;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -52,22 +56,37 @@ public class KhachHangSuaPhieuXuatFragment extends Fragment implements ChonKhach
         adapter = new ChonKhachHangAdapter(requireContext(), this);
         layoutManager = new LinearLayoutManager(requireContext());
         rcvChonKhachHang.setLayoutManager(layoutManager);
-        loadFirebase();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        loadFirebaseChonKhachHang();
         return view;
     }
 
-    private void loadFirebase() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("khach_hang");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void loadFirebaseChonKhachHang() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    KhachHang objKhachHang = dataSnapshot.getValue(KhachHang.class);
-                    list.add(objKhachHang);
-                }
-                adapter.setData(list);
-                rcvChonKhachHang.setAdapter(adapter);
+                String kh = String.valueOf(snapshot.child("kh").getValue(String.class));
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("khach_hang");
+                databaseReference.orderByChild("kh").equalTo(kh).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            KhachHang objKhachHang = dataSnapshot.getValue(KhachHang.class);
+                            list.add(objKhachHang);
+                        }
+                        adapter.setData(list);
+                        rcvChonKhachHang.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

@@ -1,7 +1,11 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,6 +50,7 @@ public class ChiTietHDXFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("ChiTietHDXFragment", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_chi_tiet_h_d_x, container, false);
         // Ánh xạ view
         bindViews(view);
@@ -57,6 +62,13 @@ public class ChiTietHDXFragment extends Fragment {
         nhanIdPhieuXuat();
         loadFirebasePhieuXuat();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nhanIdPhieuXuat();
+        loadFirebasePhieuXuat();
     }
 
     @Override
@@ -178,6 +190,9 @@ public class ChiTietHDXFragment extends Fragment {
             if (bundle.containsKey("idPhieuXuat")) {
                 idPhieuXuat = bundle.getString("idPhieuXuat");
                 Log.d("checkId", "id " + idPhieuXuat);
+            } else {
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                idPhieuXuat = sharedPreferences.getString("idPhieuXuat", null);
             }
         }
     }

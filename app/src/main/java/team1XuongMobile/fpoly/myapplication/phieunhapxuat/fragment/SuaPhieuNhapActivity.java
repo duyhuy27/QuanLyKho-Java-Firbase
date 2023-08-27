@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -145,14 +146,9 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
                                     public void onSuccess(Void unused) {
 
                                         Toast.makeText(SuaPhieuNhapActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("idPhieuNhap", idPhieuNhap);
-                                        ChiTietHDNFragment fragment = new ChiTietHDNFragment();
-                                        fragment.setArguments(bundle);
-                                        getSupportFragmentManager().beginTransaction()
-                                                .replace(R.id.layout_content_suaPhieuNhap, fragment)
-                                                .addToBackStack(null)
-                                                .commit();
+                                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                        sharedPreferences.edit().putString("idPhieuNhap", idPhieuNhap).apply();
+                                        finish();
                                     }
                                 });
 
