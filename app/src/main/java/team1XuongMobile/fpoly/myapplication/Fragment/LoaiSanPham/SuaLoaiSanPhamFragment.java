@@ -10,12 +10,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,6 +72,14 @@ public class SuaLoaiSanPhamFragment extends Fragment {
         back = view.findViewById(R.id.btn_quay_lai_lsp);
         edt_loaisp = view.findViewById(R.id.edt_sua_tenloaisp);
         swt_trangthai = view.findViewById(R.id.swt_sua_trangthai_loaisp);
+
+        edt_loaisp.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                anbanphim();
+                return false;
+            }
+        });
 
         hoantat = view.findViewById(R.id.btn_sualoaisp_hoantat);
         firebaseAuth = FirebaseAuth.getInstance();

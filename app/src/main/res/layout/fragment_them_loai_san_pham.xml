@@ -63,12 +63,15 @@
                 android:layout_margin="@dimen/_14sdp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:id="@+id/edt_them_tenloaisp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_edit_text"
                     android:hint="tên loại sản phẩm"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout

@@ -214,6 +214,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                progressDialog.dismiss();
                 dialog.dismiss();
             }
         });

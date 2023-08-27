@@ -72,15 +72,18 @@
                     android:layout_marginTop="@dimen/_10sdp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:imeOptions="actionNext"
                         android:id="@+id/edt_them_ten_kh"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_14sdp"
                         android:layout_marginEnd="@dimen/_14sdp"
                         android:textColor="@color/black"
+                        android:inputType="text"
                         android:background="@drawable/background_edit_text"
                         android:backgroundTint="@color/background_color"
-                        android:hint="tên khách hàng" />
+                        android:hint="tên khách hàng"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +101,8 @@
                         android:background="@drawable/background_edit_text"
                         android:backgroundTint="@color/background_color"
                         android:hint="Số điện thoại"
-                        android:inputType="phone"/>
+                        android:inputType="phone"
+                        android:imeOptions="actionNext"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -116,7 +120,8 @@
                         android:background="@drawable/background_edit_text"
                         android:backgroundTint="@color/background_color"
                         android:hint="Email"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -125,6 +130,7 @@
                     android:layout_marginTop="@dimen/_10sdp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="text"
                         android:id="@+id/edt_them_diachi_kh"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -133,7 +139,8 @@
                         android:textColor="@color/black"
                         android:background="@drawable/background_edit_text"
                         android:backgroundTint="@color/background_color"
-                        android:hint="địa chỉ" />
+                        android:hint="địa chỉ"
+                        android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
