@@ -38,6 +38,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.math.BigDecimal;
@@ -51,7 +52,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.MyViewModel;
 
 public class TaoHDXFragment extends Fragment {
-    private TextView tvChonSanPhamX, tvTongSoLuongX, tvSoTienHangX, tvThueX, tvNgayX, tvKhachHangX, tvDonViVanChuyenX, tvTamTinhX, tvTenSpX, tvMaSpX, tvSoTienSpX;
+    private TextView tvChonSanPhamX, tvTongSoLuongX, tvSoTienHangX, tvThueX, tvNgayX, tvKhachHangX, tvDonViVanChuyenX, tvTamTinhX, tvTenSpX, tvMaSpX, tvSoTienSpX, tv_thieu_hang;
     private EditText edSoLuongX, edGhiChu;
     private ImageView imgTangSlX, imgGiamSlX;
     private LinearLayout linearChonSpX, linearTrangThaiSpX;
@@ -61,8 +62,11 @@ public class TaoHDXFragment extends Fragment {
             ngayXuat, idKhachHang, tenKhachHang, idDonViVanChuyen, tenDonViVanChuyen, tongSoLuongX,
             soTienHangX, ngayX, khachHangX, donViVanChuyenX, ghiChuX, tenNhanVienTao;
     private boolean trangThaiSpX = true;
+
     private final boolean trangThaiHoaDonXuat = false;
     private int soLuongSp = 0;
+
+
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
     private MyViewModel viewModel;
     private FirebaseAuth firebaseAuth;
@@ -78,9 +82,10 @@ public class TaoHDXFragment extends Fragment {
         bindViews(view);
         // Khởi tạo dối tượng mới
         initObjects();
+
         // Các sự kiện click
         setupUI();
-
+        // xử lý load số lượng
         return view;
     }
 
@@ -117,8 +122,13 @@ public class TaoHDXFragment extends Fragment {
                 idSanPhamX = s;
                 Log.d("testIdSanPham", "idSanPham " + idSanPhamX);
                 loadDataFirebaseChonSanPham(idSanPhamX);
+                fetchTotalImportedQuantityFromFirebase(idSanPhamX);
             }
         });
+
+
+
+
     }
 
     @Override
@@ -158,6 +168,8 @@ public class TaoHDXFragment extends Fragment {
         relativeChonNgayXuat = view.findViewById(R.id.relativeChonNgayXuat);
         relativeKhachHang = view.findViewById(R.id.relativeKhachHang);
         relativeDonViVanChuyen = view.findViewById(R.id.relativeDonViVanChuyen);
+
+        tv_thieu_hang = view.findViewById(R.id.tv_thieu_hang);
         // AppCompatButton
         btnTaoHoaDonX = view.findViewById(R.id.button_taoDonXuat);
         edSoLuongX.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -369,52 +381,92 @@ public class TaoHDXFragment extends Fragment {
         // Đặt TextWatcher cho edtext
         edSoLuongX.addTextChangedListener(textWatcher);
     }
+    private int totalSoluong = 0; // Declare this as a class-level variable
 
+    private void fetchTotalImportedQuantityFromFirebase(String idSp) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phieu_nhap");
+        Query query = databaseReference.orderByChild("idSanPham").equalTo(idSp);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                totalSoluong = 0;
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String so_luong = dataSnapshot.child("so_luong").getValue(String.class);
+                    int sluongInt = Integer.parseInt(so_luong);
+                    totalSoluong += sluongInt;
+                }
+
+                Log.d("TEST Quantity", "Total imported quantity: " + totalSoluong);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle onCancelled if needed
+            }
+        });
+    }
     private void clickTangSoLuongSanPhamXuat() {
-        if (soLuongSp < 1000) {
-            soLuongSp++;
+        int previousQuantity = soLuongSp; // Store the previous quantity
+
+        soLuongSp++;
+        edSoLuongX.setText(String.valueOf(soLuongSp));
+
+        giaNhapBanDau = Double.parseDouble(giaXuat);
+        giaNhapMoi = giaNhapBanDau * soLuongSp;
+
+        BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+        String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+        tvSoTienHangX.setText(bd_giaNhapMoiString);
+
+        tvTongSoLuongX.setText(String.valueOf(soLuongSp));
+
+        thue = Integer.parseInt(thueXuat);
+        tienThue = (giaNhapMoi * thue) / 100;
+        tamTinh = giaNhapMoi + tienThue;
+
+        BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+        String bd_tamTinhString = bd_tamTinh.toPlainString();
+        tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+
+        // Check if the current quantity exceeds totalSoluong and show a warning
+        if (soLuongSp > totalSoluong) {
+            tv_thieu_hang.setVisibility(View.VISIBLE);
             edSoLuongX.setText(String.valueOf(soLuongSp));
-
-            giaNhapBanDau = Double.parseDouble(giaXuat);
-            giaNhapMoi = giaNhapBanDau * soLuongSp;
-
-            BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
-            String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
-            tvSoTienHangX.setText(bd_giaNhapMoiString);
-
-            tvTongSoLuongX.setText(String.valueOf(soLuongSp));
-
-            thue = Integer.parseInt(thueXuat);
-            tienThue = (giaNhapMoi * thue) / 100;
-            tamTinh = giaNhapMoi + tienThue;
-
-            BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
-            String bd_tamTinhString = bd_tamTinh.toPlainString();
-            tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
-
+        } else {
+            tv_thieu_hang.setVisibility(View.GONE);
         }
     }
 
     private void clickGiamSoLuongSanPhamXuat() {
-        if (soLuongSp > 1) {
-            soLuongSp--;
+        int previousQuantity = soLuongSp; // Store the previous quantity
+
+        soLuongSp--;
+        edSoLuongX.setText(String.valueOf(soLuongSp));
+        giaNhapBanDau = Double.parseDouble(giaXuat);
+        giaNhapMoi = giaNhapBanDau * soLuongSp;
+
+        BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+        String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+        tvSoTienHangX.setText(bd_giaNhapMoiString);
+
+        tvTongSoLuongX.setText(String.valueOf(soLuongSp));
+        thue = Integer.parseInt(thueXuat);
+        tamTinh = giaNhapMoi + thue;
+
+        BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+        String bd_tamTinhString = bd_tamTinh.toPlainString();
+        tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+
+        // Check if the current quantity exceeds totalSoluong and show a warning
+        if (soLuongSp > totalSoluong) {
+            tv_thieu_hang.setVisibility(View.VISIBLE);
             edSoLuongX.setText(String.valueOf(soLuongSp));
-            giaNhapBanDau = Integer.parseInt(giaXuat);
-            giaNhapMoi = giaNhapBanDau * soLuongSp;
-
-            BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
-            String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
-            tvSoTienHangX.setText(bd_giaNhapMoiString);
-
-            tvTongSoLuongX.setText(String.valueOf(soLuongSp));
-            thue = Integer.parseInt(thueXuat);
-            tamTinh = giaNhapMoi + thue;
-
-            BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
-            String bd_tamTinhString = bd_tamTinh.toPlainString();
-            tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+        } else {
+            tv_thieu_hang.setVisibility(View.GONE);
         }
     }
+
 
     private void clickChonNgayXuat() {
         Calendar calendar = Calendar.getInstance();
