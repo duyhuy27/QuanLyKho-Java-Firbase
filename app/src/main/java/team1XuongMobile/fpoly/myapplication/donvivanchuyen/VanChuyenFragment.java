@@ -213,7 +213,7 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
     private void dialogXacNhanXoa(String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Bạn có chắc muốn xóa không ?");
-        builder.setPositiveButton("chắc chắn", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("don_vi_vc");

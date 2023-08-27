@@ -212,7 +212,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
     private void dialogXacNhanXoa(String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Bạn có chắc muốn xóa không ?");
-        builder.setPositiveButton("chắc chắn", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
@@ -225,7 +225,6 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
         builder.setNegativeButton("không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getContext(), "Bạn chọn không xóa", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
 
             }

@@ -11,15 +11,24 @@
   <component name="ChangeListManager">
     <list default="true" id="37a9d94a-dda8-4cb9-ae23-d86febb3a55d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/donvivanchuyen/VanChuyenFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/donvivanchuyen/VanChuyenFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/nhacungcap/NhaCungCapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/nhacungcap/NhaCungCapFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/nhacungcap/ThemNCCFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/nhacungcap/ThemNCCFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_them_d_v_c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_them_d_v_c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_them_n_c_c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_them_n_c_c.xml" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/NhanVienFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/NhanVienFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoan/CachChucTaiKhoanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/Fragment/QuanLyTaiKhoan/CachChucTaiKhoanFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/team1XuongMobile/fpoly/myapplication/MainActivity.java" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/thang/.android/avd/Pixel_3a_API_29.avd]" />
+
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Acer Nitro 5\.android\avd\Pixel_2_API_30_15.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
