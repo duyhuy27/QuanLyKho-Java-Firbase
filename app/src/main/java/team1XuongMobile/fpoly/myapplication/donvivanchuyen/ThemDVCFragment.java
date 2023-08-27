@@ -43,6 +43,7 @@ public class ThemDVCFragment extends Fragment {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
         laydulieudangnhap();
+        
 
     }
 
@@ -53,7 +54,7 @@ public class ThemDVCFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         firebaseAuth = FirebaseAuth.getInstance();
         listener();
-        
+
         // Inflate the layout for this fragment
         return binding.getRoot();
     }
