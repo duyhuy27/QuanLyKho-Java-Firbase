@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 
 import team1XuongMobile.fpoly.myapplication.R;
 
+import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenModel;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonNhaCungCapListener;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonNCCAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonNCC;
@@ -31,6 +34,8 @@ public class ChonDanhSachNCCFragment extends Fragment {
     private RecyclerView chonNCCRecyclerView;
     private ArrayList<ChonNCC> chonNCCArrayList;
     private ChonNhaCungCapListener listener;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -53,23 +58,39 @@ public class ChonDanhSachNCCFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         chonNCCRecyclerView.setLayoutManager(layoutManager);
 
-        loadDataFirebase();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        loadFirebaseChonNhaCungCap();
 
         return view;
     }
 
-    public void loadDataFirebase() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void loadFirebaseChonNhaCungCap() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chonNCCArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ChonNCC objChonNCC = dataSnapshot.getValue(ChonNCC.class);
-                    chonNCCArrayList.add(objChonNCC);
-                }
-                adapter.setData(chonNCCArrayList);
-                chonNCCRecyclerView.setAdapter(adapter);
+                String kh = String.valueOf(snapshot.child("kh").getValue(String.class));
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
+                databaseReference.orderByChild("kh").equalTo(kh).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        chonNCCArrayList.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            ChonNCC objChonNCC = dataSnapshot.getValue(ChonNCC.class);
+                            chonNCCArrayList.add(objChonNCC);
+                        }
+                        adapter.setData(chonNCCArrayList);
+                        chonNCCRecyclerView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

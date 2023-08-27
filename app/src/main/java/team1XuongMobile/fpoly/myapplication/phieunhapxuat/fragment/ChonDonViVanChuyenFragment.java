@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +27,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.donvivanchuyen.VanChuyenModel;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.adapter.ChonDonViVanChuyenAdapter;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.ChonDonViVanChuyenListener;
+import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.ChonSanPham;
 
 public class ChonDonViVanChuyenFragment extends Fragment {
     private ArrayList<VanChuyenModel> list;
@@ -32,6 +35,8 @@ public class ChonDonViVanChuyenFragment extends Fragment {
     private ChonDonViVanChuyenAdapter adapter;
     private RecyclerView rcvChonDonViVanChuyen;
     private LinearLayoutManager layoutManager;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,13 +54,15 @@ public class ChonDonViVanChuyenFragment extends Fragment {
         bindViews(view);
         initObjects();
         setupUI();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadFirebase();
+        loadFirebaseChonSanPham();
     }
 
     private void bindViews(View view) {
@@ -72,18 +79,31 @@ public class ChonDonViVanChuyenFragment extends Fragment {
         rcvChonDonViVanChuyen.setLayoutManager(layoutManager);
     }
 
-    private void loadFirebase() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("don_vi_vc");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void loadFirebaseChonSanPham() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    VanChuyenModel objVanChuyenModel = dataSnapshot.getValue(VanChuyenModel.class);
-                    list.add(objVanChuyenModel);
-                }
-                adapter.setData(list);
-                rcvChonDonViVanChuyen.setAdapter(adapter);
+                String kh = String.valueOf(snapshot.child("kh").getValue(String.class));
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("don_vi_vc");
+                databaseReference.orderByChild("kh").equalTo(kh).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            VanChuyenModel objVanChuyenModel = dataSnapshot.getValue(VanChuyenModel.class);
+                            list.add(objVanChuyenModel);
+                        }
+                        adapter.setData(list);
+                        rcvChonDonViVanChuyen.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

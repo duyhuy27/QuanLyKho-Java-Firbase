@@ -3,8 +3,11 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -86,6 +89,19 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         imgTangSlX.setOnClickListener(new View.OnClickListener() {
@@ -160,15 +176,10 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(SuaPhieuXuatActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("idPhieuXuat", idPhieuXuat);
-                        ChiTietHDXFragment fragment = new ChiTietHDXFragment();
-                        fragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.layout_content_suaPhieuXuat, fragment)
-                                .addToBackStack(null)
-                                .commit();
 
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                        sharedPreferences.edit().putString("idPhieuXuat", idPhieuXuat).apply();
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
