@@ -208,6 +208,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                progressDialog.dismiss();
                 dialog.dismiss();
             }
         });

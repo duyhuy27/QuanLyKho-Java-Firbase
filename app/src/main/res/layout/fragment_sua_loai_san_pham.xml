@@ -60,6 +60,8 @@
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:id="@+id/edt_sua_tenloaisp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

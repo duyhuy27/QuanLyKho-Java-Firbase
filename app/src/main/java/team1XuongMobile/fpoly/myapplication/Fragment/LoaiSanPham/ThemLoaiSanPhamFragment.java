@@ -8,12 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,7 +62,13 @@ public class ThemLoaiSanPhamFragment extends Fragment {
         swt_trangthai = view.findViewById(R.id.swt_them_trangthai_loaisp);
 
         ed_loaisp = view.findViewById(R.id.edt_them_tenloaisp);
-
+        ed_loaisp.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                anbanphim();
+                return false;
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,6 +71,24 @@ public class SuaKhachHangFragment extends Fragment {
         ed_sua_sdt_kh = view.findViewById(R.id.edt_sua_sdt_kh);
         ed_sua_email_kh = view.findViewById(R.id.edt_sua_email_kh);
         ed_sua_diachi_kh = view.findViewById(R.id.edt_sua_diachi_kh);
+
+        ed_sua_diachi_kh.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    anbanphim();
+                    ed_sua_diachi_kh.setCursorVisible(false);
+                    return true;
+                }
+                return false;
+            }
+        });
+        ed_sua_diachi_kh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ed_sua_diachi_kh.setCursorVisible(true);
+            }
+        });
 
         firebaseAuth = FirebaseAuth.getInstance();
 

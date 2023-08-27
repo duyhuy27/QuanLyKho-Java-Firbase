@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,6 +73,24 @@ public class ThemKhachHangFragment extends Fragment {
         ed_sdt_kh = view.findViewById(R.id.edt_them_sdt_kh);
         ed_email_kh = view.findViewById(R.id.edt_them_email_kh);
         ed_diachi_kh = view.findViewById(R.id.edt_them_diachi_kh);
+
+        ed_diachi_kh.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    anbanphim();
+                    ed_diachi_kh.setCursorVisible(false);
+                    return true;
+                }
+                return false;
+            }
+        });
+        ed_diachi_kh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ed_diachi_kh.setCursorVisible(true);
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
