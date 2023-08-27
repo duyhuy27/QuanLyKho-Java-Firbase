@@ -8,6 +8,8 @@
 <!--    <uses-feature android:name="android.hardware.telephony" android:required="false" />-->
     <uses-feature android:name="android.hardware.camera" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -52,6 +54,15 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service android:name=".service.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name=".MainActivity" />
+            </intent-filter>
+        </service>
 
     </application>
 
