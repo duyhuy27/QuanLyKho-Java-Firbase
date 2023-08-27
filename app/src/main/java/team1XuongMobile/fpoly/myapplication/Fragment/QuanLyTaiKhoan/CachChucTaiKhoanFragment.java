@@ -99,6 +99,7 @@ public class CachChucTaiKhoanFragment extends Fragment {
 
     private void luuDuLieuTKLenFirebase() {
         vaitrostring = (String) suavaitro.getSelectedItem();
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Đang Thực Thi");
         progressDialog.show();
 
