@@ -1,8 +1,10 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,6 +84,9 @@ public class ChiTietHDNFragment extends Fragment {
         });
         if (getArguments() != null) {
             idPhieuNhap = getArguments().getString("idPhieuNhap");
+        }else {
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            idPhieuNhap = sharedPreferences.getString("idPhieuNhap", null);
         }
         loadFirebasePhieuNhap();
         return view;
@@ -148,6 +153,13 @@ public class ChiTietHDNFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("haihuy262", "onResume");
+        if (getArguments() != null) {
+            idPhieuNhap = getArguments().getString("idPhieuNhap");
+        }else {
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            idPhieuNhap = sharedPreferences.getString("idPhieuNhap", null);
+        }
+        loadFirebasePhieuNhap();
     }
 
     @Override

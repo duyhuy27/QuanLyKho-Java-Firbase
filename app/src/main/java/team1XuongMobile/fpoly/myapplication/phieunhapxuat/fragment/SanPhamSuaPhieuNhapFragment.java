@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +32,8 @@ public class SanPhamSuaPhieuNhapFragment extends Fragment implements ChonSanPham
     private ChonSanPhamAdapter adapter;
     private RecyclerView rcvChonSanPham;
     private OnFragmentResultSanPhamListener listener;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,22 +53,37 @@ public class SanPhamSuaPhieuNhapFragment extends Fragment implements ChonSanPham
         adapter = new ChonSanPhamAdapter(requireContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         rcvChonSanPham.setLayoutManager(layoutManager);
-        loadFirebase(); // Đổ dữ liệu lên recyclerView
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        loadFirebaseChonSanPham();
         return view;
     }
 
-    private void loadFirebase() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SanPham");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void loadFirebaseChonSanPham() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ChonSanPham objChonSanPham = dataSnapshot.getValue(ChonSanPham.class);
-                    list.add(objChonSanPham);
-                }
-                adapter.setData(list);
-                rcvChonSanPham.setAdapter(adapter);
+                String kh = String.valueOf(snapshot.child("kh").getValue(String.class));
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SanPham");
+                databaseReference.orderByChild("kh").equalTo(kh).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            ChonSanPham objChonSanPham = dataSnapshot.getValue(ChonSanPham.class);
+                            list.add(objChonSanPham);
+                        }
+                        adapter.setData(list);
+                        rcvChonSanPham.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

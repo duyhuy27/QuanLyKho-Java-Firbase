@@ -4,9 +4,25 @@
     android:layout_height="match_parent"
     android:background="@color/gray">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBarSuaPhieuXuat"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sửa phiếu xuất"
+            android:gravity="center"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolBarSuaPhieuXuat"
         android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
@@ -76,8 +92,8 @@
                             android:id="@+id/tvTenSpX"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tên sản phẩm"
                             android:gravity="end"
+                            android:text="Tên sản phẩm"
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
@@ -98,9 +114,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="end"
                             android:text="Mã sản phẩm"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="end" />
+                            android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -120,9 +136,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="end"
                             android:text="Số tiền của sản phẩm"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="end" />
+                            android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -144,10 +160,10 @@
                             android:layout_height="@dimen/_22sdp"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:inputType="numberSigned"
                             android:background="@drawable/background_edit_text_05"
-                            android:imeOptions="actionDone" />
+                            android:gravity="center"
+                            android:imeOptions="actionDone"
+                            android:inputType="numberSigned" />
 
                         <ImageView
                             android:id="@+id/imgTangSlX"

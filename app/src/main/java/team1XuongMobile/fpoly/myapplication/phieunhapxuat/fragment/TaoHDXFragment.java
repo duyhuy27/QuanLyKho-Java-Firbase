@@ -65,6 +65,10 @@ public class TaoHDXFragment extends Fragment {
     private int soLuongSp = 0;
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
     private MyViewModel viewModel;
+    MutableLiveData<String> ngayXat;
+    MutableLiveData<String> khachHang;
+    MutableLiveData<String> donViVanChuyen;
+    MutableLiveData<String> idSanPham;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -88,34 +92,35 @@ public class TaoHDXFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
-
-        MutableLiveData<String> ngayXat = viewModel.getSelectedNgayXuat();
+        ngayXat = viewModel.getSelectedNgayXuat();
         ngayXat.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 tvNgayX.setText(s);
             }
         });
-        MutableLiveData<String> khachHang = viewModel.getSelectedKhachHang();
+        khachHang = viewModel.getSelectedKhachHang();
         khachHang.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 tvKhachHangX.setText(s);
             }
         });
-        MutableLiveData<String> donViVanChuyen = viewModel.getSelectedDonViVanChuyen();
+        donViVanChuyen = viewModel.getSelectedDonViVanChuyen();
         donViVanChuyen.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 tvDonViVanChuyenX.setText(s);
             }
         });
-        MutableLiveData<String> idSanPham = viewModel.getSelectedIDSanPham();
+        idSanPham = viewModel.getSelectedIDSanPham();
         idSanPham.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 idSanPhamX = s;
                 Log.d("testIdSanPham", "idSanPham " + idSanPhamX);
+                linearTrangThaiSpX.setVisibility(View.VISIBLE);
+                linearChonSpX.setVisibility(View.GONE);
                 loadDataFirebaseChonSanPham(idSanPhamX);
             }
         });
