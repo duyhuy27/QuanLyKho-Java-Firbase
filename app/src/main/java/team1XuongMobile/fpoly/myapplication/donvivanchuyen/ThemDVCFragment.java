@@ -1,11 +1,13 @@
 package team1XuongMobile.fpoly.myapplication.donvivanchuyen;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ public class ThemDVCFragment extends Fragment {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
         laydulieudangnhap();
+        
 
     }
 
@@ -52,9 +55,6 @@ public class ThemDVCFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         listener();
 
-
-
-
         // Inflate the layout for this fragment
         return binding.getRoot();
     }
@@ -63,6 +63,14 @@ public class ThemDVCFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 validateDataInput();
+                // tắt bàn phim
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+
+                View view1 = requireActivity().getCurrentFocus();
+                if (view1 != null) {
+                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }
 
             }
         });
