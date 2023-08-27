@@ -85,20 +85,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawerlayout);
         navigationView = findViewById(R.id.navi);
 
-        laydulieudangnhap();
 
-        requestPer();
+
+
 
 //        recieveNotificationFromFirebase();
         View layout_header = navigationView.getHeaderView(0);
         ten_nguoidung = layout_header.findViewById(R.id.tv_ten_nguoi_dung_layout_header);
+
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar, 0, 0);
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentN = new TaoHDNFragment();
         fragmentX = new TaoHDXFragment();
-
+        laydulieudangnhap();
+        requestPer();
     }
 
     @Override
@@ -253,11 +255,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 tenstring = "" + snapshot.child("username").getValue();
                 vaitrostring = "" + snapshot.child("vaiTro").getValue();
-                Log.d("quanquan", "vai tro dn " + vaitrostring);
                 ten_nguoidung.setText(tenstring);
+
                 if (vaitrostring.equals("nhanVien") == true) {
+
                     navigationView.getMenu().clear();
-                    Log.d("quanquan", "chay dang nhap vao day ");
                     navigationView.inflateMenu(R.menu.menu_navigation_nhanvien);
                     Toast.makeText(MainActivity.this, "Bạn Đã Đăng Bằng Tài Khoản Nhân Viên", Toast.LENGTH_SHORT).show();
                 } else {
@@ -329,4 +331,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }
