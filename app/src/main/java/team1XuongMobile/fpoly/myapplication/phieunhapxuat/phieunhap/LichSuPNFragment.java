@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,8 +37,9 @@ import team1XuongMobile.fpoly.myapplication.phieunhapxuat.phieunhap.adapterlichs
 public class LichSuPNFragment extends Fragment {
     RecyclerView recyclerView;
     LichSuAdapter lichSuAdapter;
+    EditText SearchLichSu;
     ArrayList<LichSuPhieuNhan> lichSuPhieuNhanArrayList;
-    String khstring = "", idPN = "";
+    String  idPN = "";
     public static final String KEY_ID_PHIEU_NHAP = "idPN";
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -52,7 +56,29 @@ public class LichSuPNFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lich_su_pn, container, false);
         recyclerView = view.findViewById(R.id.recyc_lichsupn);
+        SearchLichSu = view.findViewById(R.id.edt_timkiemlichsupn_nhanvien);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        SearchLichSu.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    lichSuAdapter.getFilter().filter(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         loandatachuyensang();
         loadDuLieuNotifileFirebase();
         return view;
@@ -74,8 +100,8 @@ public class LichSuPNFragment extends Fragment {
         if (firebaseUser == null) {
             return;
         }
-        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("phieu_nhap");
-        useref1.child(idPN).child("notifile_phieunhap")
+        DatabaseReference useref1 = FirebaseDatabase.getInstance().getReference("notifile_phieunhap");
+        useref1.orderByChild("id_phieu_nhap").equalTo(idPN)
 
                 .addValueEventListener(new ValueEventListener() {
                     @Override

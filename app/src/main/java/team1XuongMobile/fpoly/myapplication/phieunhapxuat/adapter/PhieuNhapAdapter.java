@@ -112,10 +112,11 @@ public class PhieuNhapAdapter extends RecyclerView.Adapter<PhieuNhapAdapter.View
                 menuBuilder.setCallback(new MenuBuilder.Callback() {
                     @Override
                     public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
-                        if (item.getItemId() == R.id.popup_menuPN_chitiet) {
-                            listener.ChitietPN(objPhieuNhap.getId_phieu_nhap());
-                            return true;
-                        } else if (item.getItemId() == R.id.popup_menuPN_lichsu) {
+//                        if (item.getItemId() == R.id.popup_menuPN_chitiet) {
+//                            listener.ChitietPN(objPhieuNhap.getId_phieu_nhap());
+//                            return true;
+//                        } 
+                        if (item.getItemId() == R.id.popup_menuPN_lichsu) {
                             listener.LichsuPN(objPhieuNhap.getId_phieu_nhap());
                             return true;
                         } else {

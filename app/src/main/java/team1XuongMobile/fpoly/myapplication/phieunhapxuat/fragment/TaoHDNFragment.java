@@ -199,7 +199,7 @@ public class TaoHDNFragment extends Fragment {
                                 hashMapnotifile.put("id_thongbao_phieunhap", "" + timestamp);
                                 hashMapnotifile.put("ten_nhan_vien", "" + tenNhanVienTao);
                                 hashMapnotifile.put("ngay_them_sua", String.valueOf(ngayNhap));
-                                hashMapnotifile.put("loai_thong_bao", "them");
+                                hashMapnotifile.put("loai_thong_bao", "Thêm");
                                 hashMapnotifile.put("kh", String.valueOf(kh));
 
                                 notifilenhap.child("" + timestamp).setValue(hashMapnotifile)

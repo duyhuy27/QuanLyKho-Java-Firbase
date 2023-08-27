@@ -15,13 +15,18 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.OnFragmentResultListener;
@@ -39,11 +44,15 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
     private double giaTien, soTienHangSanPham, tamTinhSanPham, thueSanPham, tienThue;
     private RelativeLayout relativeNhaCC;
     private LinearLayout linearChonSpThanhCong;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    String kh = "", tenNhanVienSua = "", uid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_phieu_nhap);
+        firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idPhieuNhap = bundle.getString("idPhieuNhap");
@@ -68,6 +77,7 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
         relativeNhaCC = findViewById(R.id.relativeNhaCC);
         // LinearLayout
         linearChonSpThanhCong = findViewById(R.id.linearChonSpThanhCong);
+        layDuLieuDangNhap();
 
         loadFirebasePhieuNhap();
 
@@ -118,15 +128,35 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(SuaPhieuNhapActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("idPhieuNhap", idPhieuNhap);
-                        ChiTietHDNFragment fragment = new ChiTietHDNFragment();
-                        fragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.layout_content_suaPhieuNhap, fragment)
-                                .addToBackStack(null)
-                                .commit();
+                        long timestamp = System.currentTimeMillis();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                        String formattedDate = dateFormat.format(new Date());
+                        DatabaseReference notifilesuanhap = FirebaseDatabase.getInstance().getReference("notifile_phieunhap");
+                        HashMap<String, Object> hashMapsuanotifile = new HashMap<>();
+                        hashMapsuanotifile.put("id_phieu_nhap", "" + idPhieuNhap);
+                        hashMapsuanotifile.put("id_thongbao_phieunhap", "" + timestamp);
+                        hashMapsuanotifile.put("ten_nhan_vien", "" + tenNhanVienSua);
+                        hashMapsuanotifile.put("ngay_them_sua", formattedDate);
+                        hashMapsuanotifile.put("loai_thong_bao", "Sửa");
+                        hashMapsuanotifile.put("kh", String.valueOf(kh));
+                        notifilesuanhap.child("" + timestamp).setValue(hashMapsuanotifile)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+
+                                        Toast.makeText(SuaPhieuNhapActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("idPhieuNhap", idPhieuNhap);
+                                        ChiTietHDNFragment fragment = new ChiTietHDNFragment();
+                                        fragment.setArguments(bundle);
+                                        getSupportFragmentManager().beginTransaction()
+                                                .replace(R.id.layout_content_suaPhieuNhap, fragment)
+                                                .addToBackStack(null)
+                                                .commit();
+                                    }
+                                });
+
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -248,5 +278,27 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
         tvTenSpHDN.setText(tenSanPham);
         tvMaSpHDN.setText(maSanPham);
         tvSoTienSpHDN.setText(soTienSanPham);
+    }
+
+    private void layDuLieuDangNhap() {
+
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                kh = String.valueOf(snapshot.child("kh").getValue());
+                tenNhanVienSua = "" + snapshot.child("username").getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
