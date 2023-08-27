@@ -75,6 +75,7 @@
                 android:hint="Số điện thoại"
                 android:background="@drawable/background_edit_text"
                 android:padding="@dimen/_10sdp"
+                android:inputType="number"
                 android:layout_marginBottom="@dimen/_10sdp"/>
 
             <EditText
