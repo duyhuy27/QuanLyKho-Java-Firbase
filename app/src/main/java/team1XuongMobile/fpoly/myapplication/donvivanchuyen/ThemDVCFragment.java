@@ -53,10 +53,7 @@ public class ThemDVCFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         firebaseAuth = FirebaseAuth.getInstance();
         listener();
-
-
-
-
+        
         // Inflate the layout for this fragment
         return binding.getRoot();
     }
