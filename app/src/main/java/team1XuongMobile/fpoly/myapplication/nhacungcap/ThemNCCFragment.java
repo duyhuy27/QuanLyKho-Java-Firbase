@@ -3,6 +3,7 @@ package team1XuongMobile.fpoly.myapplication.nhacungcap;
 import static androidx.constraintlayout.motion.widget.TransitionBuilder.validate;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,6 +68,17 @@ public class ThemNCCFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 validate();
+
+                // tắt bàn phim
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+
+                View view1 = requireActivity().getCurrentFocus();
+                if (view1 != null) {
+                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }
+
+
             }
         });
         binding.buttonTroLai.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +122,8 @@ public class ThemNCCFragment extends Fragment {
         hashMap.put("uid", firebaseUser.getUid());
         hashMap.put("timstamp", timestamp);
         hashMap.put("kh", kh);
+
+
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("nha_cung_cap");
