@@ -1,10 +1,5 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,6 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

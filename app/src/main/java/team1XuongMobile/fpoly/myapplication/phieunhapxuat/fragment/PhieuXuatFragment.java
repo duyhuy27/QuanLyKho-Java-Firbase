@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPham.SuaLoaiSanPhamFragment;
 import team1XuongMobile.fpoly.myapplication.R;
@@ -73,8 +74,10 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
         fabPhieuXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new TaoHDXFragment());
-
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, new TaoHDXFragment(), "TaoHDXFragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         rcvPhieuXuat.setLayoutManager(layoutManager);
@@ -101,9 +104,10 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             PhieuXuat objPhieuXuat = dataSnapshot.getValue(PhieuXuat.class);
                             list.add(objPhieuXuat);
+                            Collections.reverse(list);
                         }
                         adapter.setData(list);
-                        adapter = new PhieuXuatAdapter(getContext(),list,phieuXuatInterface);
+                        adapter = new PhieuXuatAdapter(getContext(), list, phieuXuatInterface);
                         rcvPhieuXuat.setAdapter(adapter);
                     }
 
@@ -119,13 +123,6 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
 
             }
         });
-    }
-
-    private void replaceFragment(Fragment fragment) {
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override

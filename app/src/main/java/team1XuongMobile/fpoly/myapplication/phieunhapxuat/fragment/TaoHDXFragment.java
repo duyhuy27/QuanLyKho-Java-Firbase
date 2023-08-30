@@ -26,9 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,10 +46,10 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import team1XuongMobile.fpoly.myapplication.R;
-import team1XuongMobile.fpoly.myapplication.phieunhapxuat.model.MyViewModel;
 
 public class TaoHDXFragment extends Fragment {
-    private TextView tvChonSanPhamX, tvTongSoLuongX, tvSoTienHangX, tvThueX, tvNgayX, tvKhachHangX, tvDonViVanChuyenX, tvTamTinhX, tvTenSpX, tvMaSpX, tvSoTienSpX, tv_thieu_hang;
+    private TextView tvChonSanPhamX, tvTongSoLuongX, tvSoTienHangX, tvThueX, tvNgayX, tvKhachHangX,
+            tvDonViVanChuyenX, tvTamTinhX, tvTenSpX, tvMaSpX, tvSoTienSpX, tv_thieu_hang;
     private EditText edSoLuongX, edGhiChu;
     private ImageView imgTangSlX, imgGiamSlX;
     private LinearLayout linearChonSpX, linearTrangThaiSpX;
@@ -61,18 +58,11 @@ public class TaoHDXFragment extends Fragment {
     private String tongTienHang, uid, kh, idSanPhamX, tenSpXuat, giaXuat, maSpXuat, thueXuat,
             ngayXuat, idKhachHang, tenKhachHang, idDonViVanChuyen, tenDonViVanChuyen, tongSoLuongX,
             soTienHangX, ngayX, khachHangX, donViVanChuyenX, ghiChuX, tenNhanVienTao;
-    private boolean trangThaiSpX = true;
+    private boolean trangThaiChonSanPham;
 
     private final boolean trangThaiHoaDonXuat = false;
     private int soLuongSp = 0;
-
-
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
-    private MyViewModel viewModel;
-    MutableLiveData<String> ngayXat;
-    MutableLiveData<String> khachHang;
-    MutableLiveData<String> donViVanChuyen;
-    MutableLiveData<String> idSanPham;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -96,55 +86,24 @@ public class TaoHDXFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
-        ngayXat = viewModel.getSelectedNgayXuat();
-        ngayXat.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                tvNgayX.setText(s);
-            }
-        });
-        khachHang = viewModel.getSelectedKhachHang();
-        khachHang.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                tvKhachHangX.setText(s);
-            }
-        });
-        donViVanChuyen = viewModel.getSelectedDonViVanChuyen();
-        donViVanChuyen.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                tvDonViVanChuyenX.setText(s);
-            }
-        });
-        idSanPham = viewModel.getSelectedIDSanPham();
-        idSanPham.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                idSanPhamX = s;
-                Log.d("testIdSanPham", "idSanPham " + idSanPhamX);
-                linearTrangThaiSpX.setVisibility(View.VISIBLE);
-                linearChonSpX.setVisibility(View.GONE);
-                loadDataFirebaseChonSanPham(idSanPhamX);
-                fetchTotalImportedQuantityFromFirebase(idSanPhamX);
-            }
-        });
-
-
-
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        nhanDuLieuChonSanPhamX();
-        nhanIdKhachHang();
-        nhanIdDonViVanChuyen();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         ngayXuat = simpleDateFormat.format(new Date());
         tvNgayX.setText(ngayXuat);
+        if (trangThaiChonSanPham) {
+            linearChonSpX.setVisibility(View.GONE);
+            linearTrangThaiSpX.setVisibility(View.VISIBLE);
+        }
+        tvTenSpX.setText(tenSpXuat);
+        tvMaSpX.setText(maSpXuat);
+        tvSoTienSpX.setText(soTienHangX);
+        tvKhachHangX.setText(tenKhachHang);
+        tvDonViVanChuyenX.setText(tenDonViVanChuyen);
+        tvSoTienSpX.setText(giaXuat);
     }
 
     private void bindViews(View view) {
@@ -306,20 +265,13 @@ public class TaoHDXFragment extends Fragment {
         });
     }
 
-    private void nhanDuLieuChonSanPhamX() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            if (bundle.containsKey("idSanPhamX") && bundle.containsKey("trangThaiChonSpX")) {
-                idSanPhamX = bundle.getString("idSanPhamX");
-                viewModel.setSelectedIDSanPham(idSanPhamX);
-                loadDataFirebaseChonSanPham(idSanPhamX);
-                trangThaiSpX = bundle.getBoolean("trangThaiChonSpX");
-                if (trangThaiSpX) {
-                    linearTrangThaiSpX.setVisibility(View.VISIBLE);
-                    linearChonSpX.setVisibility(View.GONE);
-                }
-            }
-        }
+    public void nhanDuLieuChonSanPhamX(String idSanPhamm, boolean trangThai) {
+        Log.d("TaoHDXFragment", "nhanDuLieuChonSanPhamX");
+        trangThaiChonSanPham = trangThai;
+        idSanPhamX = idSanPhamm;
+        loadDataFirebaseChonSanPham(idSanPhamX);
+        Log.d("TaoHDXFragment", "idSanPhamX " + idSanPhamX);
+        Log.d("TaoHDXFragment", "trangThaiSpX " + trangThaiChonSanPham);
     }
 
     private void loadDataFirebaseChonSanPham(String id) {
@@ -386,6 +338,7 @@ public class TaoHDXFragment extends Fragment {
         // Đặt TextWatcher cho edtext
         edSoLuongX.addTextChangedListener(textWatcher);
     }
+
     private int totalSoluong = 0; // Declare this as a class-level variable
 
     private void fetchTotalImportedQuantityFromFirebase(String idSp) {
@@ -411,6 +364,7 @@ public class TaoHDXFragment extends Fragment {
             }
         });
     }
+
     private void clickTangSoLuongSanPhamXuat() {
         int previousQuantity = soLuongSp; // Store the previous quantity
 
@@ -487,20 +441,15 @@ public class TaoHDXFragment extends Fragment {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 ngayXuat = simpleDateFormat.format(calendar.getTime());
                 tvNgayX.setText(ngayXuat);
-                viewModel.setSelectedNgayXuat(ngayXuat);
             }
         }, year, month, day);
         datePickerDialog.show();
     }
 
-    private void nhanIdKhachHang() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            if (bundle.containsKey("idKhachHang")) {
-                idKhachHang = bundle.getString("idKhachHang");
-                loadFirebaseKhachHang(idKhachHang);
-            }
-        }
+    public void nhanIdKhachHang(String tenKhachHangg, String id) {
+        tenKhachHang = tenKhachHangg;
+        idKhachHang = id;
+        Log.d("TaoHDXFragment", "idKhachHang " + idKhachHang);
     }
 
     private void loadFirebaseKhachHang(String idKhachHang) {
@@ -511,7 +460,6 @@ public class TaoHDXFragment extends Fragment {
                 tenKhachHang = String.valueOf(snapshot.child("ten_kh").getValue());
 
                 tvKhachHangX.setText(tenKhachHang);
-                viewModel.setSelectedKhachHang(tenKhachHang);
             }
 
             @Override
@@ -521,14 +469,9 @@ public class TaoHDXFragment extends Fragment {
         });
     }
 
-    private void nhanIdDonViVanChuyen() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            if (bundle.containsKey("idDonViVanChuyen")) {
-                idDonViVanChuyen = bundle.getString("idDonViVanChuyen");
-                loadFirebaseDonViVanChuyen(idDonViVanChuyen);
-            }
-        }
+    public void nhanIdDonViVanChuyen(String tenDonViVanChuyenFromVanChuyen, String id) {
+        tenDonViVanChuyen = tenDonViVanChuyenFromVanChuyen;
+        idDonViVanChuyen = id;
     }
 
     private void loadFirebaseDonViVanChuyen(String idDonViVanChuyen) {
@@ -539,7 +482,6 @@ public class TaoHDXFragment extends Fragment {
                 tenDonViVanChuyen = String.valueOf(snapshot.child("ten").getValue());
 
                 tvDonViVanChuyenX.setText(tenDonViVanChuyen);
-                viewModel.setSelectedDonViVanChuyen(tenDonViVanChuyen);
             }
 
             @Override
