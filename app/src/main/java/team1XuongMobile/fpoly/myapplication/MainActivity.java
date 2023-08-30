@@ -86,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.navi);
 
 
-
-
-
 //        recieveNotificationFromFirebase();
         View layout_header = navigationView.getHeaderView(0);
         ten_nguoidung = layout_header.findViewById(R.id.tv_ten_nguoi_dung_layout_header);
@@ -214,36 +211,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onClickChonSanPhamX(ChonSanPham objChonSanPham) {
-        Bundle bundleSanPhamX = new Bundle();
-        bundleSanPhamX.putString("idSanPhamX", objChonSanPham.getIdSanPham());
-        bundleSanPhamX.putBoolean("trangThaiChonSpX", true);
-        fragmentX.setArguments(bundleSanPhamX);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, fragmentX)
-                .addToBackStack(null)
-                .commit();
+        String idSanPham =objChonSanPham.getIdSanPham();
+        boolean trangThai = true;
+        fragmentX = (TaoHDXFragment) getSupportFragmentManager().findFragmentByTag("TaoHDXFragment");
+        if (fragmentX != null) {
+            fragmentX.nhanDuLieuChonSanPhamX(idSanPham, trangThai);
+        }
+        getSupportFragmentManager().popBackStack();
     }
 
     @Override
     public void onClickChonKhachHang(KhachHang objKhachHang) {
-        Bundle bundleChonKhachHang = new Bundle();
-        bundleChonKhachHang.putString("idKhachHang", objKhachHang.getId_kh());
-        fragmentX.setArguments(bundleChonKhachHang);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, fragmentX)
-                .addToBackStack(null)
-                .commit();
+        String tenKhachHang = objKhachHang.getTen_kh();
+        String idKhachHang = objKhachHang.getId_kh();
+        fragmentX = (TaoHDXFragment) getSupportFragmentManager().findFragmentByTag("TaoHDXFragment");
+        if (fragmentX != null) {
+            fragmentX.nhanIdKhachHang(tenKhachHang,idKhachHang);
+        }
+        getSupportFragmentManager().popBackStack();
     }
 
     @Override
     public void onClickChonDonViVanChuyen(VanChuyenModel objVanChuyenModel) {
-        Bundle bundleChonDonViVanChuyen = new Bundle();
-        bundleChonDonViVanChuyen.putString("idDonViVanChuyen", objVanChuyenModel.getId_don_vi_vc());
-        fragmentX.setArguments(bundleChonDonViVanChuyen);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, fragmentX)
-                .addToBackStack(null)
-                .commit();
+        String tenDonViVanChuyen = objVanChuyenModel.getTen();
+        String idDonViVanChuyen = objVanChuyenModel.getId_don_vi_vc();
+        fragmentX = (TaoHDXFragment) getSupportFragmentManager().findFragmentByTag("TaoHDXFragment");
+        if (fragmentX != null) {
+            fragmentX.nhanIdDonViVanChuyen(tenDonViVanChuyen,idDonViVanChuyen);
+        }
+        getSupportFragmentManager().popBackStack();
     }
 
     public void laydulieudangnhap() {
@@ -277,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void recieveNotificationFromFirebase(){
+    private void recieveNotificationFromFirebase() {
 
 
 //        FirebaseMessaging.getInstance().getToken()
@@ -311,15 +307,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
     }
 
-    private void requestPer(){
+    private void requestPer() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
             int permissions = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS);
 
-            if (permissions != PackageManager.PERMISSION_GRANTED)
-            {
+            if (permissions != PackageManager.PERMISSION_GRANTED) {
                 String[] NOTI_PERMISSIONS = {Manifest.permission.POST_NOTIFICATIONS};
 
                 ActivityCompat.requestPermissions(this, NOTI_PERMISSIONS, 100);
