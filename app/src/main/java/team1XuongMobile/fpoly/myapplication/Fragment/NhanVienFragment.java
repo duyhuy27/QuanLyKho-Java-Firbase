@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +55,8 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     FloatingActionButton themnhanvien;
     public static final String KEY_ID_NHAN_VIEN = "idNV";
     EditText inputsearchNV;
+    TextView tv_none_nv;
+    ImageView imgv_none_nv;
     String khstring = "";
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -69,9 +73,14 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nhan_vien, container, false);
         recyclerView = view.findViewById(R.id.recyc_nhanvien);
+        tv_none_nv = view.findViewById(R.id.tv_none_fragmentnv);
+        imgv_none_nv = view.findViewById(R.id.imgv_none_fragmentnv);
         themnhanvien = view.findViewById(R.id.floatingbutton_themnhanvien);
         inputsearchNV = view.findViewById(R.id.edt_timkiem_nhanvien);
         firebaseAuth = FirebaseAuth.getInstance();
+        tv_none_nv.setVisibility(View.INVISIBLE);
+        imgv_none_nv.setVisibility(View.INVISIBLE);
+
 
         loadDuLieuNhanVienFirebase();
         listener = this;
@@ -128,11 +137,20 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             nhanVienArrayList.clear();
-                            for (DataSnapshot dsnv : snapshot.getChildren()) {
-                                NhanVien themnhanvien = dsnv.getValue(NhanVien.class);
-                                nhanVienArrayList.add(themnhanvien);
-                                Log.d("quanquan", "list" + nhanVienArrayList);
+                            if(snapshot.getChildren() != null){
+                                for (DataSnapshot dsnv : snapshot.getChildren()) {
+                                    tv_none_nv.setVisibility(View.INVISIBLE);
+                                    imgv_none_nv.setVisibility(View.INVISIBLE);
+                                    NhanVien themnhanvien = dsnv.getValue(NhanVien.class);
+                                    nhanVienArrayList.add(themnhanvien);
+                                }
                             }
+                            else {
+                                tv_none_nv.setVisibility(View.VISIBLE);
+                                imgv_none_nv.setVisibility(View.VISIBLE);
+                            }
+
+
                             nhanVienAdapter = new NhanVienAdapter(getContext(), nhanVienArrayList, listener);
                             recyclerView.setAdapter(nhanVienAdapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -169,6 +187,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
     public void deleteNVClick(String id) {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Đang Thực Thi");
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -181,8 +200,18 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
                     ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                                    if(nhanVienArrayList.size() == 0){
+                                        tv_none_nv.setVisibility(View.VISIBLE);
+                                        imgv_none_nv.setVisibility(View.VISIBLE);
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                                    }
+
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -227,7 +256,9 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, themTaiKhoanFragment).addToBackStack(null).commit();
     }
 
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDuLieuNhanVienFirebase();
+    }
 }
