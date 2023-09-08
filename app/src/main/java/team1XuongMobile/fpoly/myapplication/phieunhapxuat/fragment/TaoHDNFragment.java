@@ -153,6 +153,8 @@ public class TaoHDNFragment extends Fragment {
                         .commit();
             }
         });
+
+
         btnTaoDonNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,15 +208,68 @@ public class TaoHDNFragment extends Fragment {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
-                                                ChiTietHDNFragment fragment = new ChiTietHDNFragment();
-                                                Bundle bundle = new Bundle();
-                                                bundle.putString("idPhieuNhap", id_phieunhap);
-                                                fragment.setArguments(bundle);
-                                                requireActivity().getSupportFragmentManager()
-                                                        .beginTransaction()
-                                                        .replace(R.id.layout_content, fragment)
-                                                        .addToBackStack(null)
-                                                        .commit();
+                                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
+
+                                                databaseReference.child(idSanPham).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        String old_quantity_product = "" + snapshot.child("total_quantity").getValue();
+                                                        Log.d("quantity", "onDataChange: old quantity product " + old_quantity_product);
+                                                        int oldQuantityInt = 0;
+
+                                                        try {
+                                                            if (old_quantity_product == null) {
+                                                                oldQuantityInt = 0;
+                                                            } else {
+                                                                oldQuantityInt = Integer.parseInt(old_quantity_product);
+
+                                                            }
+
+
+                                                        } catch (Exception e) {
+                                                            Log.d("Quantity", "onDataChange: can not parse quantity to int " + e.getMessage());
+                                                        }
+                                                        int total_quantity = oldQuantityInt + soLuongSp;
+                                                        Log.d("Quantity", "onDataChange: total quantity after parse " + total_quantity);
+
+                                                        Log.d("Quantity", "newQuantityInt: " + soLuongSp);
+                                                        HashMap<String, Object> hashmapQuantity = new HashMap<>();
+                                                        hashmapQuantity.put("id_product_quantity", "" + idSanPham);
+                                                        hashmapQuantity.put("total_quantity", "" + total_quantity);
+                                                        Log.d("Quantity", "onDataChange: total quantity " + total_quantity);
+
+
+                                                        databaseReference.child(idSanPham).setValue(hashmapQuantity)
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void unused) {
+                                                                        ChiTietHDNFragment fragment = new ChiTietHDNFragment();
+                                                                        Bundle bundle = new Bundle();
+                                                                        bundle.putString("idPhieuNhap", id_phieunhap);
+                                                                        fragment.setArguments(bundle);
+                                                                        requireActivity().getSupportFragmentManager()
+                                                                                .beginTransaction()
+                                                                                .replace(R.id.layout_content, fragment)
+                                                                                .addToBackStack(null)
+                                                                                .commit();
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Log.d("Quantity", "onFailure: can not up quantity of id by " + e.getMessage());
+                                                                    }
+                                                                });
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+
+
+//
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override

@@ -168,6 +168,7 @@
                     android:visibility="gone"
                     android:drawableStart="@drawable/warning"
                     android:drawablePadding="@dimen/_5sdp"/>
+
             </LinearLayout>
 
             <RelativeLayout
