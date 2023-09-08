@@ -26,7 +26,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/view_khongDuLieu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_400sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_below="@id/ed_timKiemDVC"
         android:layout_marginHorizontal="@dimen/_14sdp"
@@ -34,13 +34,14 @@
         app:cardCornerRadius="@dimen/_20sdp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             >
             <ImageView
                 android:layout_width="@dimen/_200sdp"
                 android:layout_height="@dimen/_200sdp"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_80sdp"
                 android:src="@drawable/img_khong_co_du_lieu"
 
                 />
