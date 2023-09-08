@@ -238,6 +238,7 @@ public class TongQuanFragment extends Fragment {
 
 
 
+
     }
 
     private void loadDataPhieuNhap(String selectedDate) {
@@ -323,137 +324,168 @@ public class TongQuanFragment extends Fragment {
     int slSpN = 0, slSpX = 0;
 
     private void loadDataHangTon() {
-        ArrayList<PhieuXuat> phieuXuatArrayList1 = new ArrayList<>();
-        ArrayList<PhieuNhap> phieuNhapArrayList1 = new ArrayList<>();
-
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(firebaseAuth.getCurrentUser().getUid());
-        binding.progressCircularHangTon.setVisibility(View.VISIBLE);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//        ArrayList<PhieuXuat> phieuXuatArrayList1 = new ArrayList<>();
+//        ArrayList<PhieuNhap> phieuNhapArrayList1 = new ArrayList<>();
+//
+//        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(firebaseAuth.getCurrentUser().getUid());
+//        binding.progressCircularHangTon.setVisibility(View.VISIBLE);
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String kh = "" + snapshot.child("kh").getValue(String.class);
+//
+//                DatabaseReference refSllPhieuXuat = FirebaseDatabase.getInstance().getReference("phieu_xuat");
+//                Query query = refSllPhieuXuat.orderByChild("kh").equalTo(kh);
+//                query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        phieuXuatArrayList1.clear();
+//                        for (DataSnapshot ds : snapshot.getChildren()) {
+//                            PhieuXuat objectXuat = ds.getValue(PhieuXuat.class);
+//                            phieuXuatArrayList1.add(objectXuat);
+//                        }
+//                        float totalMoneyPX = 0;
+//                        for (PhieuXuat phieuXuat : phieuXuatArrayList1) {
+//                            try {
+//                                float moneyPX = Float.parseFloat(phieuXuat.getTong_tien_hang());
+//                                totalMoneyPX += moneyPX;
+//                                slSpX = Integer.parseInt(phieuXuat.getSo_luong());
+//                                totalSLSPXuat += slSpX;
+//                                float tienHangXuat = Float.parseFloat(phieuXuat.getTong_tien());
+//                                totalTienHangXuat += tienHangXuat;
+//                            } catch (Exception e) {
+//                                Log.d(TAG, "onDataChange: can not parse money" + e.getMessage());
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String kh = "" + snapshot.child("kh").getValue(String.class);
+//
+//                DatabaseReference refSllPhieuXuat = FirebaseDatabase.getInstance().getReference("phieu_nhap");
+//                Query query = refSllPhieuXuat.orderByChild("kh").equalTo(kh);
+//                query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        phieuNhapArrayList1.clear();
+//                        for (DataSnapshot ds : snapshot.getChildren()) {
+//                            PhieuNhap objectNhap = ds.getValue(PhieuNhap.class);
+//                            phieuNhapArrayList1.add(objectNhap);
+//                        }
+//                        Log.d(TAG, "onDataChange: data phieu nhap array list" + phieuNhapArrayList1.size());
+//                        float totalMoneyPN = 0;
+//                        for (PhieuNhap phieuNhap : phieuNhapArrayList1) {
+//                            try {
+//                                float moneyPN = Float.parseFloat(phieuNhap.getTong_tien_hang());
+//                                totalMoneyPN += moneyPN;
+//                                slSpN = Integer.parseInt(phieuNhap.getSo_luong());
+//                                float tienHangNhap = Float.parseFloat(phieuNhap.getTong_tien());
+//                                totalTienHangNhap += tienHangNhap;
+//                                totalSlSPNhap += slSpN;
+//
+//                            } catch (Exception e) {
+//                                Log.d(TAG, "onDataChange: can not parse money" + e.getMessage());
+//                            }
+//                        }
+//                        Log.d(TAG, "onDataChange: total so luong san pham nhap " + totalSlSPNhap + totalSLSPXuat);
+//                        binding.progressCircularHangTon.setVisibility(View.GONE);
+//                        caculateHangTon(totalSlSPNhap, totalSLSPXuat);
+//                        caculateTienTon(totalTienHangNhap, totalTienHangXuat);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//
+//        Log.d(TAG, "loadDataHangTon: " + totalSlSPNhap + totalSLSPXuat);
+        DatabaseReference referenceHangTon = FirebaseDatabase.getInstance().getReference("total_quantity");
+        referenceHangTon.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String kh = "" + snapshot.child("kh").getValue(String.class);
+                int total_quantity_hang_ton = 0; // Initialize it outside the loop
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String total_quantity = "" + ds.child("total_quantity").getValue();
+                    try {
+                        int total_quantity_int = 0;
 
-                DatabaseReference refSllPhieuXuat = FirebaseDatabase.getInstance().getReference("phieu_xuat");
-                Query query = refSllPhieuXuat.orderByChild("kh").equalTo(kh);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        phieuXuatArrayList1.clear();
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            PhieuXuat objectXuat = ds.getValue(PhieuXuat.class);
-                            phieuXuatArrayList1.add(objectXuat);
+                        if (total_quantity != null) {
+                            total_quantity_int = Integer.parseInt(total_quantity);
                         }
-                        float totalMoneyPX = 0;
-                        for (PhieuXuat phieuXuat : phieuXuatArrayList1) {
-                            try {
-                                float moneyPX = Float.parseFloat(phieuXuat.getTong_tien_hang());
-                                totalMoneyPX += moneyPX;
-                                slSpX = Integer.parseInt(phieuXuat.getSo_luong());
-                                totalSLSPXuat += slSpX;
-                                float tienHangXuat = Float.parseFloat(phieuXuat.getTong_tien());
-                                totalTienHangXuat += tienHangXuat;
-                            } catch (Exception e) {
-                                Log.d(TAG, "onDataChange: can not parse money" + e.getMessage());
-                            }
-                        }
+
+                        total_quantity_hang_ton += total_quantity_int; // Add the quantity to the total
+                    } catch (Exception e) {
+                        Log.d(TAG, "onDataChange: can not parse total quantity " + e.getMessage());
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
+                // After the loop, set the TextView with the final total quantity
+                binding.tvSlHangTon.setText(String.valueOf(total_quantity_hang_ton));
+                Log.d(TAG, "onDataChange: total_quantity_int bang " + total_quantity_hang_ton);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String kh = "" + snapshot.child("kh").getValue(String.class);
-
-                DatabaseReference refSllPhieuXuat = FirebaseDatabase.getInstance().getReference("phieu_nhap");
-                Query query = refSllPhieuXuat.orderByChild("kh").equalTo(kh);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        phieuNhapArrayList1.clear();
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            PhieuNhap objectNhap = ds.getValue(PhieuNhap.class);
-                            phieuNhapArrayList1.add(objectNhap);
-                        }
-                        Log.d(TAG, "onDataChange: data phieu nhap array list" + phieuNhapArrayList1.size());
-                        float totalMoneyPN = 0;
-                        for (PhieuNhap phieuNhap : phieuNhapArrayList1) {
-                            try {
-                                float moneyPN = Float.parseFloat(phieuNhap.getTong_tien_hang());
-                                totalMoneyPN += moneyPN;
-                                slSpN = Integer.parseInt(phieuNhap.getSo_luong());
-                                float tienHangNhap = Float.parseFloat(phieuNhap.getTong_tien());
-                                totalTienHangNhap += tienHangNhap;
-                                totalSlSPNhap += slSpN;
-
-                            } catch (Exception e) {
-                                Log.d(TAG, "onDataChange: can not parse money" + e.getMessage());
-                            }
-                        }
-                        Log.d(TAG, "onDataChange: total so luong san pham nhap " + totalSlSPNhap + totalSLSPXuat);
-                        binding.progressCircularHangTon.setVisibility(View.GONE);
-                        caculateHangTon(totalSlSPNhap, totalSLSPXuat);
-                        caculateTienTon(totalTienHangNhap, totalTienHangXuat);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle onCancelled if needed
             }
         });
 
 
-        Log.d(TAG, "loadDataHangTon: " + totalSlSPNhap + totalSLSPXuat);
-
 
     }
 
-    private void caculateHangTon(int slSpN, int slSpX) {
-        try {
-            int sllHangTon = slSpN - slSpX;
-            Log.d(TAG, "caculateHangTon: " + sllHangTon + slSpN + slSpX);
-            binding.tvSlHangTon.setText(String.valueOf(sllHangTon));
+//    private void caculateHangTon(int slSpN, int slSpX) {
+//        try {
+//            int sllHangTon = slSpN - slSpX;
+//            Log.d(TAG, "caculateHangTon: " + sllHangTon + slSpN + slSpX);
+//            binding.tvSlHangTon.setText(String.valueOf(sllHangTon));
+//
+//        } catch (Exception e) {
+//            Log.d(TAG, "caculateHangTon: can not convert  " + e.getMessage());
+//        }
+//
+//
+//    }
 
-        } catch (Exception e) {
-            Log.d(TAG, "caculateHangTon: can not convert  " + e.getMessage());
-        }
-
-
-    }
-
-    private void caculateTienTon(float totalTienHangNhap, float totalTienHangXuat) {
-        try {
-            float totalTienHangTon = totalTienHangNhap - totalTienHangXuat;
-
-            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            String formattedTotalValue = currencyFormatter.format(totalTienHangTon);
-            binding.tvTienTonKho.setText(formattedTotalValue);
-
-        } catch (Exception e) {
-
-        }
-    }
+//    private void caculateTienTon(float totalTienHangNhap, float totalTienHangXuat) {
+//        try {
+//            float totalTienHangTon = totalTienHangNhap - totalTienHangXuat;
+//
+//            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+//            String formattedTotalValue = currencyFormatter.format(totalTienHangTon);
+//            binding.tvTienTonKho.setText(formattedTotalValue);
+//
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
     private void hideShowMoneyLoiNhuanFunction() {
         binding.hideShowMoneyLoiNhuan.setOnClickListener(new View.OnClickListener() {

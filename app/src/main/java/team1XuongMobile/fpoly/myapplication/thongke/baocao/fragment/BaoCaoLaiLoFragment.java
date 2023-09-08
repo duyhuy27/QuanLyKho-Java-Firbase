@@ -86,6 +86,13 @@ public class BaoCaoLaiLoFragment extends Fragment {
             }
         });
 
+        binding.buttonQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
         binding.tvPickMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
