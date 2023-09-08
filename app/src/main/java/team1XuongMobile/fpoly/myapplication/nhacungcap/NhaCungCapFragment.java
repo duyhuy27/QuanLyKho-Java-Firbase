@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.nhacungcap;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -46,6 +47,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
     public static final String TAG = "NhaCungCapFragment";
     public static final String KEY_ID = "id";
     private String kh = "";
+    private ProgressDialog progressDialog;
 
 
 
@@ -63,6 +65,8 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
         binding = FragmentDanhSachNCCBinding.inflate(inflater, container,false);
         nhaCungCapModelArrayList = new ArrayList<>();
         chucNangInterfaceNhaCungCap = this;
+        //an du view khi ko co du lieu
+        binding.viewKhongDuLieu.setVisibility(View.GONE);
         laydulieudangnhap();
 //        loadDataFirebase();
         loadDuLieuTuFirebase();
@@ -126,6 +130,9 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
 //        });
 //    }
     private void loadDuLieuTuFirebase() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
         nhaCungCapModelArrayList = new ArrayList<>();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -133,6 +140,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
             // User not logged in, handle the case as needed
             return;
         }
+        progressDialog.show();
 
         String uid = firebaseUser.getUid();
 
@@ -155,10 +163,18 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
                                     nhaCungCapModelArrayList.add(themncc);
                                 }
                             }
+                            progressDialog.dismiss();
+                            if (nhaCungCapModelArrayList.size()==0){
+                                binding.viewKhongDuLieu.setVisibility(View.VISIBLE);
+                                binding.viewCoDuLieu.setVisibility(View.GONE);
+                            }else {
+                                binding.viewKhongDuLieu.setVisibility(View.GONE);
+                                binding.viewCoDuLieu.setVisibility(View.VISIBLE);
 
-                            NhaCungCapAdapter nhaCungCapAdapter = new NhaCungCapAdapter(nhaCungCapModelArrayList, getContext(), chucNangInterfaceNhaCungCap);
-                            binding.rcvDanhSachNCC.setLayoutManager(new LinearLayoutManager(getContext()));
-                            binding.rcvDanhSachNCC.setAdapter(nhaCungCapAdapter);
+                                NhaCungCapAdapter nhaCungCapAdapter = new NhaCungCapAdapter(nhaCungCapModelArrayList, getContext(), chucNangInterfaceNhaCungCap);
+                                binding.rcvDanhSachNCC.setLayoutManager(new LinearLayoutManager(getContext()));
+                                binding.rcvDanhSachNCC.setAdapter(nhaCungCapAdapter);
+                            }
                         }
 
                         @Override
