@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.donvivanchuyen;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -48,6 +49,7 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
     private VanChuyenAdapter.chucNangInterfaceVanChuyen chucNangInterfaceVanChuyen;
     public static final String KEY_ID = "id";
     private String kh = "";
+    private  ProgressDialog progressDialog;
 
 
 
@@ -64,6 +66,7 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
         // Inflate the layout for this fragment
         binding = FragmentDanhSachDVCBinding.inflate(inflater, container, false);
         chucNangInterfaceVanChuyen = this;
+        binding.viewKhongDuLieu.setVisibility(View.GONE);
         laydulieudangnhap();
         listener();
 //        loadDataFireBase();
@@ -130,6 +133,10 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
 //        });
 //    }
     private void loadDuLieuTuFirebase() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         danhSachDVCList = new ArrayList<>();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -159,10 +166,18 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
                                     danhSachDVCList.add(themdvc);
                                 }
                             }
+                            progressDialog.dismiss();
+                            if (danhSachDVCList.size() == 0) {
+                                binding.viewKhongDuLieu.setVisibility(View.VISIBLE);
+                                binding.viewCoDuLieu.setVisibility(View.GONE);
+                            } else {
+                                binding.viewKhongDuLieu.setVisibility(View.GONE);
+                                binding.viewCoDuLieu.setVisibility(View.VISIBLE);
 
-                            adapter = new VanChuyenAdapter(danhSachDVCList,getContext(),chucNangInterfaceVanChuyen);
-                            binding.rcvDanhSachDVC.setLayoutManager(new LinearLayoutManager(getContext()));
-                            binding.rcvDanhSachDVC.setAdapter(adapter);
+                                adapter = new VanChuyenAdapter(danhSachDVCList, getContext(), chucNangInterfaceVanChuyen);
+                                binding.rcvDanhSachDVC.setLayoutManager(new LinearLayoutManager(getContext()));
+                                binding.rcvDanhSachDVC.setAdapter(adapter);
+                            }
                         }
 
                         @Override
@@ -226,7 +241,6 @@ public class VanChuyenFragment extends Fragment implements VanChuyenAdapter.chuc
         builder.setNegativeButton("không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getContext(), "Bạn chọn không xóa", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
 
             }
