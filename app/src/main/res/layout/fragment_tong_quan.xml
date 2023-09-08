@@ -232,15 +232,15 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp"/>
                         </RelativeLayout>
-                        <TextView
-                            android:id="@+id/tv_tien_ton_kho"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="0 vnd"
-                            android:textColor="@color/xanh_lam"
-                            android:textSize="@dimen/_16sdp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_tien_ton_kho"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:maxLines="1"-->
+<!--                            android:text="0 vnd"-->
+<!--                            android:textColor="@color/xanh_lam"-->
+<!--                            android:textSize="@dimen/_16sdp"-->
+<!--                            android:textStyle="bold" />-->
 
 
                     </LinearLayout>
