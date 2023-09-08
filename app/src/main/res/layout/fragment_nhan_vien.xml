@@ -58,10 +58,29 @@
                 android:text="Danh Sách Nhân Viên"
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imgv_none_fragmentnv"
+                android:layout_below="@+id/a2"
+                android:src="@drawable/none"
+                android:scaleType="centerInside"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_220sdp"/>
+
+            <TextView
+                android:id="@+id/tv_none_fragmentnv"
+                android:layout_below="@+id/imgv_none_fragmentnv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center_horizontal"
+                android:text="Chưa Có Nhân Viên Nào!"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyc_nhanvien"
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/a2"
