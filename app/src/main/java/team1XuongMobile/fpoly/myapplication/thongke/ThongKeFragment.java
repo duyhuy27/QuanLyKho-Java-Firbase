@@ -26,9 +26,6 @@ public class ThongKeFragment extends Fragment {
     ViewPager2 viewPagerThongke;
     TabLayout_ThongKeAdapter tabLayout_thongKeAdapter;
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

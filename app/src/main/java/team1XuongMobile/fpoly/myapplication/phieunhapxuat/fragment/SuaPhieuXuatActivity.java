@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,14 +40,14 @@ import team1XuongMobile.fpoly.myapplication.phieunhapxuat.listener.SanPhamSuaPhi
 public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSuaPhieuXuatListener,
         KhachHangSuaPhieuXuatListener, DonViVanChuyenSuaPhieuXuatListener {
     protected TextView tvTenSpX, tvMaSpX, tvSoTienSpX, tv_tongSoLuongX, tv_soTienHangX, tv_thueX,
-            tvKhachHangX, tvDonViVanChuyenX, tv_tamTinhX;
+            tvKhachHangX, tvDonViVanChuyenX, tv_tamTinhX, tv_thieu_hang;
     protected EditText edSoLuongSpX;
     protected ImageView imgTangSlX, imgGiamSlX;
     protected AppCompatButton button_luuPhieuXuat;
     protected RelativeLayout relativeKhachHang, relativeDonViVanChuyen;
     protected LinearLayout linearTrangThaiSpX;
     private String idPhieuXuat, tenSanPham, maSanPham, soTienCuaSanPham, tongSoLuong,
-            soTienHang, thue, khachHang, donViVanChuyen, tamTinh, soLuong;
+            soTienHang, thue, khachHang, donViVanChuyen, tamTinh, soLuong, idSanPham;
     private double giaTien, thueSanPham, tamTinhSanPham, soTienHangSanPham, tienThue;
     private int soLuongSanPham, tongSoLuongSanPham;
     FirebaseAuth firebaseAuth;
@@ -81,6 +83,8 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
         // RelativeLayout
         relativeKhachHang = findViewById(R.id.relativeKhachHang);
         relativeDonViVanChuyen = findViewById(R.id.relativeDonViVanChuyen);
+
+        tv_thieu_hang = findViewById(R.id.tv_thieu_hang);
         // LinearLayout
         linearTrangThaiSpX = findViewById(R.id.linearTrangThaiSpX);
         layDuLieuDangNhap();
@@ -174,11 +178,7 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(SuaPhieuXuatActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                        sharedPreferences.edit().putString("idPhieuXuat", idPhieuXuat).apply();
-                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -196,6 +196,60 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
 
                     }
                 });
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
+        databaseReference.child(idSanPham).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String old_quantity_product = "" + snapshot.child("total_quantity").getValue();
+                Log.d("quantity", "onDataChange: old quantity product " + old_quantity_product);
+                int oldQuantityInt = 0;
+
+                try {
+                    if (old_quantity_product == null) {
+                        oldQuantityInt = 0;
+                    } else {
+                        oldQuantityInt = Integer.parseInt(old_quantity_product);
+                        soLuongInt = Integer.parseInt(soLuong);
+                    }
+
+
+                } catch (Exception e) {
+                    Log.d("Quantity", "onDataChange: can not parse quantity to int " + e.getMessage());
+                }
+                int total_quantity = oldQuantityInt + old_quantity - soLuongSanPham;
+                Log.d("Quantity", "onDataChange: total quantity after parse " + total_quantity);
+                Log.d("Quantity", "onDataChange: old quantity when create " + old_quantity);
+
+                Log.d("Quantity", "quantity clck by usser : " + soLuongInt);
+                HashMap<String, Object> hashmapQuantity = new HashMap<>();
+                hashmapQuantity.put("id_product_quantity", "" + idSanPham);
+                hashmapQuantity.put("total_quantity", "" + total_quantity);
+                Log.d("Quantity", "onDataChange: total quantity " + total_quantity);
+
+                databaseReference.child(idSanPham).setValue(hashmapQuantity).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(SuaPhieuXuatActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                sharedPreferences.edit().putString("idPhieuXuat", idPhieuXuat).apply();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -219,33 +273,114 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
                 .addToBackStack(null)
                 .commit();
     }
-
+private int total_quantity_product_out_int;
     private void clickGiamSoLuongSanPham() {
-        if (soLuongSanPham > 1) {
-            soLuongSanPham--;
-            edSoLuongSpX.setText(String.valueOf(soLuongSanPham));
-            soTienHangSanPham = giaTien * soLuongSanPham;
-            tv_soTienHangX.setText(String.valueOf(soTienHangSanPham));
-            tv_tongSoLuongX.setText(String.valueOf(soLuongSanPham));
-            tienThue = (soTienHangSanPham * thueSanPham) / 100;
-            tamTinhSanPham = soTienHangSanPham + tienThue;
-            tv_tamTinhX.setText(String.valueOf(tamTinhSanPham));
-        }
-    }
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
 
+        databaseReference.child(idSanPham).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String total_quantity_product_out = "" + snapshot.child("total_quantity").getValue();
+                total_quantity_product_out_int = 0;
+                try {
+                    if (total_quantity_product_out == null) {
+                        total_quantity_product_out_int = 0;
+                    } else {
+                        total_quantity_product_out_int = Integer.parseInt(total_quantity_product_out);
+
+                    }
+                } catch (Exception e) {
+                    Log.d("Quantity Out", "onDataChange: can not parse quantity by " + e.getMessage());
+                }
+
+                if (soLuongSanPham > 1) {
+                    soLuongSanPham--;
+                    edSoLuongSpX.setText(String.valueOf(soLuongSanPham));
+                    soTienHangSanPham = giaTien * soLuongSanPham;
+                    tv_soTienHangX.setText(String.valueOf(soTienHangSanPham));
+                    tv_tongSoLuongX.setText(String.valueOf(soLuongSanPham));
+                    tienThue = (soTienHangSanPham * thueSanPham) / 100;
+                    tamTinhSanPham = soTienHangSanPham + tienThue;
+                    tv_tamTinhX.setText(String.valueOf(tamTinhSanPham));
+//        }
+                    Log.d("Quantity", "onDataChange: old quantity when after update " + old_quantity);
+
+                    if (soLuongSanPham > total_quantity_product_out_int + old_quantity) {
+                        tv_thieu_hang.setVisibility(View.VISIBLE);
+                    } else {
+                        tv_thieu_hang.setVisibility(View.GONE);
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+private int soLuongInt;
     private void clickTangSoLuongSanPham() {
-        if (soLuongSanPham < 1000) {
-            soLuongSanPham++;
-            edSoLuongSpX.setText(String.valueOf(soLuongSanPham));
-            soTienHangSanPham = giaTien * soLuongSanPham;
-            tv_soTienHangX.setText(String.valueOf(soTienHangSanPham));
-            tv_tongSoLuongX.setText(String.valueOf(soLuongSanPham));
-            tienThue = (soTienHangSanPham * thueSanPham) / 100;
-            tamTinhSanPham = soTienHangSanPham + tienThue;
-            tv_tamTinhX.setText(String.valueOf(tamTinhSanPham));
-        }
-    }
 
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
+
+        databaseReference.child(idSanPham).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String total_quantity_product_out = "" + snapshot.child("total_quantity").getValue();
+                total_quantity_product_out_int = 0;
+
+                try {
+                    if (total_quantity_product_out == null) {
+                        total_quantity_product_out_int = 0;
+
+                    } else {
+                        total_quantity_product_out_int = Integer.parseInt(total_quantity_product_out);
+
+                    }
+                } catch (Exception e) {
+                    Log.d("Quantity Out", "onDataChange: can not parse quantity by " + e.getMessage());
+                }
+                if (soLuongSanPham < 1000) {
+                    soLuongSanPham++;
+                    edSoLuongSpX.setText(String.valueOf(soLuongSanPham));
+                    soTienHangSanPham = giaTien * soLuongSanPham;
+                    tv_soTienHangX.setText(String.valueOf(soTienHangSanPham));
+                    tv_tongSoLuongX.setText(String.valueOf(soLuongSanPham));
+                    tienThue = (soTienHangSanPham * thueSanPham) / 100;
+                    tamTinhSanPham = soTienHangSanPham + tienThue;
+                    tv_tamTinhX.setText(String.valueOf(tamTinhSanPham));
+                }
+
+                Log.d("Quantity Out", "quantity total of product : " + total_quantity_product_out_int);
+                Log.d("Quantity Out", "quantity of product click by user: " + soLuongSanPham);
+                Log.d("Quantity", "onDataChange: old quantity when after update " + old_quantity);
+
+                if (soLuongSanPham > total_quantity_product_out_int + old_quantity ) {
+                    tv_thieu_hang.setVisibility(View.VISIBLE);
+                } else {
+                    tv_thieu_hang.setVisibility(View.GONE);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+    }
+private int old_quantity = 0;
     private void loadFirebasePhieuXuat() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phieu_xuat");
         reference.child(idPhieuXuat).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -261,6 +396,11 @@ public class SuaPhieuXuatActivity extends AppCompatActivity implements SanPhamSu
                 khachHang = String.valueOf(snapshot.child("ten_kh").getValue());
                 donViVanChuyen = String.valueOf(snapshot.child("ten_don_vi_van_chuyen").getValue());
                 tamTinh = String.valueOf(snapshot.child("tong_tien_hang").getValue());
+                idSanPham = String.valueOf(snapshot.child("idSanPham").getValue());
+
+                old_quantity = Integer.parseInt(soLuong);
+
+                Log.d("Quantity", "onDataChange: quantity old " + old_quantity);
 
                 suDungDuLieuPhieuXuat(tenSanPham, maSanPham, soTienCuaSanPham, soLuong, tongSoLuong, soTienHang, thue, khachHang, donViVanChuyen, tamTinh);
             }

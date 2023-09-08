@@ -235,6 +235,9 @@ public class TongQuanFragment extends Fragment {
                         // Handle onCancelled
                     }
                 });
+
+
+
     }
 
     private void loadDataPhieuNhap(String selectedDate) {

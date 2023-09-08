@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +41,7 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
     private AppCompatButton button_luuPhieuNhap;
     private ImageView imgTangSl, imgGiamSl;
     private String idPhieuNhap, tenSanPham, maSanPham, soTienSanPham, tongSoLuong, soTienHang,
-            thue, nhaCungCap, tamTinh, soLuong;
+            thue, nhaCungCap, tamTinh, soLuong, idSanPHam;
     private int soLuongSanPham, tongSoLuongSanPham;
     private double giaTien, soTienHangSanPham, tamTinhSanPham, thueSanPham, tienThue;
     private RelativeLayout relativeNhaCC;
@@ -145,10 +146,62 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
                                     @Override
                                     public void onSuccess(Void unused) {
 
-                                        Toast.makeText(SuaPhieuNhapActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                                        sharedPreferences.edit().putString("idPhieuNhap", idPhieuNhap).apply();
-                                        finish();
+//
+                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
+
+                                        databaseReference.child(idSanPHam).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String old_quantity_product = "" + snapshot.child("total_quantity").getValue();
+                                                Log.d("quantity", "onDataChange: old quantity product " + old_quantity_product);
+                                                int oldQuantityInt = 0;
+
+                                                try {
+                                                    if (old_quantity_product == null) {
+                                                        oldQuantityInt = 0;
+                                                    } else {
+                                                        oldQuantityInt = Integer.parseInt(old_quantity_product);
+
+                                                    }
+
+
+                                                } catch (Exception e) {
+                                                    Log.d("Quantity", "onDataChange: can not parse quantity to int " + e.getMessage());
+                                                }
+                                                int total_quantity = (oldQuantityInt - tongSoLuongSanPham) + soLuongSanPham;
+                                                Log.d("Quantity", "onDataChange: total quantity after parse " + total_quantity);
+
+                                                Log.d("Quantity", "old quantity after update by user: " + tongSoLuongSanPham);
+                                                Log.d("Quantity", "new quantity by user click : " + soLuongSanPham);
+                                                HashMap<String, Object> hashmapQuantity = new HashMap<>();
+                                                hashmapQuantity.put("id_product_quantity", "" + idSanPHam);
+                                                hashmapQuantity.put("total_quantity", "" + total_quantity);
+                                                Log.d("Quantity", "onDataChange: total quantity " + total_quantity);
+
+
+                                                databaseReference.child(idSanPHam).setValue(hashmapQuantity)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Toast.makeText(SuaPhieuNhapActivity.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
+                                                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                                                sharedPreferences.edit().putString("idPhieuNhap", idPhieuNhap).apply();
+                                                                finish();
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.d("Quantity", "onFailure: can not up quantity of id by " + e.getMessage());
+                                                            }
+                                                        });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                                     }
                                 });
 
@@ -231,6 +284,7 @@ public class SuaPhieuNhapActivity extends AppCompatActivity implements OnFragmen
                 thue = String.valueOf(snapshot.child("thue").getValue());
                 nhaCungCap = String.valueOf(snapshot.child("ten_nha_cc").getValue());
                 tamTinh = String.valueOf(snapshot.child("tong_tien_hang").getValue());
+                idSanPHam = String.valueOf(snapshot.child("idSanPham").getValue());
 
                 suDungDuLieuPhieuNhap(tenSanPham, maSanPham, soTienSanPham, soLuong, tongSoLuong, soTienHang, thue, nhaCungCap, tamTinh);
             }

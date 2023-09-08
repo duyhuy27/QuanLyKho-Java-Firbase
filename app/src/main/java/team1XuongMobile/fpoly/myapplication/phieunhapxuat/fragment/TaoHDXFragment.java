@@ -339,91 +339,126 @@ public class TaoHDXFragment extends Fragment {
         edSoLuongX.addTextChangedListener(textWatcher);
     }
 
-    private int totalSoluong = 0; // Declare this as a class-level variable
+    private int total_quantity_product_out_int = 0;
 
-    private void fetchTotalImportedQuantityFromFirebase(String idSp) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phieu_nhap");
-        Query query = databaseReference.orderByChild("idSanPham").equalTo(idSp);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void clickTangSoLuongSanPhamXuat() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
+
+        databaseReference.child(idSanPhamX).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                totalSoluong = 0;
+                String total_quantity_product_out = "" + snapshot.child("total_quantity").getValue();
+                total_quantity_product_out_int = 0;
+                try {
+                    if (total_quantity_product_out == null) {
+                        total_quantity_product_out_int = 0;
+                    } else {
+                        total_quantity_product_out_int = Integer.parseInt(total_quantity_product_out);
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String so_luong = dataSnapshot.child("so_luong").getValue(String.class);
-                    int sluongInt = Integer.parseInt(so_luong);
-                    totalSoluong += sluongInt;
+                    }
+                } catch (Exception e) {
+                    Log.d("Quantity Out", "onDataChange: can not parse quantity by " + e.getMessage());
                 }
 
-                Log.d("TEST Quantity", "Total imported quantity: " + totalSoluong);
+                soLuongSp++;
+                edSoLuongX.setText(String.valueOf(soLuongSp));
+
+                giaNhapBanDau = Double.parseDouble(giaXuat);
+                giaNhapMoi = giaNhapBanDau * soLuongSp;
+
+                BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+                String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+                tvSoTienHangX.setText(bd_giaNhapMoiString);
+
+                tvTongSoLuongX.setText(String.valueOf(soLuongSp));
+
+                thue = Integer.parseInt(thueXuat);
+                tienThue = (giaNhapMoi * thue) / 100;
+                tamTinh = giaNhapMoi + tienThue;
+
+                BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+                String bd_tamTinhString = bd_tamTinh.toPlainString();
+                tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+
+                Log.d("Quantity Out", "quantity total of product : " + total_quantity_product_out_int);
+                Log.d("Quantity Out", "quantity of product click by user: " + soLuongSp);
+
+                if (soLuongSp > total_quantity_product_out_int) {
+                    tv_thieu_hang.setVisibility(View.VISIBLE);
+                } else {
+                    tv_thieu_hang.setVisibility(View.GONE);
+
+                }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle onCancelled if needed
+
             }
         });
-    }
 
-    private void clickTangSoLuongSanPhamXuat() {
-        int previousQuantity = soLuongSp; // Store the previous quantity
 
-        soLuongSp++;
-        edSoLuongX.setText(String.valueOf(soLuongSp));
-
-        giaNhapBanDau = Double.parseDouble(giaXuat);
-        giaNhapMoi = giaNhapBanDau * soLuongSp;
-
-        BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
-        String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
-        tvSoTienHangX.setText(bd_giaNhapMoiString);
-
-        tvTongSoLuongX.setText(String.valueOf(soLuongSp));
-
-        thue = Integer.parseInt(thueXuat);
-        tienThue = (giaNhapMoi * thue) / 100;
-        tamTinh = giaNhapMoi + tienThue;
-
-        BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
-        String bd_tamTinhString = bd_tamTinh.toPlainString();
-        tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
-
-        // Check if the current quantity exceeds totalSoluong and show a warning
-        if (soLuongSp > totalSoluong) {
-            tv_thieu_hang.setVisibility(View.VISIBLE);
-            edSoLuongX.setText(String.valueOf(soLuongSp));
-        } else {
-            tv_thieu_hang.setVisibility(View.GONE);
-        }
     }
 
     private void clickGiamSoLuongSanPhamXuat() {
-        int previousQuantity = soLuongSp; // Store the previous quantity
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
 
-        soLuongSp--;
-        edSoLuongX.setText(String.valueOf(soLuongSp));
-        giaNhapBanDau = Double.parseDouble(giaXuat);
-        giaNhapMoi = giaNhapBanDau * soLuongSp;
+        databaseReference.child(idSanPhamX).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String total_quantity_product_out = "" + snapshot.child("total_quantity").getValue();
+                total_quantity_product_out_int = 0;
+                try {
+                    if (total_quantity_product_out == null) {
+                        total_quantity_product_out_int = 0;
+                    } else {
+                        total_quantity_product_out_int = Integer.parseInt(total_quantity_product_out);
 
-        BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
-        String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
-        tvSoTienHangX.setText(bd_giaNhapMoiString);
+                    }
+                } catch (Exception e) {
+                    Log.d("Quantity Out", "onDataChange: can not parse quantity by " + e.getMessage());
+                }
 
-        tvTongSoLuongX.setText(String.valueOf(soLuongSp));
-        thue = Integer.parseInt(thueXuat);
-        tamTinh = giaNhapMoi + thue;
+                soLuongSp--;
+                edSoLuongX.setText(String.valueOf(soLuongSp));
+                giaNhapBanDau = Double.parseDouble(giaXuat);
+                giaNhapMoi = giaNhapBanDau * soLuongSp;
 
-        BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
-        String bd_tamTinhString = bd_tamTinh.toPlainString();
-        tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+                BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
+                String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
+                tvSoTienHangX.setText(bd_giaNhapMoiString);
+
+                tvTongSoLuongX.setText(String.valueOf(soLuongSp));
+                thue = Integer.parseInt(thueXuat);
+                tamTinh = giaNhapMoi + thue;
+
+                BigDecimal bd_tamTinh = new BigDecimal(tamTinh);
+                String bd_tamTinhString = bd_tamTinh.toPlainString();
+                tvTamTinhX.setText(String.valueOf(bd_tamTinhString));
+
+                Log.d("Quantity Out", "quantity total of product : " + total_quantity_product_out_int);
+                Log.d("Quantity Out", "quantity of product click by user: " + soLuongSp);
+
+                if (soLuongSp > total_quantity_product_out_int) {
+                    tv_thieu_hang.setVisibility(View.VISIBLE);
+                } else {
+                    tv_thieu_hang.setVisibility(View.GONE);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        int previousQuantity = soLuongSp; // Store the previous quantity
+//
+
 
         // Check if the current quantity exceeds totalSoluong and show a warning
-        if (soLuongSp > totalSoluong) {
-            tv_thieu_hang.setVisibility(View.VISIBLE);
-            edSoLuongX.setText(String.valueOf(soLuongSp));
-        } else {
-            tv_thieu_hang.setVisibility(View.GONE);
-        }
     }
 
 
@@ -551,19 +586,67 @@ public class TaoHDXFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        ChiTietHDXFragment fragment = new ChiTietHDXFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("idPhieuXuat", String.valueOf(timestamp));
-                        fragment.setArguments(bundle);
-                        replaceFragment(fragment);
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("total_quantity");
+                        databaseReference.child(idSanPhamX).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String old_quantity_product = "" + snapshot.child("total_quantity").getValue();
+                                Log.d("quantity", "onDataChange: old quantity product " + old_quantity_product);
+                                int oldQuantityInt = 0;
+
+                                try {
+                                    if (old_quantity_product == null) {
+                                        oldQuantityInt = 0;
+                                    } else {
+                                        oldQuantityInt = Integer.parseInt(old_quantity_product);
+
+                                    }
+
+
+                                } catch (Exception e) {
+                                    Log.d("Quantity", "onDataChange: can not parse quantity to int " + e.getMessage());
+                                }
+                                int total_quantity = oldQuantityInt - soLuongSp;
+                                Log.d("Quantity", "onDataChange: total quantity after parse " + total_quantity);
+
+                                Log.d("Quantity", "quantity clck by usser : " + soLuongSp);
+                                HashMap<String, Object> hashmapQuantity = new HashMap<>();
+                                hashmapQuantity.put("id_product_quantity", "" + idSanPhamX);
+                                hashmapQuantity.put("total_quantity", "" + total_quantity);
+                                Log.d("Quantity", "onDataChange: total quantity " + total_quantity);
+
+                                databaseReference.child(idSanPhamX).setValue(hashmapQuantity).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                ChiTietHDXFragment fragment = new ChiTietHDXFragment();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("idPhieuXuat", String.valueOf(timestamp));
+                                                fragment.setArguments(bundle);
+                                                replaceFragment(fragment);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(requireContext(), "Fail", Toast.LENGTH_SHORT).show();
+
                     }
                 });
+
 
     }
 }
