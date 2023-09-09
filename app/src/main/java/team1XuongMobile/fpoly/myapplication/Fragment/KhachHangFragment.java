@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,6 +49,7 @@ import team1XuongMobile.fpoly.myapplication.R;
 
 public class KhachHangFragment extends Fragment implements KhachHangAdapter.ViewHolder.KhachHangInterface {
     RecyclerView recyclerView;
+    LinearLayout Khongkh_linearLayout;
     KhachHangAdapter khachHangAdapter;
     ArrayList<KhachHang> khachHangArrayList;
     private KhachHangFragment khachHangInterface;
@@ -76,6 +79,7 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
         recyclerView = view.findViewById(R.id.rcv_khachhang);
         fabThemkh = view.findViewById(R.id.fab_themkhachhang);
         inputsearchKhachHang = view.findViewById(R.id.edt_timkiem_khachhang);
+        Khongkh_linearLayout = view.findViewById(R.id.ll_khongdulieu_kh);
 
         khachHangInterface = this;
         firebaseAuth = FirebaseAuth.getInstance();
@@ -114,13 +118,18 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
 
     private void loadDuLieuKhachHangFirebase() {
         khachHangArrayList = new ArrayList<>();
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
             // User not logged in, handle the case as needed
             return;
         }
 
+        progressDialog.show();
         String uid = firebaseUser.getUid();
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
@@ -142,10 +151,18 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
                                     khachHangArrayList.add(khachHang);
                                 }
                             }
+                            progressDialog.dismiss();
+                            if (khachHangArrayList.size()==0){
+                                Khongkh_linearLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                Khongkh_linearLayout.setVisibility(View.GONE);
 
-                            khachHangAdapter = new KhachHangAdapter(getContext(), khachHangArrayList, khachHangInterface);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            recyclerView.setAdapter(khachHangAdapter);
+                                khachHangAdapter = new KhachHangAdapter(getContext(), khachHangArrayList, khachHangInterface);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                recyclerView.setAdapter(khachHangAdapter);
+                            }
+
+
                         }
 
                         @Override
@@ -176,31 +193,43 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
 
     @Override
     public void deleteKhachHangClick(String id) {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Bạn có muốn xóa hay không?");
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Đang xóa vui lòng chờ trong giây lát...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(id != null && !id.isEmpty()){
-                    ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Xóa Thất Bại", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    progressDialog.show();
+                    Handler handler = new Handler();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+
+                            progressDialog.dismiss();
+                            ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Xóa Thất Bại", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    };
+
+                    // Gửi runnable với thời gian chờ là 500 miliseconds
+                    handler.postDelayed(runnable, 500);
+
                 }
 
             }
@@ -208,7 +237,6 @@ public class KhachHangFragment extends Fragment implements KhachHangAdapter.View
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                progressDialog.dismiss();
                 dialog.dismiss();
             }
         });

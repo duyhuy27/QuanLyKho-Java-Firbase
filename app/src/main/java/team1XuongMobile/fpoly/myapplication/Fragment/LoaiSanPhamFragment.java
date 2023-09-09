@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,10 +42,12 @@ import team1XuongMobile.fpoly.myapplication.Fragment.LoaiSanPham.ThemLoaiSanPham
 import team1XuongMobile.fpoly.myapplication.Fragment.NhanVien.ChitietNVFragment;
 import team1XuongMobile.fpoly.myapplication.Model.LoaiSanPham;
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.nhacungcap.NhaCungCapAdapter;
 
 
 public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.ViewHolder.LoaiSanPhamInterface {
     RecyclerView recyclerView;
+    LinearLayout Khonglsp_linearLayout;
     LoaiSanPhamAdapter loaiSanPhamAdapter;
     ArrayList<LoaiSanPham> loaiSanPhamArrayList;
     private LoaiSanPhamAdapter.ViewHolder.LoaiSanPhamInterface loaiSanPhamInterface;
@@ -75,6 +79,7 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         recyclerView = view.findViewById(R.id.rcv_loaisanpham);
         fabThemLsp = view.findViewById(R.id.fab_themloaisanpham);
         inputsearchLoaiSP = view.findViewById(R.id.edt_timkiem_loaisanpham);
+        Khonglsp_linearLayout = view.findViewById(R.id.ll_khongdulieu_lsp);
 
         loaiSanPhamInterface = this;
 
@@ -119,14 +124,20 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
     }
 
     private void loadDuLieuLoaiSanPhamFirebase() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         loaiSanPhamArrayList = new ArrayList<>();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
             // User not logged in, handle the case as needed
             return;
         }
 
+        progressDialog.show();
         String uid = firebaseUser.getUid();
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(uid);
@@ -148,10 +159,18 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
                                     loaiSanPhamArrayList.add(themlsp);
                                 }
                             }
+                            progressDialog.dismiss();
+                            if (loaiSanPhamArrayList.size()==0){
+                                Khonglsp_linearLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                Khonglsp_linearLayout.setVisibility(View.GONE);
 
-                            loaiSanPhamAdapter = new LoaiSanPhamAdapter(getContext(), loaiSanPhamArrayList, loaiSanPhamInterface);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            recyclerView.setAdapter(loaiSanPhamAdapter);
+                                loaiSanPhamAdapter = new LoaiSanPhamAdapter(getContext(), loaiSanPhamArrayList, loaiSanPhamInterface);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                recyclerView.setAdapter(loaiSanPhamAdapter);
+                            }
+
+
                         }
 
                         @Override
@@ -182,31 +201,42 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
 
     @Override
     public void deleteLoaiSPClick(String id) {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("loai_sp");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Bạn có muốn xóa hay không?");
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Đang xóa vui lòng chờ trong giây lát...");
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(id != null && !id.isEmpty()){
-                    ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Xóa Thất Bại", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    progressDialog.show();
+                    Handler handler = new Handler();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            ref.child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(getContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Xóa Thất Bại", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    };
+
+                    // Gửi runnable với thời gian chờ là 500 miliseconds
+                    handler.postDelayed(runnable, 500);
                 }
 
             }
@@ -214,7 +244,6 @@ public class LoaiSanPhamFragment extends Fragment implements LoaiSanPhamAdapter.
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                progressDialog.dismiss();
                 dialog.dismiss();
             }
         });

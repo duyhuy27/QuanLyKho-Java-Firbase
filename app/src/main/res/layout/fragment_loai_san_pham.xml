@@ -47,6 +47,31 @@
                 android:text="Danh Sách loại sản phẩm"
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold" />
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_khongdulieu_lsp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/a2"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img_khong_co_du_lieu"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa có loại sản phẩm nào!"
+                    android:textSize="@dimen/_14sdp"
+                    android:layout_gravity="center"
+                    />
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_loaisanpham"
