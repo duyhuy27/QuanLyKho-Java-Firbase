@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -65,10 +66,15 @@ public class TaoHDXFragment extends Fragment {
     private double giaNhapBanDau = 0, giaNhapMoi, thue = 0, tamTinh, tienThue;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tao_h_d_x, container, false);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         layDuLieuDangNhap();
@@ -246,6 +252,7 @@ public class TaoHDXFragment extends Fragment {
     }
 
     private void layDuLieuDangNhap() {
+        progressDialog.show();
         firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             uid = firebaseUser.getUid();
@@ -254,6 +261,7 @@ public class TaoHDXFragment extends Fragment {
         reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.dismiss();
                 kh = String.valueOf(snapshot.child("kh").getValue());
                 tenNhanVienTao = "" + snapshot.child("username").getValue();
             }
@@ -275,11 +283,13 @@ public class TaoHDXFragment extends Fragment {
     }
 
     private void loadDataFirebaseChonSanPham(String id) {
+        progressDialog.show();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SanPham");
         reference.child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.dismiss();
                 tenSpXuat = String.valueOf(snapshot.child("tenSp").getValue());
                 maSpXuat = String.valueOf(snapshot.child("maSp").getValue());
                 giaXuat = String.valueOf(snapshot.child("giaBan").getValue());

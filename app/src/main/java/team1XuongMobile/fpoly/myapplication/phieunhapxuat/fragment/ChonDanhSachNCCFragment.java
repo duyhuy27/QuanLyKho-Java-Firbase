@@ -1,5 +1,6 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -36,6 +37,7 @@ public class ChonDanhSachNCCFragment extends Fragment {
     private ChonNhaCungCapListener listener;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -61,12 +63,17 @@ public class ChonDanhSachNCCFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
+
         loadFirebaseChonNhaCungCap();
 
         return view;
     }
 
     private void loadFirebaseChonNhaCungCap() {
+        progressDialog.show();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
         reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,6 +85,7 @@ public class ChonDanhSachNCCFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         chonNCCArrayList.clear();
+                        progressDialog.dismiss();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             ChonNCC objChonNCC = dataSnapshot.getValue(ChonNCC.class);
                             chonNCCArrayList.add(objChonNCC);

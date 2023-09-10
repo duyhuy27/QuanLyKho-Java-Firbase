@@ -2,6 +2,7 @@ package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -56,12 +57,17 @@ public class TaoHDNFragment extends Fragment {
     private AppCompatButton btnTaoDonNhap;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tao_h_d_n, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         layDuLieuDangNhap();
         // Ánh xạ các view
@@ -355,10 +361,12 @@ public class TaoHDNFragment extends Fragment {
     }
 
     private void loadDataFirebaseNhaCungCap() {
+        progressDialog.show();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nha_cung_cap");
         reference.child(String.valueOf(idNCC)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.dismiss();
                 tenNhaCungCap = String.valueOf(snapshot.child("ten_nha_cc").getValue());
                 tvNhaCungCap.setText(tenNhaCungCap);
             }
@@ -371,11 +379,13 @@ public class TaoHDNFragment extends Fragment {
     }
 
     public void loadDataFirebaseChonSanPham(String id) {
+        progressDialog.show();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SanPham");
         reference.child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.dismiss();
                 tenSpNhap = String.valueOf(snapshot.child("tenSp").getValue());
                 maSpNhap = String.valueOf(snapshot.child("maSp").getValue());
                 giaNhap = String.valueOf(snapshot.child("giaNhap").getValue());
@@ -400,6 +410,7 @@ public class TaoHDNFragment extends Fragment {
     }
 
     private void layDuLieuDangNhap() {
+        progressDialog.show();
         firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             uid = firebaseUser.getUid();
@@ -408,6 +419,7 @@ public class TaoHDNFragment extends Fragment {
         reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.dismiss();
                 kh = String.valueOf(snapshot.child("kh").getValue());
                 tenNhanVienTao = "" + snapshot.child("username").getValue();
 

@@ -1,9 +1,11 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -37,6 +39,8 @@ public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.Phie
     private ArrayList<PhieuNhap> list;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private ProgressDialog progressDialog;
+    private TextView tv01;
 
 
     @Override
@@ -44,6 +48,11 @@ public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.Phie
         View view = inflater.inflate(R.layout.fragment_phieu_nhap, container, false);
         fab_themPhieuNhap = view.findViewById(R.id.fab_themPhieuNhap);
         rcvPhieuNhap = view.findViewById(R.id.rcv_phieu_nhap);
+        tv01 = view.findViewById(R.id.tv01);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -67,6 +76,7 @@ public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.Phie
     }
 
     private void loadFirebasePhieuNhap() {
+        progressDialog.show();
         list = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
         reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,10 +89,16 @@ public class PhieuNhapFragment extends Fragment implements PhieuNhapAdapter.Phie
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         list.clear();
+                        progressDialog.dismiss();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             PhieuNhap objPhieuNhap = dataSnapshot.getValue(PhieuNhap.class);
                             list.add(objPhieuNhap);
                             Collections.reverse(list);
+                        }
+                        if (list.size() == 0) {
+                            tv01.setVisibility(View.VISIBLE);
+                        } else {
+                            tv01.setVisibility(View.GONE);
                         }
                         adapter = new PhieuNhapAdapter(getContext(), listener, list);
                         rcvPhieuNhap.setAdapter(adapter);
