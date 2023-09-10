@@ -42,6 +42,15 @@
                 android:id="@+id/rcv_phieu_nhap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Chưa có dữ liệu!"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

@@ -1,9 +1,11 @@
 package team1XuongMobile.fpoly.myapplication.phieunhapxuat.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +38,8 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
     private FirebaseUser firebaseUser;
     private ArrayList<PhieuXuat> list;
     private LinearLayoutManager layoutManager;
+    private TextView tv02;
+    private ProgressDialog progressDialog;
     PhieuXuatAdapter.ViewHolder.PhieuXuatInterface phieuXuatInterface;
     public static final String KEY_ID_PHIEU_XUAT = "id_px_bd";
 
@@ -45,6 +49,10 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         phieuXuatInterface = this;
 
@@ -62,6 +70,7 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
         rcvPhieuXuat = view.findViewById(R.id.rcv_phieu_xuat);
         // FloatingActionButton
         fabPhieuXuat = view.findViewById(R.id.fab_themPhieuXuat);
+        tv02 = view.findViewById(R.id.tv02);
     }
 
     private void initObjects() {
@@ -90,6 +99,7 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
     }
 
     private void loadFirebasePhieuXuat() {
+        progressDialog.show();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Accounts");
         reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -105,6 +115,12 @@ public class PhieuXuatFragment extends Fragment implements PhieuXuatAdapter.View
                             PhieuXuat objPhieuXuat = dataSnapshot.getValue(PhieuXuat.class);
                             list.add(objPhieuXuat);
                             Collections.reverse(list);
+                        }
+                        progressDialog.dismiss();
+                        if (list.size() == 0) {
+                            tv02.setVisibility(View.VISIBLE);
+                        } else {
+                            tv02.setVisibility(View.GONE);
                         }
                         adapter.setData(list);
                         adapter = new PhieuXuatAdapter(getContext(), list, phieuXuatInterface);
