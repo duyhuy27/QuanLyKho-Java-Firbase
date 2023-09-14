@@ -24,7 +24,9 @@
             android:backgroundTint="#E8E8E8"
             android:drawableEnd="@drawable/search"
             android:hint="Tìm kiếm loại sản phẩm"
-            android:padding="@dimen/_10sdp" />
+            android:padding="@dimen/_10sdp"
+            android:imeOptions="actionDone"
+            android:inputType="text"/>
 
         <RelativeLayout
 

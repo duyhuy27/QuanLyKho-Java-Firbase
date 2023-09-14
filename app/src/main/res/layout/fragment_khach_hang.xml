@@ -20,7 +20,9 @@
         android:backgroundTint="@color/white"
         android:drawableEnd="@drawable/search"
         android:hint="Tìm kiếm khách hàng"
-        android:padding="@dimen/_10sdp" />
+        android:padding="@dimen/_10sdp"
+        android:imeOptions="actionDone"
+        android:inputType="text"/>
 
 
     <ImageView

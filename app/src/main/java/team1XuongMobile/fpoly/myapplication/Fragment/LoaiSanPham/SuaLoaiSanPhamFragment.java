@@ -208,10 +208,11 @@ public class SuaLoaiSanPhamFragment extends Fragment {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     //Lấy giá trị của thuộc tính "ten_loai_sp" của mỗi con
                     String tenLoaiSP = child.child("ten_loai_sp").getValue(String.class);
+                    String idlspString = child.child("id_loai_sp").getValue(String.class);
                     //So sánh với tên loại sản phẩm bạn muốn thêm
-                    if (tenLoaiSP.equals(sua_ten_lspString)) {
+                    if (tenLoaiSP.equals(sua_ten_lspString) && !idlspString.equals(idlsp)) {
                         //Nếu bằng nhau, đặt biến trùng lặp là true và thoát khỏi vòng lặp
-                         isDuplicate = true;
+                        isDuplicate = true;
                         break;
                     }
                 }
@@ -250,6 +251,7 @@ public class SuaLoaiSanPhamFragment extends Fragment {
                                 }
                             });
                 }
+
             }
 
             @Override
