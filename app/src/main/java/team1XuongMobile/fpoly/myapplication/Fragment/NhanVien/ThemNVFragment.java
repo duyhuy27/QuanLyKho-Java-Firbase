@@ -28,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -50,6 +51,7 @@ public class ThemNVFragment extends Fragment {
     RadioButton danglam, danghi, tamnghi;
     String tenstring = "", emailstring = "", trangthai = "", vaitrostring = "", sdtstring = "", ngaystring = "", khstring = "";
     FirebaseUser firebaseUser;
+    boolean check;
 
 
     public ThemNVFragment() {
@@ -155,37 +157,68 @@ public class ThemNVFragment extends Fragment {
         }
         progressDialog.setTitle("Dang lưu...");
         progressDialog.show();
-        long timestamp = System.currentTimeMillis();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id", "" + timestamp);
-        hashMap.put("username", "" + tenstring);
-        hashMap.put("ngay_vaolam", "" + ngaystring);
-        hashMap.put("vaiTro", "" + vaitrostring);
-        hashMap.put("email", "" + emailstring);
-        hashMap.put("sdt", "" + sdtstring);
-        hashMap.put("trang_thai", "" + trangthai);
-        hashMap.put("uid", firebaseUser.getUid());
-        hashMap.put("timestamp", timestamp);
-        hashMap.put("kh", khstring);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        ref.child("" + timestamp)
-                .setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Thêm Thành Công", Toast.LENGTH_SHORT).show();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean isDuplicate = false;
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String emailccheck = child.child("email").getValue(String.class);
+                    String sdtcheck = child.child("sdt").getValue(String.class);
+                    String tencheck = child.child("username").getValue(String.class);
+
+                    if (emailccheck.equals(emailstring) || sdtcheck.equals(sdtstring) || tencheck.equals(tenstring)) {
+                        isDuplicate = true;
+                        break;
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Thêm Thất Bại", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+                if (isDuplicate) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "email hoặc tên hoặc số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
+                } else {
+                    long timestamp = System.currentTimeMillis();
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("id", "" + timestamp);
+                    hashMap.put("username", "" + tenstring);
+                    hashMap.put("ngay_vaolam", "" + ngaystring);
+                    hashMap.put("vaiTro", "" + vaitrostring);
+                    hashMap.put("email", "" + emailstring);
+                    hashMap.put("sdt", "" + sdtstring);
+                    hashMap.put("trang_thai", "" + trangthai);
+                    hashMap.put("uid", firebaseUser.getUid());
+                    hashMap.put("timestamp", timestamp);
+                    hashMap.put("kh", khstring);
+
+                    ref.child("" + timestamp)
+                            .setValue(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Thêm Thành công", Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Thêm Thất bại", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
+
 
     public void laydulieudangnhap() {
         firebaseUser = firebaseAuth.getCurrentUser();

@@ -78,8 +78,7 @@ public class NhanVienFragment extends Fragment implements NhanVienAdapter.nhanvi
         themnhanvien = view.findViewById(R.id.floatingbutton_themnhanvien);
         inputsearchNV = view.findViewById(R.id.edt_timkiem_nhanvien);
         firebaseAuth = FirebaseAuth.getInstance();
-        tv_none_nv.setVisibility(View.INVISIBLE);
-        imgv_none_nv.setVisibility(View.INVISIBLE);
+
 
 
         loadDuLieuNhanVienFirebase();

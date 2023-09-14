@@ -55,7 +55,7 @@ public class SuaNVFragment extends Fragment {
     Spinner suavaitro;
     RadioButton suadanglam, suadanghi, suatamnghi;
 
-    String suaten = "", suaemailstring = "", suavaitrostring = "", suasdtstring = "", trangthai = "",khstring = "";
+    String suaten = "", suaemailstring = "", suavaitrostring = "", suasdtstring = "", trangthai = "", khstring = "";
 
 
     public SuaNVFragment() {
@@ -153,31 +153,80 @@ public class SuaNVFragment extends Fragment {
         } else if (suatamnghi.isChecked()) {
             trangthai = "Tạm Nghỉ";
         }
-        progressDialog.setTitle("Dang lưu...");
-        progressDialog.show();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("username", "" + suaten);
-        hashMap.put("vaiTro", "" + suavaitrostring);
-        hashMap.put("email", "" + suaemailstring);
-        hashMap.put("sdt", "" + suasdtstring);
-        hashMap.put("trang_thai", "" + trangthai);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        ref.child("" + idNV)
-                .updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean checkemail = false, checksdt = false,checkten = false;
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String emailccheck = child.child("email").getValue(String.class);
+                    String sdtcheck = child.child("sdt").getValue(String.class);
+                    String tencheck = child.child("username").getValue(String.class);
+                    String id = child.child("id").getValue(String.class);
+                    if(id.equals(idNV)){
+                        continue;
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
+                    if (emailccheck.equals(suaemailstring)) {
+                        checkemail = true;
+                        break;
                     }
-                });
+                    if (sdtcheck.equals(suasdt)){
+                        checksdt = true;
+                        break;
+                    }
+                    if(tencheck.equals(suaten)){
+                        checkten = true;
+                        break;
+                    }
+
+                }
+                if (checkemail  ) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                }
+                else if(checksdt ){
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
+                } else if (checkten) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Tên đã tồn tại", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    progressDialog.setTitle("Dang lưu...");
+                    progressDialog.show();
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("username", "" + suaten);
+                    hashMap.put("vaiTro", "" + suavaitrostring);
+                    hashMap.put("email", "" + suaemailstring);
+                    hashMap.put("sdt", "" + suasdtstring);
+                    hashMap.put("trang_thai", "" + trangthai);
+
+                    ref.child("" + idNV)
+                            .updateChildren(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Sửa Thành Công", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Sửa Thất Bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 
@@ -194,6 +243,7 @@ public class SuaNVFragment extends Fragment {
             idNV = bundle.getString(KEY_ID_NHAN_VIEN);
         }
     }
+
     public void laydulieudangnhap() {
         firebaseUser = firebaseAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
@@ -202,7 +252,7 @@ public class SuaNVFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                khstring = ""+snapshot.child("kh").getValue();
+                khstring = "" + snapshot.child("kh").getValue();
 
             }
 
