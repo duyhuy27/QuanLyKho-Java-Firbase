@@ -116,95 +116,12 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/relative_02"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/doiMatKhau"
-                android:layout_marginHorizontal="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_20sdp">
-
-                <TextView
-                    android:id="@+id/text_01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/outline_settings_24"
-                    android:drawablePadding="10dp"
-                    android:text="Cài đặt chung"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_next" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relative_04"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/relative_02"
-                android:layout_marginHorizontal="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_20sdp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/icon_dienthoai"
-                    android:drawablePadding="10dp"
-                    android:text="Liên hệ"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_next" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/dieuKhoan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/relative_04"
-                android:layout_marginHorizontal="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_20sdp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/outline_privacy_tip_24"
-                    android:drawablePadding="10dp"
-                    android:text="Điều khoản và chính sách"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_next" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/xoaTk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dieuKhoan"
+                android:layout_below="@id/doiMatKhau"
                 android:layout_marginHorizontal="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_20sdp">
 
@@ -237,40 +154,12 @@
                 android:layout_marginTop="20dp"
                 android:background="#B2ABAB" />
 
-            <RelativeLayout
-                android:id="@+id/thongBao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/view1"
-                android:layout_marginHorizontal="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_20sdp">
-
-                <TextView
-                    android:id="@+id/text_03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/outline_notifications_24"
-                    android:drawablePadding="10dp"
-                    android:text="Thông báo"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_next" />
-
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tvDangXuat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/thongBao"
+                android:layout_below="@id/view1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:text="Đăng xuất"
