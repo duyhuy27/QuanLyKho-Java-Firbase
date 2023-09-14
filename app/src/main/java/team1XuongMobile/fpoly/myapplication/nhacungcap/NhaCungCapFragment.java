@@ -72,6 +72,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
         loadDuLieuTuFirebase();
 
         listener();
+
         return binding.getRoot();
 
     }
@@ -133,6 +134,7 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
+
         nhaCungCapModelArrayList = new ArrayList<>();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -171,9 +173,9 @@ public class NhaCungCapFragment extends Fragment implements NhaCungCapAdapter.ch
                                 binding.viewKhongDuLieu.setVisibility(View.GONE);
                                 binding.viewCoDuLieu.setVisibility(View.VISIBLE);
 
-                                NhaCungCapAdapter nhaCungCapAdapter = new NhaCungCapAdapter(nhaCungCapModelArrayList, getContext(), chucNangInterfaceNhaCungCap);
+                                adapter = new NhaCungCapAdapter(nhaCungCapModelArrayList, getContext(), chucNangInterfaceNhaCungCap);
                                 binding.rcvDanhSachNCC.setLayoutManager(new LinearLayoutManager(getContext()));
-                                binding.rcvDanhSachNCC.setAdapter(nhaCungCapAdapter);
+                                binding.rcvDanhSachNCC.setAdapter(adapter);
                             }
                         }
 

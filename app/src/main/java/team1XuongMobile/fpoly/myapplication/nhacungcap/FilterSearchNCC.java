@@ -9,7 +9,8 @@ import team1XuongMobile.fpoly.myapplication.Model.NhanVien;
 
 public class FilterSearchNCC extends Filter {
     private ArrayList<NhaCungCapModel> list;
-    NhaCungCapAdapter adapter;
+
+    public NhaCungCapAdapter adapter;
 
     public FilterSearchNCC(ArrayList<NhaCungCapModel> list, NhaCungCapAdapter adapter) {
         this.list = list;

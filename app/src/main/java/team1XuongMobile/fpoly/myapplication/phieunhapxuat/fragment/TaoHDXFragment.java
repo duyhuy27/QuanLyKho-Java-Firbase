@@ -283,13 +283,13 @@ public class TaoHDXFragment extends Fragment {
     }
 
     private void loadDataFirebaseChonSanPham(String id) {
-        progressDialog.show();
+//        progressDialog.show();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SanPham");
         reference.child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 tenSpXuat = String.valueOf(snapshot.child("tenSp").getValue());
                 maSpXuat = String.valueOf(snapshot.child("maSp").getValue());
                 giaXuat = String.valueOf(snapshot.child("giaBan").getValue());
@@ -300,6 +300,8 @@ public class TaoHDXFragment extends Fragment {
                 tvMaSpX.setText(maSpXuat);
                 tvSoTienSpX.setText(giaXuat);
                 tvSoTienHangX.setText(giaXuat);
+
+                progressDialog.dismiss();
 
                 sauKhiNhanDuLieuSanPham(giaXuat, thueXuat);
             }

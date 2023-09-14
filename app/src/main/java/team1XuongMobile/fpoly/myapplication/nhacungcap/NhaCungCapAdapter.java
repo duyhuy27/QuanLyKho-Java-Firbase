@@ -38,6 +38,7 @@ public class NhaCungCapAdapter extends RecyclerView.Adapter<NhaCungCapAdapter.Vi
     @Override
     public Filter getFilter() {
         if (filterSearchNCC == null){
+
             filterSearchNCC = new FilterSearchNCC(list,this);
         }
 
