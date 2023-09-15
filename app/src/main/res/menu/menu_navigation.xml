@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="
+">
+        <menu>
+
+        </menu>
+    </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/ManHinhChinh_navi"
+            android:icon="@drawable/icon_man_hinh_chinh"
+            android:title="Màn Hình Chính" />
+        <item
+            android:id="@+id/NhaCungCap_navi"
+            android:icon="@drawable/icon_nha_cung_cap"
+            android:title="Nhà Cung Cấp" />
+        <item
+            android:id="@+id/VanChuyen_navi"
+            android:icon="@drawable/icon_van_chuyen"
+            android:title="Vận Chuyển" />
+        <item
+            android:id="@+id/KhachHang_navi"
+            android:icon="@drawable/icon_khachhang"
+            android:title="Khách Hàng" />
+        <item
+            android:id="@+id/LoaiSanPham_navi"
+            android:icon="@drawable/icon_loai_san_pham"
+            android:title="Loại Sản Phẩm" />
+        <item
+            android:id="@+id/SanPham_navi"
+            android:icon="@drawable/icon_san_pham"
+            android:title="Sản Phẩm" />
+        <item
+            android:id="@+id/PhieuNhap_navi"
+            android:icon="@drawable/icon_phieu_nhap_xuat"
+            android:title="Phiếu Nhập " />
+        <item
+            android:id="@+id/PhieuXuat_navi"
+            android:icon="@drawable/icon_phieuxuat"
+            android:title="Phiếu Xuất " />
+        <item
+            android:id="@+id/NhanVien_navi"
+            android:icon="@drawable/icon_nhan_vien"
+            android:title="Nhân Viên" />
+        <item
+            android:id="@+id/QuanLyTaiKhoan_navi"
+            android:icon="@drawable/icon_quanlytaikhoan"
+            android:title="Quản Lý Tài Khoản" />
+        <item
+            android:id="@+id/HoSoNhanVien_navi"
+            android:icon="@drawable/icon_ho_so_nhan_vien"
+            android:title="Hồ Sơ Của Bạn" />
+        <item
+            android:id="@+id/ThongKe_navi"
+            android:icon="@drawable/icon_thong_ke"
+            android:title="Báo cáo" />
+    </group>
+    <item android:title="
+
+
+">
+        <menu>
+            <item
+                android:id="@+id/DangXuat_navi"
+                android:icon="@drawable/icon_dang_xuat"
+                android:title="Đăng Xuất" />
+        </menu>
+    </item>
+
+
+</menu>

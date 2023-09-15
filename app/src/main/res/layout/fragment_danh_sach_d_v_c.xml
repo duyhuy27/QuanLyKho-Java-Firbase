@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO: Update blank fragment layout -->
+    <View
+        android:id="@+id/view_nen"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:background="@drawable/wave_background"/>
+    <EditText
+        android:id="@+id/ed_timKiemDVC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:hint="Tìm kiếm đơn vị vận chuyển"
+        android:background="@drawable/background_edit_text"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:drawableEnd="@drawable/ic_timkiem"
+        android:drawablePadding="@dimen/_10sdp"
+        />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/view_khongDuLieu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_400sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@id/ed_timKiemDVC"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        app:cardBackgroundColor="@color/background_color"
+        app:cardCornerRadius="@dimen/_20sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_80sdp"
+                android:src="@drawable/img_khong_co_du_lieu"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chưa có đơn vị vận chuyển nào!"
+                android:textSize="@dimen/_14sdp"
+                android:layout_gravity="center"
+                />
+
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/view_coDuLieu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@id/ed_timKiemDVC"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        app:cardBackgroundColor="@color/background_color"
+        app:cardCornerRadius="@dimen/_20sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/_14sdp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Danh sách đơn vị vận chuyển"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:padding="@dimen/_14sdp"
+                android:gravity="center"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_danhSachDVC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_14sdp"
+                android:layout_marginBottom="@dimen/_14sdp"
+                tools:listitem="@layout/item_vanchuyen"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_themMoiDVC"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:src="@drawable/ic_themmoi"
+        android:backgroundTint="#35C2C1"/>
+
+</RelativeLayout>

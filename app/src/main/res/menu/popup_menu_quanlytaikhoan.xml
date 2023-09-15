@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popup_menuQTLK_chitiet"
+        android:iconTint="@color/black"
+        android:title="Chi Tiết Tài Khoản" />
+    <item
+        android:id="@+id/popup_menuQTLK_cachchuc"
+        android:iconTint="@color/black"
+        android:title="Cách Chức" />
+    <item
+        android:id="@+id/popup_menuQTLK_datlaimatkhau"
+        android:iconTint="@color/black"
+        android:title="Đặt Lại Mật Khẩu" />
+</menu>

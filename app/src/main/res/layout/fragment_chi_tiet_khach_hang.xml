@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_14sdp">
+
+        <TextView
+            android:id="@+id/tv_tenkh_chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên khách hàng"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_phone_in_talk_chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tenkh_chitietkh"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_phone_in_talk" />
+
+        <TextView
+            android:id="@+id/tv_sdtkh__chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tenkh_chitietkh"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@+id/img_phone_in_talk_chitietkh"
+            android:text="4444"
+            android:textSize="@dimen/_14sdp"
+
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_emailkh_chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_sdtkh__chitietkh"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_email" />
+
+        <TextView
+            android:id="@+id/tv_emailkh_chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_sdtkh__chitietkh"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@+id/img_emailkh_chitietkh"
+            android:text="xx@mc.com"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_diachikh_chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_emailkh_chitietkh"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_location_home" />
+
+        <TextView
+            android:id="@+id/tv_diachikh_chitietkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_emailkh_chitietkh"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@+id/img_diachikh_chitietkh"
+            android:text="ls"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_marginTop="@dimen/_5sdp"
+        android:id="@+id/tab_layout_chitietkh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2_chitietkh"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

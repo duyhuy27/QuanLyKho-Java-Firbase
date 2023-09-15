@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/popup_menuNV_chitiet"
+        android:iconTint="@color/black"
+        android:title="Chi Tiết Nhân Viên" />
+    <item
+        android:id="@+id/popup_menuNV_sua"
+        android:iconTint="@color/black"
+        android:title="Sửa" />
+    <item
+        android:id="@+id/popup_menuNV_xoa"
+        android:iconTint="@color/black"
+        android:title="Xoá" />
+    <item
+        android:id="@+id/popup_menuNV_bonhiem"
+        android:iconTint="@color/black"
+        android:title="Bổ Nhiệm" />
+</menu>

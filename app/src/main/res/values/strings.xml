@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">QuanLyKhoTeam1</string>
+    <string name="app_name">Quản lý kho FastTech</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    quan_navigation
+
+    <string name="ch_o_m_ng_n_ng_nh_p_b_t_u">Chào mừng! \nĐăng ký để bắt đầu</string>
+    <string name="ch_o_m_ng_n_ng_nh_p_b_t_u_02">Chào mừng trở lại! \nThật vui khi gặp lại bạn!</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="s_i_n_tho_i">Số điện thoại</string>
+    <string name="nh_p_m_t_kh_u">Nhập mật khảu</string>
+    <string name="nh_p_l_i_m_t_kh_u">Nhập lại mật khẩu</string>
+    <string name="b_n_c_t_i_kho_n">Bạn đã có tài khoản?</string>
+    <string name="ng_nh_p_ngay">Đăng nhập ngay</string>
+    <string name="x_c_minh">Xác minh</string>
+    <string name="g_i_l_i">Gửi lại (30)</string>
+    <string name="kh_ng_nh_n_c_m_otp">Không nhận được mã OTP?</string>
+    <string name="vui_long_nh_p_otp_v_a_g_i_n_s_i_n_tho_i">Vui long nhập OTP vừa gửi đến số điện thoại</string>
+    <string name="x_c_th_c_m_otp">Xác thực mã OTP</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="doanh_thu_b_ng_t_ng_gi_tr_phi_u_xu_t_t_o_th_nh_c_ng"><b>Doanh thu</b> bằng tổng giá trị phiếu xuất tạo thành công</string>
+    <string name="th_ng_k_theo_kho_ng_ng_y_ch_n"><i>Thống kê theo khoảng ngày đã chọn</i></string>
+    developer
 </resources>

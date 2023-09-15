@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemquanlykhachhang"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_8sdp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/_14sdp"
+    app:cardElevation="1dp"
+    app:contentPadding="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_itemquanlytaikhoan_tennhanvien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_5sdp"
+            android:text="Tên nhân viên"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a1"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemquanlytaikhoan_tennhanvien"
+            android:paddingLeft="@dimen/_5sdp"
+            android:text="Tài Khoản :"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:id="@+id/tv_itemquanlytaikhoan_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemquanlytaikhoan_tennhanvien"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_toStartOf="@id/imgv_itemquanlytaikhoan_showluuchon"
+            android:layout_toEndOf="@id/a1"
+            android:maxLines="1"
+            android:text="quanjkl98@gmail.com"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:id="@+id/a2"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemquanlytaikhoan_email"
+            android:paddingLeft="@dimen/_5sdp"
+            android:text="Mật Khẩu :"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:id="@+id/tv_itemquanlytaikhoan_sdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemquanlytaikhoan_email"
+            android:layout_toStartOf="@id/imgv_itemquanlytaikhoan_showluuchon"
+            android:layout_toEndOf="@id/a2"
+            android:maxLines="1"
+            android:text="0349929671"
+            android:textSize="@dimen/_14sdp" />
+
+        <ImageView
+            android:id="@+id/imgv_itemquanlytaikhoan_showluuchon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/icon_chitiet" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/_14sdp"
+    app:cardElevation="1dp"
+    app:contentPadding="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_8sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_nhanvantao"
+            android:text="Nguyen van a"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_hinhthuc"
+            android:text="thêm"
+            android:layout_toEndOf="@+id/tv_nhanvantao"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginLeft="@dimen/_3sdp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/px"
+            android:text="phiếu xuất"
+            android:layout_toEndOf="@+id/tv_hinhthuc"
+            android:paddingLeft="@dimen/_3sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/vao"
+            android:text="vào ngày"
+            android:layout_below="@+id/tv_nhanvantao"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_ngay_lspx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/vao"
+            android:layout_below="@+id/tv_nhanvantao"
+            android:paddingLeft="@dimen/_3sdp"
+            android:text="vào ngày cccccccccc"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

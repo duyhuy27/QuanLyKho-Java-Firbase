@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_02"
+    tools:context=".fragments.ThongTinChiTietKhachHangVFragment">
+
+    <TextView
+        android:id="@+id/tongsodon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tổng số đơn hàng :"
+        android:textSize="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"/>
+    <TextView
+        android:id="@+id/tv_tongsodon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="@dimen/_14sdp"
+        android:layout_toEndOf="@+id/tongsodon"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"/>
+
+    <TextView
+        android:id="@+id/sphaymua_ls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sản phẩm đã mua :"
+        android:textSize="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_below="@+id/tongsodon"/>
+    <TextView
+        android:id="@+id/tv_sphaymua_ls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="@dimen/_14sdp"
+        android:layout_toEndOf="@+id/sphaymua_ls"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@+id/tongsodon"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="@dimen/_10sdp"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="14dp"
+    android:layout_marginBottom="@dimen/_8sdp"
+    android:backgroundTint="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_tenkhachhang_item_khachhang"
+            android:text="Tên khách hàng"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/a2"
+            android:layout_below="@+id/tv_tenkhachhang_item_khachhang"
+            android:paddingLeft="@dimen/_5sdp"
+            android:src="@drawable/icon_dienthoai"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_22sdp"/>
+        <TextView
+            android:id="@+id/tv_sdt_item_khachhang"
+            android:textSize="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:layout_below="@+id/tv_tenkhachhang_item_khachhang"
+            android:layout_toEndOf="@id/a2"
+            android:layout_toStartOf="@+id/imgv_chitiet_item_khachhang"
+            android:text="0349929671"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/a3"
+            android:layout_below="@+id/tv_sdt_item_khachhang"
+            android:paddingLeft="@dimen/_5sdp"
+            android:src="@drawable/icon_man_hinh_chinh"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_22sdp"/>
+        <TextView
+            android:id="@+id/tv_diachi_item_khachhang"
+            android:textSize="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:layout_below="@+id/tv_sdt_item_khachhang"
+            android:layout_toEndOf="@id/a3"
+            android:text="ls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/imgv_chitiet_item_khachhang"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/icon_chitiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

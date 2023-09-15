@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemnhanvien"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_8sdp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/_14sdp"
+    app:cardElevation="1dp"
+    app:contentPadding="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+
+            android:id="@+id/tv_tennhanvien_itemnhanvien"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_10sdp"
+            android:text="Tên nhân viên"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/a2"
+
+            android:layout_width="@dimen/_40sdp"
+
+            android:layout_height="@dimen/_22sdp"
+            android:layout_below="@+id/tv_tennhanvien_itemnhanvien"
+            android:paddingLeft="@dimen/_5sdp"
+            android:src="@drawable/icon_dienthoai" />
+
+        <TextView
+
+            android:id="@+id/tv_sdt_itemnhanvien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tennhanvien_itemnhanvien"
+            android:layout_marginStart="@dimen/_5sdp"
+
+            android:layout_toEndOf="@id/a2"
+            android:text="0349929671"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgv_chitiet_itemnhanvien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/icon_chitiet" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
