@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#E8E8E8"
     android:id="@+id/suanhanvien"
-    tools:context=".Fragment.NhanVien.SuaNVFragment">
+    tools:context=".fragments.SuaNVFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

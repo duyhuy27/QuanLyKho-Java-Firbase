@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_color"
-    tools:context=".thongke.baocao.fragment.BaoCaoLoiNhuanFragment">
+    tools:context=".fragments.BaoCaoLoiNhuanFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

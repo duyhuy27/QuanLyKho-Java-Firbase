@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".profile.DoiMatKhauFragment">
+    tools:context=".fragments.DoiMatKhauFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTil"

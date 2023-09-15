@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import team1XuongMobile.fpoly.myapplication.R;
 import team1XuongMobile.fpoly.myapplication.databinding.ActivityFormDangNhapBinding;
-import team1XuongMobile.fpoly.myapplication.view.fragment.MainFragment;
+import team1XuongMobile.fpoly.myapplication.fragments.MainFragment;
 
 public class FormDangNhapActivity extends AppCompatActivity {
 

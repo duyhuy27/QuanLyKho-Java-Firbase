@@ -6,7 +6,7 @@
     android:background="@color/background_color"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context=".view.fragment.GuiOtpFragment">
+    tools:context=".fragments.GuiOtpFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

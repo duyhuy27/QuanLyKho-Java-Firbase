@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_02"
-    tools:context=".Fragment.KhachHang.ThongTinChiTietKhachHangVFragment">
+    tools:context=".fragments.ThongTinChiTietKhachHangVFragment">
 
     <TextView
         android:id="@+id/tongsodon"

@@ -24,7 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import team1XuongMobile.fpoly.myapplication.MainActivity;
+import team1XuongMobile.fpoly.myapplication.view.MainActivity;
 import team1XuongMobile.fpoly.myapplication.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {

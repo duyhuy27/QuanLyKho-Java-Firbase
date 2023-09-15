@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="horizontal"
-    tools:context=".thongke.baocao.DoanhThu_ThongKeFragment">
+    tools:context=".fragments.DoanhThu_ThongKeFragment">
 
 
     <androidx.core.widget.NestedScrollView

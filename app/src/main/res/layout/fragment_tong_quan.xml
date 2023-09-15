@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".thongke.baocao.TongQuanFragment">
+    tools:context=".fragments.TongQuanFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -250,42 +250,42 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_hang_ton"
-                android:layout_marginHorizontal="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/_14sdp"
-                app:cardElevation="@dimen/_2sdp"
-                app:contentPadding="@dimen/_10sdp">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_top"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/card_hang_ton"-->
+<!--                android:layout_marginHorizontal="@dimen/_12sdp"-->
+<!--                android:layout_marginTop="@dimen/_16sdp"-->
+<!--                app:cardBackgroundColor="@color/white"-->
+<!--                app:cardCornerRadius="@dimen/_14sdp"-->
+<!--                app:cardElevation="@dimen/_2sdp"-->
+<!--                app:contentPadding="@dimen/_10sdp">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sản phẩm bán chạy"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        android:textStyle="bold"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Sản phẩm bán chạy"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/_14sdp"-->
+<!--                        android:textStyle="bold"/>-->
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcv_san_pham_ban_chay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        tools:listitem="@layout/item_san_pham"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-                </LinearLayout>
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/rcv_san_pham_ban_chay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="@dimen/_12sdp"-->
+<!--                        tools:listitem="@layout/item_san_pham"-->
+<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>-->
+<!--                </LinearLayout>-->
 
 
-            </androidx.cardview.widget.CardView>
+<!--            </androidx.cardview.widget.CardView>-->
 
 
         </RelativeLayout>
