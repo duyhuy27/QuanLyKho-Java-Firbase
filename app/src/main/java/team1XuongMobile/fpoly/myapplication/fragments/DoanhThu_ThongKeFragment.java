@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentDoanhThuThongKeBinding;
 
 
 public class DoanhThu_ThongKeFragment extends Fragment {

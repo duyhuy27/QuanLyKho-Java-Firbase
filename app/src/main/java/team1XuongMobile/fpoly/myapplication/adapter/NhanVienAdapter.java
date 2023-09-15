@@ -132,7 +132,7 @@ public class NhanVienAdapter extends RecyclerView.Adapter<NhanVienAdapter.ViewHo
                                         listener.updateNVClick(nhanVien.getId());
                                         return true;
                                     } else if (item.getItemId() == R.id.popup_menuNV_xoa) {
-                                        listener.deleteNVClick(nhanVien.getId());
+                                        Toast.makeText(context, "Bạn Không Đủ Thẩm Quyền Để Xóa", Toast.LENGTH_SHORT).show();
                                         return true;
                                     } else if (item.getItemId() == R.id.popup_menuNV_bonhiem) {
                                         Toast.makeText(context, "Bạn Không Đủ Thẩm Quyền Để Bổ Nhiệm", Toast.LENGTH_SHORT).show();

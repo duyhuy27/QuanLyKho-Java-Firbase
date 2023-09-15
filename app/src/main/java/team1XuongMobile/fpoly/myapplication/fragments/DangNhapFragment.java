@@ -28,6 +28,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentDangNhapBinding;
 import team1XuongMobile.fpoly.myapplication.view.MainActivity;
 import team1XuongMobile.fpoly.myapplication.R;
 
