@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import team1XuongMobile.fpoly.myapplication.R;
+import team1XuongMobile.fpoly.myapplication.databinding.FragmentGuiOtpBinding;
 
 
 public class GuiOtpFragment extends Fragment {
