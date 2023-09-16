@@ -351,6 +351,7 @@ public class ThemSPFragment extends Fragment implements ThuocTinhAdapter.thuocTi
                                 // Reset the input fields and clear the attributes list
                                 thuocTinhModelsArrayList.clear();
                                 thuocTinhAdapter.notifyDataSetChanged();
+                                getActivity().getSupportFragmentManager().popBackStack();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

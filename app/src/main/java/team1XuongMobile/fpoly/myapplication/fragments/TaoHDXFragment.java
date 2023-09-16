@@ -433,11 +433,13 @@ public class TaoHDXFragment extends Fragment {
                 } catch (Exception e) {
                     Log.d("Quantity Out", "onDataChange: can not parse quantity by " + e.getMessage());
                 }
+                if(soLuongSp > 1){
+                    soLuongSp--;
+                    edSoLuongX.setText(String.valueOf(soLuongSp));
+                    giaNhapBanDau = Double.parseDouble(giaXuat);
+                    giaNhapMoi = giaNhapBanDau * soLuongSp;
+                }
 
-                soLuongSp--;
-                edSoLuongX.setText(String.valueOf(soLuongSp));
-                giaNhapBanDau = Double.parseDouble(giaXuat);
-                giaNhapMoi = giaNhapBanDau * soLuongSp;
 
                 BigDecimal bd_giaNhapMoi = new BigDecimal(giaNhapMoi);
                 String bd_giaNhapMoiString = bd_giaNhapMoi.toPlainString();
